@@ -1,0 +1,205 @@
+@import "../../node_modules/cosmian_ui/dist/less/variables.less";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: @accent-deep;
+}
+.layout {
+  height: 100vh;
+  background-color: white;
+  header {
+    position: relative;
+    height: 60px;
+  }
+
+  main {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 120px);
+  }
+
+  // NAVIGATION
+  .main-navigation {
+    min-width: 260px;
+    padding: 20px;
+    background-color: @gray-100;
+    color: @accent-deep;
+    border-color: @gray-300;
+    border-right: 1px solid @gray-300;
+    overflow: auto;
+    position: relative;
+    transition: min-width 0.3s;
+    .close-btn {
+      cursor: pointer;
+      background: none;
+      font-size: 24px;
+      color: @accent-deep;
+      border: none;
+      padding: 5px;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      transition: color 0.1s;
+      &:hover {
+        color: @primary;
+      }
+    }
+
+    &.hidden {
+      min-width: 44px;
+      border: 1px solid @gray-300;
+      border-top: none;
+      ul {
+        display: none;
+      }
+    }
+    ul,
+    li,
+    ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    ul li {
+      font-weight: 700;
+      margin-bottom: 10px;
+      transition: all 0.2s ease-out;
+      &:hover {
+        color: @primary;
+      }
+    }
+    ul li ul {
+      color: @dark;
+    }
+    ul li li {
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 5px;
+      transition: all 0.2s ease-out;
+      &:hover {
+        color: @primary;
+      }
+    }
+    ul {
+      margin-bottom: 30px;
+    }
+    li {
+    }
+  }
+
+  .footer {
+    height: 60px;
+    background-color: @gray-100;
+    border-top: 1px solid @gray-300;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.split {
+  display: flex;
+  flex-direction: row;
+  .gutter {
+    background-color: @gray-100;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+  .gutter.gutter-horizontal {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+    cursor: col-resize;
+  }
+  .splited {
+    overflow: auto;
+    &.content {
+      padding: 30px;
+    }
+  }
+}
+
+.code-highlighter {
+  position: relative;
+  button.copy-btn {
+    font-size: 12px;
+    padding: 3px 8px;
+    background-color: rgba(250, 250, 250, 0.2);
+    cursor: pointer;
+    color: white;
+    border: 1px solid white;
+    opacity: 0.95;
+    border-radius: 2px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    transition: all 0.2s;
+    &:hover {
+      background-color: rgba(250, 250, 250, 0.3);
+    }
+  }
+}
+
+.code-demo {
+  display: block;
+  height: calc(100vh - 120px);
+  overflow: auto;
+  background: rgb(32, 39, 70);
+  color: rgb(151, 157, 180);
+  text-align: left;
+  ul,
+  li,
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    li {
+      text-align: center;
+      flex: 1;
+      padding: 10px 20px;
+      border-bottom: 1px solid #3e4e5f;
+      transition: all 0.2s ease-in;
+    }
+    li.selected,
+    li:hover {
+      border-color: @primary;
+    }
+  }
+}
+
+.flat-btn {
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: @dark;
+  width: 100%;
+  padding: 5px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  &.primary {
+    background-color: @primary;
+  }
+  &:hover {
+    background-color: @primary-deep;
+  }
+}

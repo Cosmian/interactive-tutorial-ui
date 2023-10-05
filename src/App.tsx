@@ -1,13 +1,10 @@
-import { Button } from "cosmian_ui";
 import "cosmian_ui/style.css";
-import { useState } from "react";
+import AppRouter from "./Router";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <Button onClick={() => setCount(count + 1)}>Click me {count}</Button>
+      <AppRouter />
     </>
   );
 }
