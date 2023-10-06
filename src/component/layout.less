@@ -26,6 +26,7 @@ p {
   // NAVIGATION
   .main-navigation {
     min-width: 260px;
+    max-width: 260px;
     padding: 20px;
     background-color: @gray-100;
     color: @accent-deep;
@@ -52,10 +53,18 @@ p {
 
     &.hidden {
       min-width: 44px;
+      max-width: 44px;
       border: 1px solid @gray-300;
       border-top: none;
       ul {
         display: none;
+      }
+    }
+    a {
+      color: @accent-deep;
+      transition: all 0.2s ease-out;
+      &:hover {
+        color: @primary;
       }
     }
     ul,

@@ -1,5 +1,5 @@
 import Split from "react-split";
-import Code from "./Code";
+import Code from "../component/Code";
 
 const CovercryptSetup = () => {
   return (
