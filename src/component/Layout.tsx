@@ -16,10 +16,10 @@ const Layout = () => {
         title="Intervactive demonstration"
         userMenu={<Button>Logout</Button>}
       />
-      <main>
+      <div className="content">
         <MainNavigation navigationConfig={navigationConfig} />
         <Outlet />
-      </main>
+      </div>
       <footer>
         <FooterNavigation />
       </footer>

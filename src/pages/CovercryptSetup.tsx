@@ -1,10 +1,10 @@
-import Split from "react-split";
 import Code from "../component/Code";
+import Split from "../component/Split";
 
 const CovercryptSetup = () => {
   return (
-    <Split className="split">
-      <div className="splited content">
+    <Split>
+      <Split.Content>
         <h1>Attribute-based Encryption overview</h1>
         <p>
           This interface demonstrates how Cosmian's solutions can be implemented to add client-side encryption to your current workflows.
@@ -42,10 +42,10 @@ const CovercryptSetup = () => {
           application and data layers within the zero-trust environment process only encrypted data and have no clear text access to the
           decryption keys.
         </p>
-      </div>
-      <div className="splited code">
+      </Split.Content>
+      <Split.Code>
         <Code codeInput={RANDOM_CODE} language="javascript" />
-      </div>
+      </Split.Code>
     </Split>
   );
 };

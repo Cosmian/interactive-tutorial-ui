@@ -21,7 +21,7 @@ p {
     }
   }
 
-  main {
+  .content {
     display: flex;
     flex-direction: row;
     height: calc(100vh - 120px);
@@ -129,6 +129,7 @@ p {
   }
 }
 
+// SPLIT
 .split {
   display: flex;
   flex-direction: row;
@@ -143,8 +144,9 @@ p {
   }
   .splited {
     overflow: auto;
-    &.content {
+    &.main {
       padding: 30px;
+      display: block;
     }
   }
 }
