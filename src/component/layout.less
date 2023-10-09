@@ -15,6 +15,10 @@ p {
   header {
     position: relative;
     height: 60px;
+    a:focus,
+    a:focus-visible {
+      background-color: @primary;
+    }
   }
 
   main {
@@ -41,13 +45,20 @@ p {
       font-size: 24px;
       color: @accent-deep;
       border: none;
-      padding: 5px;
+      padding: 5px 5px 1px;
       position: absolute;
       top: 5px;
       right: 5px;
       transition: color 0.1s;
+      border-width: 0px;
       &:hover {
         color: @primary;
+      }
+      &:focus,
+      &:focus-visible {
+        background-color: @primary;
+        color: white;
+        border: none;
       }
     }
 
@@ -65,6 +76,11 @@ p {
       transition: all 0.2s ease-out;
       &:hover {
         color: @primary;
+      }
+      &:focus,
+      &:focus-visible {
+        background-color: @primary;
+        color: white;
       }
     }
     ul,
@@ -97,8 +113,6 @@ p {
     }
     ul {
       margin-bottom: 30px;
-    }
-    li {
     }
   }
 

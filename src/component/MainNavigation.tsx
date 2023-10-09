@@ -20,7 +20,7 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
   const origin = window.location.origin;
 
   return (
-    <div className={`main-navigation ${hidden ? "hidden" : ""}`}>
+    <nav role="navigation" className={`main-navigation ${hidden ? "hidden" : ""}`}>
       <button onClick={() => setHidden(!hidden)} className="close-btn">
         {hidden ? <HiChevronDoubleLeft /> : <HiOutlineChevronDoubleRight />}
       </button>
@@ -52,6 +52,6 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
           }
         })}
       </ul>
-    </div>
+    </nav>
   );
 };
