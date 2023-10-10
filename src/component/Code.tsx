@@ -10,12 +10,33 @@ const CodeDemo: React.FC<CodeProps> = ({ codeInput, language }) => {
 
   return (
     <div className="code-demo">
-      <ul>
-        <li>C++</li>
-        <li>Flutter</li>
-        <li>Java</li>
-        <li className="selected">Javascript</li>
-        <li>Python</li>
+      <ul role="tablist">
+        <li className="current">
+          <a aria-controls="c++" aria-selected="true" href="#c++" id="tab-c++" role="tab">
+            C++
+          </a>
+        </li>
+
+        <li>
+          <a aria-controls="flutter" aria-selected="false" href="#flutter" id="tab-flutter" role="tab">
+            Flutter
+          </a>
+        </li>
+        <li>
+          <a aria-controls="java" aria-selected="false" href="#java" id="tab-java" role="tab">
+            Java
+          </a>
+        </li>
+        <li>
+          <a aria-controls="javascript" aria-selected="false" href="#javascript" id="tab-javascript" role="tab" className="selected">
+            Javascript
+          </a>
+        </li>
+        <li>
+          <a aria-controls="python" aria-selected="false" href="#python" id="tab-python" role="tab">
+            Python
+          </a>
+        </li>
       </ul>
 
       <CodeHihlighter codeInput={codeInput} language={language} optionCopy />
