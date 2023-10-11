@@ -12,9 +12,9 @@ const router = createBrowserRouter(
       </Route>
       {navigationConfig.map((item) => {
         return (
-          <Route path={item.key} element={<Layout />}>
+          <Route path={item.key} element={<Layout />} key={item.key}>
             {item.children.map((subItem) => (
-              <Route path={subItem.key} element={subItem.component} />
+              <Route path={subItem.key} element={subItem.component} key={subItem.key} />
             ))}
           </Route>
         );

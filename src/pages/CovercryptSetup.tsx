@@ -44,7 +44,7 @@ const CovercryptSetup = () => {
         </p>
       </Split.Content>
       <Split.Code>
-        <Code codeInput={RANDOM_CODE} language="javascript" />
+        <Code codeInput={RANDOM_CODE} language="zsh" codeOutput={"successfuly installed"} />
       </Split.Code>
     </Split>
   );
@@ -52,31 +52,4 @@ const CovercryptSetup = () => {
 
 export default CovercryptSetup;
 
-const RANDOM_CODE = `import { CoverCrypt, Policy } from "cloudproof_js";
-
-export const createPolicy = async (axis) => {  
-  const { Policy, PolicyAxis } = await CoverCrypt();  
-  const policyAxis = axis.map((entry) => {    
-    return new PolicyAxis(Object.keys(entry)[0], Object.values(entry)[0], false);  
-  }); 
-  const policy = new Policy(policyAxis, 100);  
-  return policy;
-};
-
-const POLICY_AXIS = [
-  {
-    department: [
-      { name: "Marketing", isHybridized: false },
-      { name: "HR", isHybridized: false },
-      ],
-   },
-  {
-    country: [
-      { name: "France", isHybridized: false },
-      { name: "Spain", isHybridized: false },
-      { name: "Germany", isHybridized: false },
-    ],
-  },
-];
-
-createPolicy(POLICY_AXIS);`;
+const RANDOM_CODE = `npm install covercrypt # or yarn install covercrypt or pnpm install covercrypt`;

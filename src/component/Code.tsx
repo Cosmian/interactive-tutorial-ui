@@ -2,56 +2,33 @@ import { useState } from "react";
 import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import LanguageTabs from "./LanguageTabs";
 
-type CodeProps = CodeHihlighterProps;
-
-const CodeDemo: React.FC<CodeProps> = ({ codeInput, language }) => {
+type CodeHihlighterProps = {
+  codeInput: string | undefined;
+  language?: string;
+  optionCopy?: boolean;
+  codeOutput?: string | undefined;
+};
+const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInput, codeOutput, language }) => {
   const [result, setResult] = useState(false);
 
   return (
     <div className="code-demo">
-      <ul role="tablist">
-        <li className="current">
-          <a aria-controls="c++" aria-selected="true" href="#c++" id="tab-c++" role="tab">
-            C++
-          </a>
-        </li>
-
-        <li>
-          <a aria-controls="flutter" aria-selected="false" href="#flutter" id="tab-flutter" role="tab">
-            Flutter
-          </a>
-        </li>
-        <li>
-          <a aria-controls="java" aria-selected="false" href="#java" id="tab-java" role="tab">
-            Java
-          </a>
-        </li>
-        <li>
-          <a aria-controls="javascript" aria-selected="false" href="#javascript" id="tab-javascript" role="tab" className="selected">
-            Javascript
-          </a>
-        </li>
-        <li>
-          <a aria-controls="python" aria-selected="false" href="#python" id="tab-python" role="tab">
-            Python
-          </a>
-        </li>
-      </ul>
+      <LanguageTabs />
 
       <CodeHihlighter codeInput={codeInput} language={language} optionCopy />
 
       <button onClick={() => setResult(true)} className="flat-btn primary">
         Run code <IoPlayCircleOutline />
       </button>
-      {result && <CodeHihlighter codeInput={"success"} language={"bash"} />}
+      {result && codeOutput && <CodeHihlighter codeInput={codeOutput} language={"bash"} />}
     </div>
   );
 };
 
 export default CodeDemo;
 
-type CodeHihlighterProps = { codeInput: string | undefined; language?: string; optionCopy?: boolean };
 export const CodeHihlighter: React.FC<CodeHihlighterProps> = ({ codeInput, language, optionCopy }) => {
   const [copied, setCopied] = useState(false);
 
