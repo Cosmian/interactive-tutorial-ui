@@ -19,10 +19,12 @@ p {
       background-color: @primary;
     }
   }
-
   .content {
     display: flex;
     flex-direction: row;
+    height: 100vh;
+  }
+  &.with-footer .content {
     height: calc(100vh - 120px);
   }
 
@@ -123,6 +125,12 @@ p {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    &.left {
+      justify-content: flex-start;
+    }
+    &.right {
+      justify-content: flex-end;
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import { ItemType } from "../component/MainNavigation";
 import CovercryptSetup from "../pages/CovercryptSetup";
+import CreateEncryptionPolicy from "../pages/CreateAncryptionPolicy";
 
 export const navigationConfig: ItemType[] = [
   {
@@ -10,6 +11,7 @@ export const navigationConfig: ItemType[] = [
         key: "overview",
         label: "Overview",
         component: <>Overview</>,
+        footerNavigation: false,
       },
     ],
   },
@@ -21,16 +23,19 @@ export const navigationConfig: ItemType[] = [
         key: "about-covercrypt",
         label: "About Covercrypt",
         component: <>About covercrypt</>,
+        footerNavigation: true,
       },
       {
         key: "set-up-your-service",
         label: "Set up your service",
         component: <CovercryptSetup />,
+        footerNavigation: true,
       },
       {
         key: "create-policy",
         label: "Create encryption policy",
-        component: <>Create encryption policy</>,
+        component: <CreateEncryptionPolicy />,
+        footerNavigation: true,
       },
     ],
   },
@@ -42,16 +47,19 @@ export const navigationConfig: ItemType[] = [
         key: "about-findex",
         label: "About Findex",
         component: <>About Findex</>,
+        footerNavigation: true,
       },
       {
         key: "set-up-your-service",
         label: "Set up your service",
         component: <>Set up your service (findex)</>,
+        footerNavigation: true,
       },
       {
         key: "generate-findex-key",
         label: "Generate Findex key",
         component: <>Generate Findex key</>,
+        footerNavigation: true,
       },
     ],
   },

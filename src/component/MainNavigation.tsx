@@ -1,18 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { HiChevronDoubleLeft, HiOutlineChevronDoubleRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
-export type ItemType = SubMenuType;
+export type ItemType = MenuItem;
 
-export interface MenuItemType {
+export interface MenuItem {
   key: string;
   label: string;
-  component: JSX.Element;
+  children: SubMenuItem[];
 }
-export interface SubMenuType {
+export interface SubMenuItem {
   key: string;
   label: string;
-  children: MenuItemType[];
+  footerNavigation?: boolean;
+  component: JSX.Element;
 }
 
 export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ navigationConfig }) => {
@@ -34,11 +35,11 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
             );
           } else {
             return (
-              <>
-                <li key={idx}>
+              <React.Fragment key={"fragment_" + idx}>
+                <li>
                   <Link to={origin + "/" + item.key + "/" + item.children[0].key}>{item.label}</Link>
                 </li>
-                <li key={"_" + idx}>
+                <li>
                   <ul>
                     {item.children.map((subitem, subIdx) => (
                       <li key={idx + "sub" + subIdx}>
@@ -47,7 +48,7 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
                     ))}
                   </ul>
                 </li>
-              </>
+              </React.Fragment>
             );
           }
         })}
