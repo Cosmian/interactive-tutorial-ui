@@ -1,6 +1,36 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./component/Layout";
+import CovercryptSetup from "./pages/CovercryptSetup";
+import CreateEncryptionPolicy from "./pages/CreateAncryptionPolicy";
 import { navigationConfig } from "./utils/navigationConfig";
+
+const componentsList: {
+  [key: string]: JSX.Element;
+} = {
+  "client-side-encryption/overview": <>Overview</>,
+  "encrypt-with-access-policies/about-covercrypt": <>About covercrypt</>,
+  "encrypt-with-access-policies/set-up-service": <CovercryptSetup />,
+  "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
+  "encrypt-with-access-policies/generate-master-key-pair": <>Generate public and secret master key pair</>,
+  "encrypt-with-access-policies/encrypt-data": <>Encrypt data</>,
+  "encrypt-with-access-policies/user-decryption-key": <>user-decryption-key</>,
+  "encrypt-with-access-policies/decrypt-data": <>decrypt-data</>,
+  "build-encrypted-indexes/about-findex": <>about-findex</>,
+  "build-encrypted-indexes/set-up-service": <>set-up-service</>,
+  "build-encrypted-indexes/generate-findex-key": <>generate-findex-key</>,
+  "build-encrypted-indexes/labelling": <>labelling</>,
+  "build-encrypted-indexes/callbacks": <>callbacks</>,
+  "build-encrypted-indexes/index-database": <>index-database</>,
+  "build-encrypted-indexes/search-in-database": <>search-in-database</>,
+  "distibute-keys/about-pki": <>about-pki</>,
+  "distibute-keys/set-up-service": <>set-up-service</>,
+  "distibute-keys/save-sk-publish-certificate": <>save-sk-publish-certificate</>,
+  "distibute-keys/grant-access": <>grant-access</>,
+  "distibute-keys/retrieve-wrapped-decryption-key": <>retrieve-wrapped-decryption-key</>,
+  "distibute-keys/send-key-in-kms": <>send-key-in-kms</>,
+  "distibute-keys/unwrap-decryption-key": <>unwrap-decryption-key</>,
+  "distibute-keys/decrypt-data": <>decrypt-data</>,
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -13,9 +43,14 @@ const router = createBrowserRouter(
       {navigationConfig.map((item) => {
         return (
           <Route path={item.key} element={<Layout />} key={item.key}>
-            {item.children.map((subItem) => (
-              <Route path={subItem.key} element={subItem.component} key={subItem.key} />
-            ))}
+            {item.children.map((subItem) => {
+              const component = componentsList[item.key + "/" + subItem.key] ? (
+                componentsList[item.key + "/" + subItem.key]
+              ) : (
+                <>missing component</>
+              );
+              return <Route path={subItem.key} element={component} key={subItem.key} />;
+            })}
           </Route>
         );
       })}

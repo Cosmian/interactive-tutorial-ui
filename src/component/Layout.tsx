@@ -2,9 +2,9 @@ import { Button, CosmianLogo, Header } from "cosmian_ui";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
 import { Link, Outlet } from "react-router-dom";
-import { navigationConfig } from "../utils/navigationConfig";
+import { SubMenuItem, navigationConfig } from "../utils/navigationConfig";
 import { FooterNavigation } from "./Footer";
-import { MainNavigation, SubMenuItem } from "./MainNavigation";
+import { MainNavigation } from "./MainNavigation";
 import "./layout.less";
 
 const Layout = () => {
@@ -32,7 +32,7 @@ const Layout = () => {
         }
       />
       <div className="content">
-        <MainNavigation navigationConfig={navigationConfig} />
+        <MainNavigation />
         <Outlet />
       </div>
       {footerNavigation && <FooterNavigation />}

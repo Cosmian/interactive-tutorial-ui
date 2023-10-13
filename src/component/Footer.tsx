@@ -2,8 +2,7 @@ import { Button } from "cosmian_ui";
 import { useEffect, useState } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationConfig } from "../utils/navigationConfig";
-import { SubMenuItem } from "./MainNavigation";
+import { SubMenuItem, navigationConfig } from "../utils/navigationConfig";
 import "./layout.less";
 
 export const FooterNavigation = () => {

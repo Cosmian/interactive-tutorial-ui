@@ -1,10 +1,10 @@
-import { useLanguageStore } from "../store/store";
+import { useBoundStore } from "../store/store";
 import { languageList } from "../utils/languageConfig";
 import { Language } from "../utils/types";
 
 const LanguageTabs = () => {
-  const changeLanguage = useLanguageStore((state) => state.changeLanguage);
-  const language = useLanguageStore((state) => state.language);
+  const changeLanguage = useBoundStore((state) => state.changeLanguage);
+  const language = useBoundStore((state) => state.language);
 
   const handleChangeLanguage = (language: Language) => {
     changeLanguage(language);

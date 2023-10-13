@@ -1,24 +1,12 @@
 import React, { useState } from "react";
 import { HiChevronDoubleLeft, HiOutlineChevronDoubleRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { useBoundStore } from "../store/store";
 
-export type ItemType = MenuItem;
-
-export interface MenuItem {
-  key: string;
-  label: string;
-  children: SubMenuItem[];
-}
-export interface SubMenuItem {
-  key: string;
-  label: string;
-  footerNavigation?: boolean;
-  component: JSX.Element;
-}
-
-export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ navigationConfig }) => {
+export const MainNavigation = () => {
   const [hidden, setHidden] = useState(false);
   const origin = window.location.origin;
+  const ititialSteps = useBoundStore((store) => store.steps);
 
   return (
     <nav role="navigation" className={`main-navigation ${hidden ? "hidden" : ""}`}>
@@ -26,7 +14,7 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
         {hidden ? <HiChevronDoubleLeft /> : <HiOutlineChevronDoubleRight />}
       </button>
       <ul>
-        {navigationConfig.map((item, idx) => {
+        {ititialSteps.map((item, idx) => {
           if (item.children == null) {
             return (
               <li key={idx}>
