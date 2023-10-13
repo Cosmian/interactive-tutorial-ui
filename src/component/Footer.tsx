@@ -2,25 +2,33 @@ import { Button } from "cosmian_ui";
 import { useEffect, useState } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
-import { SubMenuItem, navigationConfig } from "../utils/navigationConfig";
+import { useBoundStore } from "../store/store";
+import { findNextNavigationItem, findPreviousNavigationItem, updateNavigationSteps } from "../utils/navigationActions";
+import { SubMenuItem } from "../utils/navigationConfig";
 import "./layout.less";
 
 export const FooterNavigation = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const steps = useBoundStore((store) => store.steps);
+  const updateSteps = useBoundStore((store) => store.updateSteps);
   const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
   const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
+  const paths = window.location.pathname.split("/");
+  paths.shift();
 
   useEffect(() => {
-    const paths = window.location.pathname.split("/");
-    paths.shift();
-    const previousItemFound = findPreviousNavigationItem(paths);
+    const previousItemFound = findPreviousNavigationItem(paths, steps);
     setPreviousItem(previousItemFound);
-    const nextItemFound = findNextNavigationItem(paths);
+    const nextItemFound = findNextNavigationItem(paths, steps);
     setNextItem(nextItemFound);
   }, [params]);
 
-  const goTo = (path: string): void => {
+  const goNext = (path: string): void => {
+    updateNavigationSteps(steps, updateSteps);
+    navigate(path);
+  };
+  const goPrevious = (path: string): void => {
     navigate(path);
   };
 
@@ -29,30 +37,23 @@ export const FooterNavigation = () => {
   return (
     <div className={`footer ${previousOnly ? "left" : ""} ${nextOnly ? "right" : ""}`}>
       {previousItem && (
-        <Button type="outline" onClick={() => goTo(previousItem.key)} icon={<IoArrowBackOutline size={18} style={{ marginBottom: -4 }} />}>
+        <Button
+          type="outline"
+          onClick={() => goPrevious(previousItem.key)}
+          icon={<IoArrowBackOutline size={18} style={{ marginBottom: -4 }} />}
+        >
           Previous: {previousItem.label}
         </Button>
       )}
       {nextItem && (
-        <Button type="dark" onClick={() => goTo(nextItem.key)} rightIcon={<IoArrowForwardOutline size={18} style={{ marginBottom: -4 }} />}>
+        <Button
+          type="dark"
+          onClick={() => goNext(nextItem.key)}
+          rightIcon={<IoArrowForwardOutline size={18} style={{ marginBottom: -4 }} />}
+        >
           Next: {nextItem.label}
         </Button>
       )}
     </div>
   );
-};
-
-const findPreviousNavigationItem = (paths: string[]) => {
-  const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null) {
-    const index = parentItem.children.findIndex((subitem) => subitem.key === paths[1]);
-    if (index > 0) return parentItem.children[index - 1];
-  }
-};
-const findNextNavigationItem = (paths: string[]) => {
-  const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null) {
-    const index = parentItem.children.findIndex((subitem) => subitem.key === paths[1]);
-    return parentItem.children[index + 1];
-  }
 };

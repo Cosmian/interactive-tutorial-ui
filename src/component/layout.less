@@ -86,6 +86,9 @@ p {
     a {
       color: @accent-deep;
       transition: all 0.2s ease-out;
+      &.active {
+        color: @primary;
+      }
       &:hover {
         color: @primary;
       }
@@ -133,6 +136,9 @@ p {
         left: -21px;
         border: 2px solid @primary;
         transform: translateY(7px);
+      }
+      &.done::before {
+        background: @primary;
       }
     }
 

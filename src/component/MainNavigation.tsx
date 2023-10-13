@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiChevronDoubleLeft, HiOutlineChevronDoubleRight } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useBoundStore } from "../store/store";
 
 export const MainNavigation = () => {
+  const params = useParams();
   const [hidden, setHidden] = useState(false);
   const origin = window.location.origin;
   const ititialSteps = useBoundStore((store) => store.steps);
+  const paths = window.location.pathname.split("/");
+  paths.shift();
+
+  useEffect(() => {
+    // keep me
+    // rerender component when params are changed
+  }, [params]);
 
   return (
     <nav role="navigation" className={`main-navigation ${hidden ? "hidden" : ""}`}>
@@ -31,8 +39,13 @@ export const MainNavigation = () => {
                   <ul>
                     {item.children.map((subitem, subIdx) => (
                       <div className="outer" key={idx + "sub" + subIdx}>
-                        <li>
-                          <Link to={origin + "/" + item.key + "/" + subitem.key}>{subitem.label}</Link>
+                        <li className={subitem.done ? "done" : ""}>
+                          <Link
+                            to={origin + "/" + item.key + "/" + subitem.key}
+                            className={item.key === paths[0] && subitem.key === paths[1] ? "active" : ""}
+                          >
+                            {subitem.label}
+                          </Link>
                         </li>
                       </div>
                     ))}
