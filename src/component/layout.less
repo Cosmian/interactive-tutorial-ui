@@ -27,6 +27,18 @@ p {
   &.with-footer .content {
     height: calc(100vh - 120px);
   }
+  .external-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: @accent-deep;
+    cursor: pointer;
+    font-size: 1rem;
+    &:hover {
+      font-weight: 500;
+    }
+  }
 
   // NAVIGATION
   .main-navigation {
@@ -92,8 +104,8 @@ p {
     }
     ul li {
       font-weight: 700;
-      margin-bottom: 10px;
       transition: all 0.2s ease-out;
+      margin-bottom: 30px;
       &:hover {
         color: @primary;
       }
@@ -104,14 +116,43 @@ p {
     ul li li {
       font-size: 14px;
       font-weight: 400;
-      margin-bottom: 5px;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
       transition: all 0.2s ease-out;
+      transform: translateY(-17px);
       &:hover {
         color: @primary;
       }
+      &::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: @gray-100;
+        border-radius: 999px;
+        left: -21px;
+        border: 2px solid @primary;
+        transform: translateY(7px);
+      }
     }
-    ul {
-      margin-bottom: 30px;
+
+    .outer {
+      padding-left: 1rem;
+      border-left: 1px solid @gray-300;
+      &:last-child {
+        border: none;
+      }
+      &:first-child {
+        border: none;
+        padding-left: 0;
+        li {
+          padding-bottom: 0;
+          &::before {
+            content: "";
+            display: none;
+          }
+        }
+      }
     }
   }
 

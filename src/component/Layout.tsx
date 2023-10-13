@@ -1,7 +1,9 @@
 import { Button, CosmianLogo, Header } from "cosmian_ui";
-import { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { IoLogOutOutline } from "react-icons/io5";
+import { LiaExternalLinkAltSolid } from "react-icons/lia";
+import { Link, Outlet } from "react-router-dom";
 import { navigationConfig } from "../utils/navigationConfig";
+import { FooterNavigation } from "./Footer";
 import { MainNavigation, SubMenuItem } from "./MainNavigation";
 import "./layout.less";
 
@@ -18,8 +20,16 @@ const Layout = () => {
             <CosmianLogo />
           </Link>
         }
-        title="Intervactive demonstration"
-        userMenu={<Button>Logout</Button>}
+        title="Client-side Encryption – Intervactive demonstration"
+        userMenu={
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
+            <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
+            <ExternalLink link="https://github.com/Cosmian/saas-applications-examples">GitHub repository</ExternalLink>
+            <Button rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />} style={{ marginLeft: 20 }}>
+              Logout
+            </Button>
+          </div>
+        }
       />
       <div className="content">
         <MainNavigation navigationConfig={navigationConfig} />
@@ -32,40 +42,12 @@ const Layout = () => {
 
 export default Layout;
 
-const FooterNavigation = () => {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
-  const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
-
-  useEffect(() => {
-    const paths = window.location.pathname.split("/");
-    paths.shift();
-    const previousItemFound = findPreviousNavigationItem(paths);
-    setPreviousItem(previousItemFound);
-    const nextItemFound = findNextNavigationItem(paths);
-    setNextItem(nextItemFound);
-  }, [params]);
-
-  const goTo = (path: string): void => {
-    navigate(path);
-  };
-
-  const previousOnly = previousItem != null && nextItem == null;
-  const nextOnly = nextItem != null && previousItem == null;
+const ExternalLink = ({ children, link }: { children: React.ReactNode; link: string }) => {
   return (
-    <div className={`footer ${previousOnly ? "left" : ""} ${nextOnly ? "right" : ""}`}>
-      {previousItem && (
-        <Button type="outline" onClick={() => goTo(previousItem.key)}>
-          Previous: {previousItem.label}
-        </Button>
-      )}
-      {nextItem && (
-        <Button type="dark" onClick={() => goTo(nextItem.key)}>
-          Next: {nextItem.label}
-        </Button>
-      )}
-    </div>
+    <a href={link} target="_blank" rel="noopener noreferrer" className="external-link">
+      <span>{children}</span>
+      <LiaExternalLinkAltSolid size={18} />
+    </a>
   );
 };
 
@@ -74,19 +56,5 @@ const findNavigationSubItem = (paths: string[]) => {
   if (parentItem != null) {
     const childrenItem = parentItem.children.find((item) => item.key === paths[1]) as SubMenuItem;
     return childrenItem;
-  }
-};
-const findPreviousNavigationItem = (paths: string[]) => {
-  const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null) {
-    const index = parentItem.children.findIndex((subitem) => subitem.key === paths[1]);
-    if (index > 0) return parentItem.children[index - 1];
-  }
-};
-const findNextNavigationItem = (paths: string[]) => {
-  const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null) {
-    const index = parentItem.children.findIndex((subitem) => subitem.key === paths[1]);
-    return parentItem.children[index + 1];
   }
 };

@@ -42,9 +42,11 @@ export const MainNavigation: React.FC<{ navigationConfig: ItemType[] }> = ({ nav
                 <li>
                   <ul>
                     {item.children.map((subitem, subIdx) => (
-                      <li key={idx + "sub" + subIdx}>
-                        <Link to={origin + "/" + item.key + "/" + subitem.key}>{subitem.label}</Link>
-                      </li>
+                      <div className="outer" key={idx + "sub" + subIdx}>
+                        <li>
+                          <Link to={origin + "/" + item.key + "/" + subitem.key}>{subitem.label}</Link>
+                        </li>
+                      </div>
                     ))}
                   </ul>
                 </li>
