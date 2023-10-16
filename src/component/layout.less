@@ -6,7 +6,9 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+ol,
+ul {
   color: @accent-deep;
 }
 .layout {
@@ -25,6 +27,27 @@ p {
     height: 100vh;
   }
   &.with-footer .content {
+    height: calc(100vh - 120px);
+  }
+  .single-content .introduction,
+  .content .introduction {
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.75em;
+  }
+  .single-content {
+    height: calc(100vh - 60px);
+    padding: 30px;
+    overflow: auto;
+    width: 100%;
+    .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+  &.with-footer .single-content {
     height: calc(100vh - 120px);
   }
   .external-link {
@@ -179,6 +202,13 @@ p {
       justify-content: flex-end;
     }
   }
+  code,
+  pre {
+    color: @accent-deep;
+    background-color: @gray-100;
+    font-size: 14px;
+    padding: 5px;
+  }
 }
 
 // SPLIT
@@ -203,6 +233,7 @@ p {
   }
 }
 
+// CODE
 .code-highlighter {
   position: relative;
   button.copy-btn {
@@ -229,7 +260,6 @@ p {
   }
 }
 
-// CODE
 .code-demo {
   display: block;
   height: calc(100vh - 120px);
@@ -237,13 +267,14 @@ p {
   background: rgb(32, 39, 70);
   color: rgb(151, 157, 180);
   text-align: left;
+}
+.language-tabs {
   ul,
   li,
   ol {
     list-style: none;
     margin: 0;
     padding: 0;
-    cursor: pointer;
   }
   ul {
     display: flex;
@@ -254,6 +285,7 @@ p {
       text-align: center;
       flex: 1;
       a {
+        cursor: pointer;
         transition: all 0.2s ease-in;
         border-bottom: 1px solid #3e4e5f;
         display: block;
@@ -268,6 +300,14 @@ p {
           background-color: @accent;
         }
       }
+    }
+  }
+  a.disabled {
+    cursor: default;
+    color: rgba(250, 250, 250, 0.2);
+    &:hover {
+      border-color: #3e4e5f;
+      background-color: unset;
     }
   }
 }

@@ -12,7 +12,7 @@ interface StepSlice {
 }
 
 const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
-  language: "c++",
+  language: "java",
   changeLanguage: (language: Language) => set(() => ({ language: language })),
 });
 

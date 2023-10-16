@@ -1,3 +1,3 @@
 import { Language } from "./types";
 
-export const languageList: Language[] = ["c++", "flutter", "java", "javascript", "python"];
+export const languageList: Language[] = ["java", "javascript", "python", "flutter", "c++"];

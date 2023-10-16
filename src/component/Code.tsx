@@ -2,34 +2,47 @@ import { useState } from "react";
 import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { useBoundStore } from "../store/store";
+import { Language } from "../utils/types";
 import LanguageTabs from "./LanguageTabs";
 
 type CodeHihlighterProps = {
-  codeInput: string | undefined;
-  language?: string;
-  optionCopy?: boolean;
-  codeOutput?: string | undefined;
+  dactivatedLanguageList?: Language[];
+  codeInputList: LanguageList;
+  codeOutputList?: LanguageList;
+  codeLanguage?: string;
 };
-const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInput, codeOutput, language }) => {
+type LanguageList = {
+  java?: string;
+  javascript?: string;
+  python?: string;
+  flutter?: string;
+  "c++"?: string;
+};
+const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList, dactivatedLanguageList, codeLanguage }) => {
   const [result, setResult] = useState(false);
+  const language = useBoundStore((state) => state.language);
 
   return (
     <div className="code-demo">
-      <LanguageTabs />
+      <LanguageTabs dactivatedLanguageList={dactivatedLanguageList} />
 
-      <CodeHihlighter codeInput={codeInput} language={language} optionCopy />
-
-      <button onClick={() => setResult(true)} className="flat-btn primary">
-        Run code <IoPlayCircleOutline />
-      </button>
-      {result && codeOutput && <CodeHihlighter codeInput={codeOutput} language={"bash"} />}
+      <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
+      {codeOutputList != null && (
+        <button onClick={() => setResult(true)} className="flat-btn primary">
+          Run code <IoPlayCircleOutline />
+        </button>
+      )}
+      {result && codeOutputList && codeOutputList[language] && (
+        <CodeHihlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} />
+      )}
     </div>
   );
 };
 
 export default CodeDemo;
 
-export const CodeHihlighter: React.FC<CodeHihlighterProps> = ({ codeInput, language, optionCopy }) => {
+export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language: string }> = ({ codeInput, language }) => {
   const [copied, setCopied] = useState(false);
 
   if (codeInput == null) return <></>;
@@ -41,17 +54,15 @@ export const CodeHihlighter: React.FC<CodeHihlighterProps> = ({ codeInput, langu
   };
   return (
     <div className="code-highlighter">
-      {optionCopy != null && (
-        <button onClick={handleCopy} className="copy-btn">
-          {copied ? (
-            <>
-              Copied <IoCheckmarkSharp style={{ marginBottom: -2 }} />
-            </>
-          ) : (
-            "Copy"
-          )}
-        </button>
-      )}
+      <button onClick={handleCopy} className="copy-btn">
+        {copied ? (
+          <>
+            Copied <IoCheckmarkSharp style={{ marginBottom: -2 }} />
+          </>
+        ) : (
+          "Copy"
+        )}
+      </button>
       <SyntaxHighlighter
         language={language ? language : "typescript"}
         style={atelierSulphurpoolDark}

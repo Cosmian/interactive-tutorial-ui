@@ -58,3 +58,31 @@ const findNavigationSubItem = (paths: string[]) => {
     return childrenItem;
   }
 };
+
+import React from "react";
+
+export const SingleContent = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="single-content">
+      <div className="inner">{children}</div>
+    </div>
+  );
+};
+
+export const ImageWrapper = ({ children, maxWidth }: { children: React.ReactNode; maxWidth?: number }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        maxWidth: maxWidth ? maxWidth : 900,
+        margin: "0 auto",
+        gap: 30,
+        marginBottom: 16,
+      }}
+    >
+      {children}
+    </div>
+  );
+};

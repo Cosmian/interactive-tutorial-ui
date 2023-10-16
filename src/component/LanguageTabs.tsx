@@ -2,28 +2,35 @@ import { useBoundStore } from "../store/store";
 import { languageList } from "../utils/languageConfig";
 import { Language } from "../utils/types";
 
-const LanguageTabs = () => {
+type LanguageTabsProps = {
+  dactivatedLanguageList?: Language[];
+};
+
+const LanguageTabs: React.FC<LanguageTabsProps> = ({ dactivatedLanguageList }) => {
   const changeLanguage = useBoundStore((state) => state.changeLanguage);
   const language = useBoundStore((state) => state.language);
 
-  const handleChangeLanguage = (language: Language) => {
-    changeLanguage(language);
+  const handleChangeLanguage = (language: Language, disabled?: boolean) => {
+    if (!disabled) changeLanguage(language);
   };
 
   return (
     <div className="language-tabs">
       <ul role="tablist">
         {languageList.map((languageItem) => {
+          const classNames = [];
+          const disabled = dactivatedLanguageList?.find((el) => el == languageItem) != null;
+          if (disabled) classNames.push("disabled");
+          if (language === languageItem) classNames.push("selected");
           return (
             <li key={languageItem}>
               <a
-                onClick={() => handleChangeLanguage(languageItem)}
+                onClick={() => handleChangeLanguage(languageItem, disabled)}
                 aria-controls={languageItem}
                 aria-selected={language === languageItem}
-                href={`#${languageItem}`}
                 id={`tab-${languageItem}`}
                 role="tab"
-                className={language === languageItem ? "selected" : ""}
+                className={classNames.join(" ")}
               >
                 {languageItem.charAt(0).toUpperCase() + languageItem.slice(1)}
               </a>

@@ -1,14 +1,16 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./component/Layout";
-import CovercryptSetup from "./pages/CovercryptSetup";
-import CreateEncryptionPolicy from "./pages/CreateAncryptionPolicy";
+import OverView from "./pages/OverView";
+import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
+import CovercryptSetup from "./pages/covercrypt/CovercryptSetup";
+import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
   [key: string]: JSX.Element;
 } = {
-  "client-side-encryption/overview": <>Overview</>,
-  "encrypt-with-access-policies/about-covercrypt": <>About covercrypt</>,
+  "client-side-encryption/overview": <OverView />,
+  "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
   "encrypt-with-access-policies/set-up-service": <CovercryptSetup />,
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
   "encrypt-with-access-policies/generate-master-key-pair": <>Generate public and secret master key pair</>,

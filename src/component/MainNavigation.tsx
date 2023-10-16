@@ -19,7 +19,7 @@ export const MainNavigation = () => {
   return (
     <nav role="navigation" className={`main-navigation ${hidden ? "hidden" : ""}`}>
       <button onClick={() => setHidden(!hidden)} className="close-btn">
-        {hidden ? <HiChevronDoubleLeft /> : <HiOutlineChevronDoubleRight />}
+        {hidden ? <HiOutlineChevronDoubleRight /> : <HiChevronDoubleLeft />}
       </button>
       <ul>
         {ititialSteps.map((item, idx) => {
