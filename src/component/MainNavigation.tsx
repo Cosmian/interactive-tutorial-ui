@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HiChevronDoubleLeft, HiOutlineChevronDoubleRight } from "react-icons/hi2";
 import { Link, useParams } from "react-router-dom";
-import { useShallow } from "zustand/react/shallow";
 import { useBoundStore } from "../store/store";
 
 export const MainNavigation = () => {
@@ -12,15 +11,10 @@ export const MainNavigation = () => {
   const paths = window.location.pathname.split("/");
   paths.shift();
 
-  // Object pick, re-renders the component when either state.nuts or state.honey change
-  const [steps] = useBoundStore(useShallow((state) => [state.steps]));
-
   useEffect(() => {
     // keep me
     // rerender component when params are changed
-    console.log(steps);
-    console.log(ititialSteps);
-  }, [params, steps, ititialSteps]);
+  }, [params]);
 
   return (
     <nav role="navigation" className={`main-navigation ${hidden ? "hidden" : ""}`}>

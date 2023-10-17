@@ -14,5 +14,7 @@ export const getLanguageExtension = (language: Language): string => {
       return ".cpp";
     case "flutter":
       return ".dart";
+    default:
+      throw new Error("Not existing language");
   }
 };
