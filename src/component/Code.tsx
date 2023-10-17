@@ -3,33 +3,35 @@ import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useBoundStore } from "../store/store";
-import { Language } from "../utils/types";
+import { Language, LanguageList } from "../utils/types";
 import LanguageTabs from "./LanguageTabs";
 
 type CodeHihlighterProps = {
-  dactivatedLanguageList?: Language[];
+  activeLanguageList: Language[];
   codeInputList: LanguageList;
   codeOutputList?: LanguageList;
   codeLanguage?: string;
+  runCode?: () => void;
 };
-type LanguageList = {
-  java?: string;
-  javascript?: string;
-  python?: string;
-  flutter?: string;
-  "c++"?: string;
-};
-const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList, dactivatedLanguageList, codeLanguage }) => {
+
+const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList, activeLanguageList, codeLanguage, runCode }) => {
   const [result, setResult] = useState(false);
   const language = useBoundStore((state) => state.language);
 
+  const onClickRun = (): void => {
+    if (runCode != null) {
+      runCode();
+      setResult(true);
+    }
+  };
+
   return (
     <div className="code-demo">
-      <LanguageTabs dactivatedLanguageList={dactivatedLanguageList} />
+      <LanguageTabs activeLanguageList={activeLanguageList} />
 
       <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
       {codeOutputList != null && (
-        <button onClick={() => setResult(true)} className="flat-btn primary">
+        <button onClick={onClickRun} className="flat-btn primary">
           Run code <IoPlayCircleOutline />
         </button>
       )}

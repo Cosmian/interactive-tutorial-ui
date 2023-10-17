@@ -29,6 +29,15 @@ ul {
   &.with-footer .content {
     height: calc(100vh - 120px);
   }
+  main {
+    code,
+    pre {
+      color: @accent-deep;
+      background-color: @gray-100;
+      font-size: 14px;
+      padding: 5px;
+    }
+  }
   .single-content .introduction,
   .content .introduction {
     font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -201,13 +210,6 @@ ul {
     &.right {
       justify-content: flex-end;
     }
-  }
-  code,
-  pre {
-    color: @accent-deep;
-    background-color: @gray-100;
-    font-size: 14px;
-    padding: 5px;
   }
 }
 

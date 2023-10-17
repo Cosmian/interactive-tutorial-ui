@@ -1,3 +1,5 @@
+import { PolicyAxisItem } from "./types";
+
 export type Employee = {
   uuid: number;
   first: string;
@@ -57,3 +59,21 @@ export const employees: Employee[] = [
     salary: 4670,
   },
 ];
+
+export const POLICY_AXIS: PolicyAxisItem[] = [
+  {
+    department: [
+      { name: "Marketing", isHybridized: false },
+      { name: "HR", isHybridized: false },
+    ],
+  },
+  {
+    country: [
+      { name: "France", isHybridized: false },
+      { name: "Spain", isHybridized: false },
+      { name: "Germany", isHybridized: false },
+    ],
+  },
+];
+
+export const ACCESS_POLICY = "(country::Germany) && (department::HR)";

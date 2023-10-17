@@ -10,8 +10,8 @@ import "./layout.less";
 export const FooterNavigation = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const steps = useBoundStore((store) => store.steps);
-  const updateSteps = useBoundStore((store) => store.updateSteps);
+  const steps = useBoundStore((state) => state.steps);
+  const updateSteps = useBoundStore((state) => state.updateSteps);
   const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
   const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
   const paths = window.location.pathname.split("/");

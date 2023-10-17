@@ -1,25 +1,25 @@
 import { useBoundStore } from "../store/store";
-import { languageList } from "../utils/languageConfig";
+import { allLanguageList } from "../utils/languageConfig";
 import { Language } from "../utils/types";
 
 type LanguageTabsProps = {
-  dactivatedLanguageList?: Language[];
+  activeLanguageList: Language[];
 };
 
-const LanguageTabs: React.FC<LanguageTabsProps> = ({ dactivatedLanguageList }) => {
+const LanguageTabs: React.FC<LanguageTabsProps> = ({ activeLanguageList }) => {
   const changeLanguage = useBoundStore((state) => state.changeLanguage);
   const language = useBoundStore((state) => state.language);
 
-  const handleChangeLanguage = (language: Language, disabled?: boolean) => {
+  const handleChangeLanguage = (language: Language, disabled?: boolean): void => {
     if (!disabled) changeLanguage(language);
   };
 
   return (
     <div className="language-tabs">
       <ul role="tablist">
-        {languageList.map((languageItem) => {
+        {allLanguageList.map((languageItem) => {
           const classNames = [];
-          const disabled = dactivatedLanguageList?.find((el) => el == languageItem) != null;
+          const disabled = activeLanguageList?.find((el) => el === languageItem) == null;
           if (disabled) classNames.push("disabled");
           if (language === languageItem) classNames.push("selected");
           return (

@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run copy && vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "copy": "cp -r src/actions ./public"
   },
   "dependencies": {
+    "cloudproof_js": "^9.4.1",
     "cosmian_ui": "^0.0.50",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
