@@ -2,11 +2,11 @@ import { PolicyAxisItem } from "./types";
 
 export type Employee = {
   uuid: number;
-  first: string;
-  last: string;
-  country: "France" | "Spain" | "Germany";
-  email: string;
-  salary: number | string;
+  first?: string;
+  last?: string;
+  country?: "France" | "Spain" | "Germany";
+  email?: string;
+  salary?: number | string;
 };
 
 export const employees: Employee[] = [

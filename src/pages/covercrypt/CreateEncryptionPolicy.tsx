@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { createPolicy } from "../../actions/javascript/createPolicy";
 import EmployeeDatabase from "../../assets/employees-database.png";
 import Code from "../../component/Code";
@@ -25,14 +26,15 @@ const CreateEncryptionPolicy = (): JSX.Element => {
       setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
     } catch (error) {
-      // TODO: create toast
+      message.error(typeof error === "string" ? error : (error as Error).message);
+      console.error(error);
     }
   };
 
   return (
     <Split>
       <Split.Content>
-        <h1>Create encryption policy</h1>
+        <h1>Creating an encryption Policy</h1>
         <p>
           A <em>policy</em> defines the space of rights that are used for encryption. It is composed by a set of axes that contain
           attributes.

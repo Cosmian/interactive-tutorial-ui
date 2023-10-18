@@ -31,8 +31,9 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) =>
   };
 
   return (
-    <Table dataSource={data} pagination={false} {...rest}>
+    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"}>
       <ColumnGroup
+        key={"marketing"}
         title={
           <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center" }}>
             Marketing
@@ -45,14 +46,17 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) =>
           title="Country"
           dataIndex="country"
           key="country"
-          render={(item: string) => (
-            <Tag icon={<LockFilled />} color={getColor(item)}>
-              {item}
-            </Tag>
-          )}
+          render={(item: string | undefined) =>
+            item ? (
+              <Tag icon={<LockFilled />} color={getColor(item)}>
+                {item}
+              </Tag>
+            ) : undefined
+          }
         />
       </ColumnGroup>
       <ColumnGroup
+        key={"hr"}
         title={
           <Tag icon={<LockFilled />} color="blue" style={{ width: "100%", textAlign: "center" }}>
             HR

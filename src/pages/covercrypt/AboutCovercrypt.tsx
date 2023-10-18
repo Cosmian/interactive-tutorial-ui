@@ -4,7 +4,7 @@ import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { EmployeeTable } from "../../component/Table";
 import { useBoundStore } from "../../store/store";
 
-const AboutCovercrypt = () => {
+const AboutCovercrypt = (): JSX.Element => {
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
   return (
     <SingleContent>

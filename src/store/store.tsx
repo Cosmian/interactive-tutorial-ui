@@ -20,6 +20,7 @@ interface TokenSlice {
 interface CovercryptSlice {
   clearEmployees: Employee[];
   encryptedEmployees: EncryptedResult[] | undefined;
+  decryptedEmployees: Employee[] | undefined;
   policy: Policy | undefined;
   keyPair: KeysUid | undefined;
   decryptionKeyUid: string | undefined;
@@ -27,6 +28,7 @@ interface CovercryptSlice {
   setEncryptedEmployees: (encryptedEmployees: EncryptedResult[]) => void;
   setKeyPair: (keyPair: KeysUid) => void;
   setDecryptionKeyUid: (decryptionKeyUid: string) => void;
+  setDecryptedEmployees: (decryptedEmployees: Employee[]) => void;
 }
 
 const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
@@ -47,6 +49,7 @@ const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => 
 const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSlice> = (set) => ({
   clearEmployees: employees,
   encryptedEmployees: undefined,
+  decryptedEmployees: undefined,
   policy: undefined,
   keyPair: undefined,
   decryptionKeyUid: undefined,
@@ -54,6 +57,7 @@ const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSli
   setEncryptedEmployees: (encryptedEmployees: EncryptedResult[]) => set(() => ({ encryptedEmployees })),
   setKeyPair: (keyPair: KeysUid) => set(() => ({ keyPair })),
   setDecryptionKeyUid: (decryptionKeyUid: string) => set(() => ({ decryptionKeyUid })),
+  setDecryptedEmployees: (decryptedEmployees: Employee[]) => set(() => ({ decryptedEmployees })),
 });
 
 export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice>((...a) => ({

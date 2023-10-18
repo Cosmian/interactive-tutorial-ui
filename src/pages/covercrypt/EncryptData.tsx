@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { encryptDataLocally } from "../../actions/javascript/encryptDataLocally";
 import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
 import Code from "../../component/Code";
@@ -12,7 +13,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const EncryptData = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("createCovercryptKeyPair", activeLanguageList);
+  const { loadingCode, codeList } = useFetchCodeList("encryptDataLocally", activeLanguageList);
   // states
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
   const kmsToken = useBoundStore((state) => state.kmsToken);
@@ -59,14 +60,14 @@ const EncryptData = (): JSX.Element => {
         updateNavigationSteps(steps, setSteps);
       }
     } catch (error) {
-      // TODO: create toast
+      message.error(typeof error === "string" ? error : (error as Error).message);
     }
   };
 
   return (
     <Split>
       <Split.Content>
-        <h1>Encrypting Data</h1>
+        <h1>Encrypting data</h1>
         <p>Data is encrypted using the Public Key and an encryption policy that determines the target partitions of the ciphertext.</p>
         <p>
           Anyone who has access to the Public Key can encrypt data, however, only users possessing user keys with the right access policy

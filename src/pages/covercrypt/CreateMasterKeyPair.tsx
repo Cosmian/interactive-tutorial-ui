@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -26,14 +27,14 @@ const CreateMasterKeyPair = (): JSX.Element => {
         updateNavigationSteps(steps, setSteps);
       }
     } catch (error) {
-      // TODO: create toast
+      message.error(typeof error === "string" ? error : (error as Error).message);
     }
   };
 
   return (
     <Split>
       <Split.Content>
-        <h1>Generating the master key pair</h1>
+        <h1>Generating the Master Key Pair</h1>
         <p>The master authority possesses the master key pair:</p>
         <ol>
           <li>

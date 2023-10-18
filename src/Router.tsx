@@ -5,7 +5,9 @@ import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
 import CovercryptSetup from "./pages/covercrypt/CovercryptSetup";
 import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
+import DecryptData from "./pages/covercrypt/DecryptData";
 import EncryptData from "./pages/covercrypt/EncryptData";
+import GenerateUDK from "./pages/covercrypt/GenerateUDK";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -17,8 +19,8 @@ const componentsList: {
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
   "encrypt-with-access-policies/generate-master-key-pair": <CreateMasterKeyPair />,
   "encrypt-with-access-policies/encrypt-data": <EncryptData />,
-  "encrypt-with-access-policies/user-decryption-key": <>user-decryption-key</>,
-  "encrypt-with-access-policies/decrypt-data": <>decrypt-data</>,
+  "encrypt-with-access-policies/user-decryption-key": <GenerateUDK />,
+  "encrypt-with-access-policies/decrypt-data": <DecryptData />,
   "build-encrypted-indexes/about-findex": <>about-findex</>,
   "build-encrypted-indexes/set-up-service": <>set-up-service</>,
   "build-encrypted-indexes/generate-findex-key": <>generate-findex-key</>,

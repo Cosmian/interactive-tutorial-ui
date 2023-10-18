@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
+import { useBoundStore } from "../../store/store";
+import { updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
 const CovercryptSetup = (): JSX.Element => {
+  const setSteps = useBoundStore((state) => state.setSteps);
+  const steps = useBoundStore((state) => state.steps);
+
+  const handleSetupService = (): void => {
+    console.log("# successfully installed");
+    updateNavigationSteps(steps, setSteps);
+  };
+
   return (
     <Split>
       <Split.Content>
@@ -56,7 +66,7 @@ const CovercryptSetup = (): JSX.Element => {
             cpp: "# successfully installed",
           }}
           codeLanguage="zsh"
-          runCode={() => console.log("# successfully installed")}
+          runCode={handleSetupService}
         />
       </Split.Code>
     </Split>
