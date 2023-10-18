@@ -1,9 +1,11 @@
 import CovercryptPrincipe from "../../assets/covercrypt_principle.drawio.svg";
-import BasicDatabase from "../../assets/employees-database-basic.png";
-import EmployeeDatabase from "../../assets/employees-database.png";
+import DbSchema from "../../assets/db-schema.png";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
+import { EmployeeTable } from "../../component/Table";
+import { useBoundStore } from "../../store/store";
 
 const AboutCovercrypt = () => {
+  const clearEmployees = useBoundStore((state) => state.clearEmployees);
   return (
     <SingleContent>
       <h1>About Covercrypt</h1>
@@ -15,9 +17,7 @@ const AboutCovercrypt = () => {
         <img src={CovercryptPrincipe} alt="Covercrypt principe" />
       </ImageWrapper>
       <h2>Example of use: employees database</h2>
-      <ImageWrapper>
-        <img src={EmployeeDatabase} alt="Employee database" width={800} />
-      </ImageWrapper>
+      <EmployeeTable data={clearEmployees} style={{ width: "100%", maxWidth: "1000px", margin: "20px auto 50px" }} />
       <p>
         Consider 2 policy axes: <b>Department</b> and <b>Country</b>. Each axis is partitioned by attributes: <b>Marketing and HR</b> for
         the department axis and <b>France, Spain, and Germany</b> for the Country axis.
@@ -37,7 +37,7 @@ const AboutCovercrypt = () => {
         the policy.
       </p>
       <ImageWrapper>
-        <img src={BasicDatabase} alt="Employee database schema" width={800} />
+        <img src={DbSchema} alt="Employee database schema" width={800} />
       </ImageWrapper>
     </SingleContent>
   );

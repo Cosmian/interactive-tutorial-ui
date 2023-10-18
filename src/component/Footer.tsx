@@ -7,11 +7,11 @@ import { findNextNavigationItem, findPreviousNavigationItem, updateNavigationSte
 import { SubMenuItem } from "../utils/navigationConfig";
 import "./layout.less";
 
-export const FooterNavigation = () => {
+export const FooterNavigation = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
   const steps = useBoundStore((state) => state.steps);
-  const updateSteps = useBoundStore((state) => state.updateSteps);
+  const setSteps = useBoundStore((state) => state.setSteps);
   const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
   const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
   const paths = window.location.pathname.split("/");
@@ -25,7 +25,7 @@ export const FooterNavigation = () => {
   }, [params]);
 
   const goNext = (path: string): void => {
-    updateNavigationSteps(steps, updateSteps);
+    updateNavigationSteps(steps, setSteps);
     navigate(path);
   };
   const goPrevious = (path: string): void => {

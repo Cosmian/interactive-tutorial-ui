@@ -11,19 +11,19 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
-const CreateEncryptionPolicy: React.FC = () => {
+const CreateEncryptionPolicy = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeList } = useFetchCodeList("createPolicy", activeLanguageList);
   // states
   const policy = useBoundStore((state) => state.policy);
   const setPolicy = useBoundStore((state) => state.setPolicy);
-  const updateSteps = useBoundStore((state) => state.updateSteps);
+  const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
 
   const handleCreatePolicy = async (): Promise<void> => {
     try {
       setPolicy(await createPolicy(POLICY_AXIS));
-      updateNavigationSteps(steps, updateSteps);
+      updateNavigationSteps(steps, setSteps);
     } catch (error) {
       // TODO: create toast
     }
@@ -63,13 +63,17 @@ const CreateEncryptionPolicy: React.FC = () => {
             activeLanguageList={activeLanguageList}
             codeInputList={codeList}
             runCode={() => handleCreatePolicy()}
-            codeOutputList={{
-              java: "result", // TODO result JSON.stringify(policy) too long to be displayed (component crashing)
-              javascript: "result",
-              python: "result",
-              flutter: "result",
-              cpp: "result",
-            }}
+            codeOutputList={
+              policy
+                ? {
+                    java: JSON.stringify(policy, undefined, 2),
+                    javascript: JSON.stringify(policy, undefined, 2),
+                    python: JSON.stringify(policy, undefined, 2),
+                    flutter: JSON.stringify(policy, undefined, 2),
+                    cpp: JSON.stringify(policy, undefined, 2),
+                  }
+                : undefined
+            }
           />
         )}
       </Split.Code>

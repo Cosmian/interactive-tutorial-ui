@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useBoundStore } from "../store/store";
 import { allLanguageList } from "../utils/languageConfig";
 import { Language } from "../utils/types";
@@ -7,11 +8,17 @@ type LanguageTabsProps = {
 };
 
 const LanguageTabs: React.FC<LanguageTabsProps> = ({ activeLanguageList }) => {
-  const changeLanguage = useBoundStore((state) => state.changeLanguage);
+  const setLanguage = useBoundStore((state) => state.setLanguage);
   const language = useBoundStore((state) => state.language);
 
+  useEffect(() => {
+    // if langage is not in the activeLanguagelist, then set a default language
+    const notInList = activeLanguageList?.find((el) => el === language) == null;
+    if (notInList) setLanguage(activeLanguageList[0]);
+  }, [language]);
+
   const handleChangeLanguage = (language: Language, disabled?: boolean): void => {
-    if (!disabled) changeLanguage(language);
+    if (!disabled) setLanguage(language);
   };
 
   return (

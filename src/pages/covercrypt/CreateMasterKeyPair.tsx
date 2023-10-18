@@ -8,21 +8,22 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
-const CreateMasterKeyPair: React.FC = () => {
+const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeList } = useFetchCodeList("createCovercryptKeyPair", activeLanguageList);
   // states
+  const kmsToken = useBoundStore((state) => state.kmsToken);
   const keyPair = useBoundStore((state) => state.keyPair);
   const policy = useBoundStore((state) => state.policy);
-  const updateSteps = useBoundStore((state) => state.updateSteps);
+  const setSteps = useBoundStore((state) => state.setSteps);
   const setKeyPair = useBoundStore((state) => state.setKeyPair);
   const steps = useBoundStore((state) => state.steps);
 
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
-      if (policy) {
-        setKeyPair(await createCovercryptKeyPair("coucou", policy));
-        updateNavigationSteps(steps, updateSteps);
+      if (policy && kmsToken) {
+        setKeyPair(await createCovercryptKeyPair(kmsToken, policy));
+        updateNavigationSteps(steps, setSteps);
       }
     } catch (error) {
       // TODO: create toast
@@ -50,13 +51,17 @@ const CreateMasterKeyPair: React.FC = () => {
             activeLanguageList={activeLanguageList}
             codeInputList={codeList}
             runCode={policy ? () => handleCreateMasterKeyPair() : undefined}
-            codeOutputList={{
-              java: "result", // TODO too long to be displayed (component crashing)
-              javascript: "result",
-              python: "result",
-              flutter: "result",
-              cpp: "result",
-            }}
+            codeOutputList={
+              keyPair
+                ? {
+                    java: JSON.stringify(keyPair, undefined, 2),
+                    javascript: JSON.stringify(keyPair, undefined, 2),
+                    python: JSON.stringify(keyPair, undefined, 2),
+                    flutter: JSON.stringify(keyPair, undefined, 2),
+                    cpp: JSON.stringify(keyPair, undefined, 2),
+                  }
+                : undefined
+            }
           />
         )}
       </Split.Code>

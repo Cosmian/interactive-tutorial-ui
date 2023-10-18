@@ -5,7 +5,7 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
-const CovercryptSetup = () => {
+const CovercryptSetup = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
@@ -48,7 +48,15 @@ const CovercryptSetup = () => {
             flutter: FLUTTER_CODE,
             cpp: CPP_CODE,
           }}
+          codeOutputList={{
+            java: "# successfully installed",
+            javascript: "# successfully installed",
+            python: "# successfully installed",
+            flutter: "# successfully installed",
+            cpp: "# successfully installed",
+          }}
           codeLanguage="zsh"
+          runCode={() => console.log("# successfully installed")}
         />
       </Split.Code>
     </Split>

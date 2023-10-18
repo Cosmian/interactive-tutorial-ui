@@ -15,14 +15,11 @@ type CodeHihlighterProps = {
 };
 
 const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList, activeLanguageList, codeLanguage, runCode }) => {
-  const [result, setResult] = useState(false);
   const language = useBoundStore((state) => state.language);
 
   const onClickRun = (): void => {
-    console.log("click");
     if (runCode != null) {
       runCode();
-      setResult(true);
     }
   };
 
@@ -31,12 +28,11 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
       <LanguageTabs activeLanguageList={activeLanguageList} />
 
       <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
-      {codeOutputList != null && (
-        <button onClick={runCode != null ? onClickRun : undefined} className="flat-btn primary" disabled={runCode == null}>
-          Run code <IoPlayCircleOutline />
-        </button>
-      )}
-      {result && codeOutputList && codeOutputList[language] && (
+      <button onClick={runCode != null ? onClickRun : undefined} className="flat-btn primary" disabled={runCode == null}>
+        Run code <IoPlayCircleOutline />
+      </button>
+
+      {codeOutputList && codeOutputList[language] && (
         <CodeHihlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} />
       )}
     </div>

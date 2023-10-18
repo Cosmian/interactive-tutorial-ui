@@ -6,11 +6,15 @@ import { EncryptedResult, KeysUid, Language } from "../utils/types";
 
 interface LanguageSlice {
   language: Language;
-  changeLanguage: (language: Language) => void;
+  setLanguage: (language: Language) => void;
 }
 interface StepSlice {
   steps: MenuItem[];
-  updateSteps: (newSteps: MenuItem[]) => void;
+  setSteps: (newSteps: MenuItem[]) => void;
+}
+interface TokenSlice {
+  kmsToken: string | undefined;
+  setKmsToken: (token: string) => void;
 }
 
 interface CovercryptSlice {
@@ -27,12 +31,17 @@ interface CovercryptSlice {
 
 const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
   language: "java",
-  changeLanguage: (language: Language) => set(() => ({ language: language })),
+  setLanguage: (language: Language) => set(() => ({ language: language })),
 });
 
 const createStepSlice: StateCreator<StepSlice, [], [], StepSlice> = (set) => ({
   steps: navigationConfig as MenuItem[],
-  updateSteps: (newSteps: MenuItem[]) => set(() => ({ steps: newSteps })),
+  setSteps: (newSteps: MenuItem[]) => set(() => ({ steps: newSteps })),
+});
+
+const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => ({
+  kmsToken: undefined,
+  setKmsToken: (token: string) => set(() => ({ kmsToken: token })),
 });
 
 const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSlice> = (set) => ({
@@ -47,8 +56,9 @@ const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSli
   setDecryptionKeyUid: (decryptionKeyUid: string) => set(() => ({ decryptionKeyUid })),
 });
 
-export const useBoundStore = create<LanguageSlice & StepSlice & CovercryptSlice>((...a) => ({
+export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice>((...a) => ({
   ...createLanguageSlice(...a),
   ...createStepSlice(...a),
+  ...createTokenSlice(...a),
   ...createCovercryptSlice(...a),
 }));
