@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
+import { Language } from "../../utils/types";
+
+const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
 const CovercryptSetup = () => {
   return (
@@ -37,12 +40,13 @@ const CovercryptSetup = () => {
       </Split.Content>
       <Split.Code>
         <Code
+          activeLanguageList={activeLanguageList}
           codeInputList={{
             java: JAVA_CODE,
             javascript: JS_CODE,
             python: PYTHON_CODE,
             flutter: FLUTTER_CODE,
-            "c++": CPP_CODE,
+            cpp: CPP_CODE,
           }}
           codeLanguage="zsh"
         />
@@ -61,8 +65,8 @@ const JAVA_CODE = `<dependency>
 <version>6.0.0</version>
 <type>jar</type>
 </dependency>`;
-const PYTHON_CODE = `pip install cloudproof_py`;
-const FLUTTER_CODE = `flutter pub add cloudproof`;
+const PYTHON_CODE = "pip install cloudproof_py";
+const FLUTTER_CODE = "flutter pub add cloudproof";
 const CPP_CODE = `#include "cloudproof.h"
 
 # Compile and run on Linux

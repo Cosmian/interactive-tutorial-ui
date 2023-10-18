@@ -19,6 +19,7 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
   const language = useBoundStore((state) => state.language);
 
   const onClickRun = (): void => {
+    console.log("click");
     if (runCode != null) {
       runCode();
       setResult(true);
@@ -31,7 +32,7 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
 
       <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
       {codeOutputList != null && (
-        <button onClick={onClickRun} className="flat-btn primary">
+        <button onClick={runCode != null ? onClickRun : undefined} className="flat-btn primary" disabled={runCode == null}>
           Run code <IoPlayCircleOutline />
         </button>
       )}

@@ -4,6 +4,7 @@ import OverView from "./pages/OverView";
 import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
 import CovercryptSetup from "./pages/covercrypt/CovercryptSetup";
 import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
+import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -13,7 +14,7 @@ const componentsList: {
   "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
   "encrypt-with-access-policies/set-up-service": <CovercryptSetup />,
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
-  "encrypt-with-access-policies/generate-master-key-pair": <>Generate public and secret master key pair</>,
+  "encrypt-with-access-policies/generate-master-key-pair": <CreateMasterKeyPair />,
   "encrypt-with-access-policies/encrypt-data": <>Encrypt data</>,
   "encrypt-with-access-policies/user-decryption-key": <>user-decryption-key</>,
   "encrypt-with-access-policies/decrypt-data": <>decrypt-data</>,
