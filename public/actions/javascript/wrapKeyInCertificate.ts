@@ -1,4 +1,4 @@
-import { NIST_P256_CERTIFICATE, NIST_P256_PRIVATE_KEY } from "../utils/certificates";
+import { NIST_P256_CERTIFICATE, NIST_P256_PRIVATE_KEY } from "../../utils/certificates";
 
 export const wrapKeyInCertificate = (): {
   certBytes: Uint8Array;
