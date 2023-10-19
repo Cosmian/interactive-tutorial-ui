@@ -31,7 +31,7 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) =>
   };
 
   return (
-    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"}>
+    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"} scroll={{ x: 550 }}>
       <ColumnGroup
         key={"marketing"}
         title={
@@ -72,10 +72,10 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) =>
 
 export const EncryptedTable: React.FC<EncryptedTablePros> = ({ data, ...rest }) => {
   return (
-    <Table dataSource={data} pagination={false} {...rest}>
+    <Table dataSource={data} pagination={false} {...rest} scroll={{ x: 550 }}>
       <Column
         title={
-          <Tag icon={<LockFilled />} color="cyan">
+          <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center" }}>
             Marketing
           </Tag>
         }
@@ -86,7 +86,7 @@ export const EncryptedTable: React.FC<EncryptedTablePros> = ({ data, ...rest }) 
       />
       <Column
         title={
-          <Tag icon={<LockFilled />} color="blue">
+          <Tag icon={<LockFilled />} color="blue" style={{ width: "100%", textAlign: "center" }}>
             HR
           </Tag>
         }

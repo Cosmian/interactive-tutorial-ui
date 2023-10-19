@@ -217,6 +217,7 @@ ul {
 .split {
   display: flex;
   flex-direction: row;
+  max-width: calc(100% - 260px);
   .gutter {
     background-color: @gray-100;
     background-repeat: no-repeat;
@@ -233,6 +234,9 @@ ul {
       display: block;
     }
   }
+}
+.main-navigation.hidden + .split {
+  max-width: calc(100% - 44px);
 }
 
 // CODE
