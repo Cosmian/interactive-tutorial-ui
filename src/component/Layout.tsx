@@ -79,9 +79,16 @@ export const SingleContent = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const ImageWrapper = ({ children, maxWidth }: { children: React.ReactNode; maxWidth?: number }) => {
+type ImageWrapperProps = {
+  children: React.ReactNode;
+  maxWidth?: number;
+  clasName?: string;
+  style?: React.CSSProperties;
+};
+export const ImageWrapper = ({ children, maxWidth, style, ...rest }: ImageWrapperProps): JSX.Element => {
   return (
     <div
+      {...rest}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -90,6 +97,7 @@ export const ImageWrapper = ({ children, maxWidth }: { children: React.ReactNode
         margin: "0 auto",
         gap: 30,
         marginBottom: 16,
+        ...style,
       }}
     >
       {children}

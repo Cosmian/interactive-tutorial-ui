@@ -82,7 +82,7 @@ const DecryptData = (): JSX.Element => {
         <p>
           The User Decryption Key can only decrypt the <code>(country::Germany) && (department::HR)</code> axis.
         </p>
-        {decryptedEmployees && <EmployeeTable data={decryptedEmployees} />}
+        {decryptedEmployees && <EmployeeTable data={decryptedEmployees} covercrypt />}
       </Split.Content>
       <Split.Code>
         {!loadingCode && (

@@ -1,8 +1,8 @@
-import { Policy } from "cloudproof_js";
+import { FindexKey, Label, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
 import { Employee, employees } from "../utils/covercryptConfig";
 import { MenuItem, navigationConfig } from "../utils/navigationConfig";
-import { EncryptedResult, KeysUid, Language } from "../utils/types";
+import { EncryptedResult, FindexCallbacks, KeysUid, Language } from "../utils/types";
 
 interface LanguageSlice {
   language: Language;
@@ -29,6 +29,16 @@ interface CovercryptSlice {
   setKeyPair: (keyPair: KeysUid) => void;
   setDecryptionKeyUid: (decryptionKeyUid: string) => void;
   setDecryptedEmployees: (decryptedEmployees: Employee[]) => void;
+}
+interface FindexSlice {
+  findexKey: FindexKey | undefined;
+  label: Label | undefined;
+  callbacks: FindexCallbacks | undefined;
+  resultEmployees: Employee[] | undefined;
+  setFindexKey: (findexKey: FindexKey) => void;
+  setLabel: (label: Label) => void;
+  setCallbacks: (callbacks: FindexCallbacks) => void;
+  setResultEmployees: (resultEmployees: Employee[]) => void;
 }
 
 const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
@@ -60,9 +70,21 @@ const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSli
   setDecryptedEmployees: (decryptedEmployees: Employee[]) => set(() => ({ decryptedEmployees })),
 });
 
-export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice>((...a) => ({
+const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) => ({
+  findexKey: undefined,
+  label: undefined,
+  callbacks: undefined,
+  resultEmployees: undefined,
+  setFindexKey: (findexKey: FindexKey) => set(() => ({ findexKey })),
+  setLabel: (label: Label) => set(() => ({ label })),
+  setCallbacks: (callbacks: FindexCallbacks) => set(() => ({ callbacks })),
+  setResultEmployees: (resultEmployees: Employee[]) => set(() => ({ resultEmployees })),
+});
+
+export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice & FindexSlice>((...a) => ({
   ...createLanguageSlice(...a),
   ...createStepSlice(...a),
   ...createTokenSlice(...a),
   ...createCovercryptSlice(...a),
+  ...createFindexSlice(...a),
 }));

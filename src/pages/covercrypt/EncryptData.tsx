@@ -91,7 +91,7 @@ const EncryptData = (): JSX.Element => {
           Header and encrypted content can be generated separately using the various APIs. Check the inline documentation of the various
           languages and the test suites for details.
         </p>
-        <EmployeeTable data={clearEmployees} />
+        <EmployeeTable data={clearEmployees} covercrypt />
         {encryptedEmployees && <EncryptedTable data={encryptedEmployees} style={{ marginTop: 30 }} />}
       </Split.Content>
       <Split.Code>

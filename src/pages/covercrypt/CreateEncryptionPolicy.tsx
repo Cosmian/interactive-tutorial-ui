@@ -53,7 +53,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
         </p>
         <p>An access policy is defined by a set of partitions. It can be written as a boolean expression of axis attributes:</p>
         <pre>(Department::Marketing || Department::Sales) && Country::France</pre>
-        <EmployeeTable data={clearEmployees} />
+        <EmployeeTable data={clearEmployees} covercrypt />
 
         <p>
           In the following demo, we will create a policy that combines two axes, a security level, and a department. A user will be able to

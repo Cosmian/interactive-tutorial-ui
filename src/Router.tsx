@@ -8,6 +8,13 @@ import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
 import DecryptData from "./pages/covercrypt/DecryptData";
 import EncryptData from "./pages/covercrypt/EncryptData";
 import GenerateUDK from "./pages/covercrypt/GenerateUDK";
+import AboutFindex from "./pages/findex/AboutFindex";
+import DefineCallbacks from "./pages/findex/DefineCallbacks";
+import GenerateFindexKey from "./pages/findex/GenerateFindexKey";
+import IndexDatabase from "./pages/findex/IndexDatabase";
+import Labelling from "./pages/findex/Labelling";
+import SearchInDatabase from "./pages/findex/SearchInDatabase";
+import SetupFindex from "./pages/findex/SetupFindex";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -21,13 +28,13 @@ const componentsList: {
   "encrypt-with-access-policies/encrypt-data": <EncryptData />,
   "encrypt-with-access-policies/user-decryption-key": <GenerateUDK />,
   "encrypt-with-access-policies/decrypt-data": <DecryptData />,
-  "build-encrypted-indexes/about-findex": <>about-findex</>,
-  "build-encrypted-indexes/set-up-service": <>set-up-service</>,
-  "build-encrypted-indexes/generate-findex-key": <>generate-findex-key</>,
-  "build-encrypted-indexes/labelling": <>labelling</>,
-  "build-encrypted-indexes/callbacks": <>callbacks</>,
-  "build-encrypted-indexes/index-database": <>index-database</>,
-  "build-encrypted-indexes/search-in-database": <>search-in-database</>,
+  "build-encrypted-indexes/about-findex": <AboutFindex />,
+  "build-encrypted-indexes/set-up-service": <SetupFindex />,
+  "build-encrypted-indexes/generate-findex-key": <GenerateFindexKey />,
+  "build-encrypted-indexes/labelling": <Labelling />,
+  "build-encrypted-indexes/callbacks": <DefineCallbacks />,
+  "build-encrypted-indexes/index-database": <IndexDatabase />,
+  "build-encrypted-indexes/search-in-database": <SearchInDatabase />,
   "distibute-keys/about-pki": <>about-pki</>,
   "distibute-keys/set-up-service": <>set-up-service</>,
   "distibute-keys/save-sk-publish-certificate": <>save-sk-publish-certificate</>,

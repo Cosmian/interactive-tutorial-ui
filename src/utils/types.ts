@@ -1,3 +1,5 @@
+import { FetchChains, FetchEntries, InsertChains, UpsertEntries } from "cloudproof_js";
+
 export type Language = "cpp" | "flutter" | "java" | "javascript" | "python";
 
 export type LanguageList = {
@@ -17,4 +19,11 @@ export type EncryptedResult = { key: number; marketing: Uint8Array; hr: Uint8Arr
 export type KeysUid = {
   masterPublicKeyUId: string;
   masterSecretKeyUId: string;
+};
+
+export type FindexCallbacks = {
+  fetchEntries: FetchEntries;
+  fetchChains: FetchChains;
+  upsertEntries: UpsertEntries;
+  insertChains: InsertChains;
 };

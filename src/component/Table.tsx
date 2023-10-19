@@ -7,6 +7,7 @@ const { Column, ColumnGroup } = Table;
 
 type EmployeeTablePros = {
   data: Employee[];
+  covercrypt?: boolean;
   clasName?: string;
   style?: React.CSSProperties;
 };
@@ -16,7 +17,7 @@ type EncryptedTablePros = {
   style?: React.CSSProperties;
 };
 
-export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) => {
+export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, covercrypt, ...rest }) => {
   const getColor = (country: string): string => {
     switch (country) {
       case "France":
@@ -30,42 +31,66 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, ...rest }) =>
     }
   };
 
-  return (
-    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"} scroll={{ x: 550 }}>
-      <ColumnGroup
-        key={"marketing"}
-        title={
-          <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center" }}>
-            Marketing
-          </Tag>
-        }
-      >
-        <Column title="First Name" dataIndex="first" key="first" />
-        <Column title="Last Name" dataIndex="last" key="last" />
-        <Column
-          title="Country"
-          dataIndex="country"
-          key="country"
-          render={(item: string | undefined) =>
-            item ? (
+  const columnsOne = (
+    <>
+      <Column title="First Name" dataIndex="first" key="first" />
+      <Column title="Last Name" dataIndex="last" key="last" />
+      <Column
+        title="Country"
+        dataIndex="country"
+        key="country"
+        render={(item: string | undefined) =>
+          item ? (
+            covercrypt ? (
               <Tag icon={<LockFilled />} color={getColor(item)}>
                 {item}
               </Tag>
-            ) : undefined
-          }
-        />
-      </ColumnGroup>
-      <ColumnGroup
-        key={"hr"}
-        title={
-          <Tag icon={<LockFilled />} color="blue" style={{ width: "100%", textAlign: "center" }}>
-            HR
-          </Tag>
+            ) : (
+              item
+            )
+          ) : undefined
         }
-      >
-        <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Salary" dataIndex="salary" key="salary" />
-      </ColumnGroup>
+      />
+    </>
+  );
+
+  const columnsTwo = (
+    <>
+      <Column title="Email" dataIndex="email" key="email" />
+      <Column title="Salary" dataIndex="salary" key="salary" />
+    </>
+  );
+
+  return (
+    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"} scroll={{ x: 550 }}>
+      {covercrypt ? (
+        <>
+          <ColumnGroup
+            key={"marketing"}
+            title={
+              <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center" }}>
+                Marketing
+              </Tag>
+            }
+          >
+            {columnsOne}
+          </ColumnGroup>
+          <ColumnGroup
+            key={"hr"}
+            title={
+              <Tag icon={<LockFilled />} color="blue" style={{ width: "100%", textAlign: "center" }}>
+                HR
+              </Tag>
+            }
+          >
+            {columnsTwo}
+          </ColumnGroup>
+        </>
+      ) : (
+        <>
+          {columnsOne} {columnsTwo}
+        </>
+      )}
     </Table>
   );
 };
