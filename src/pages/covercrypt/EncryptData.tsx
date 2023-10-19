@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { encryptDataLocally } from "../../actions/javascript/encryptDataLocally";
 import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
 import Code from "../../component/Code";
@@ -23,6 +24,7 @@ const EncryptData = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
   const setEncryptedEmployees = useBoundStore((state) => state.setEncryptedEmployees);
+  const navigate = useNavigate();
 
   const handleEncryptEmployees = async (): Promise<void> => {
     try {
@@ -58,6 +60,7 @@ const EncryptData = (): JSX.Element => {
         );
         setEncryptedEmployees(encryptedEmployees);
         updateNavigationSteps(steps, setSteps);
+        navigate("#");
       }
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);

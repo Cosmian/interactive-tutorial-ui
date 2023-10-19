@@ -1,4 +1,6 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Button, CosmianLogo, Header } from "cosmian_ui";
+import React from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
 import { Link, Outlet } from "react-router-dom";
@@ -7,11 +9,17 @@ import { FooterNavigation } from "./Footer";
 import { MainNavigation } from "./MainNavigation";
 import "./layout.less";
 
-const Layout = () => {
+const Layout = (): JSX.Element => {
   const paths = window.location.pathname.split("/");
   paths.shift();
   const navigationSubItem = findNavigationSubItem(paths);
   const footerNavigation = navigationSubItem?.footerNavigation;
+  const { logout } = useAuth0();
+
+  const handleLogout = (): void => {
+    logout({ logoutParams: { returnTo: window.location.origin } });
+  };
+
   return (
     <div className={`layout ${footerNavigation ? "with-footer" : ""}`}>
       <Header
@@ -25,7 +33,11 @@ const Layout = () => {
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
             <ExternalLink link="https://github.com/Cosmian/saas-applications-examples">GitHub repository</ExternalLink>
-            <Button rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />} style={{ marginLeft: 20 }}>
+            <Button
+              rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />}
+              style={{ marginLeft: 20 }}
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           </div>
@@ -58,8 +70,6 @@ const findNavigationSubItem = (paths: string[]) => {
     return childrenItem;
   }
 };
-
-import React from "react";
 
 export const SingleContent = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useBoundStore } from "../../store/store";
@@ -10,10 +10,12 @@ const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter
 const CovercryptSetup = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
+  const navigate = useNavigate();
 
   const handleSetupService = (): void => {
     console.log("# successfully installed");
     updateNavigationSteps(steps, setSteps);
+    navigate("#");
   };
 
   return (
@@ -23,30 +25,47 @@ const CovercryptSetup = (): JSX.Element => {
         <p>
           The attribute-based encryption scheme is called Covercrypt. It is open-source and written in Rust. For the cryptographic
           documentation and implementation details, please check its{" "}
-          <Link to={"https://github.com/Cosmian/cover_crypt"}>Github repository</Link>.
+          <Link to={"https://github.com/Cosmian/cover_crypt"} target="_blank" rel="noopener noreferrer">
+            Github repository
+          </Link>
+          .
         </p>
         <p>Unless low-level programming in Rust, implementers should use Covercrypt through the various cloudproof_xxx user libraries:</p>
         <ul>
           <li>
-            <Link to="https://github.com/Cosmian/cloudproof_java">cloudproof_java</Link>: the Cloudproof Java Library,
+            <Link to="https://github.com/Cosmian/cloudproof_java" target="_blank" rel="noopener noreferrer">
+              cloudproof_java
+            </Link>
+            : the Cloudproof Java Library,
           </li>
           <li>
-            <Link to="https://github.com/Cosmian/js">cloudproof_js</Link>: the Cloudproof Javascript Library,
+            <Link to="https://github.com/Cosmian/cloudproof_js" target="_blank" rel="noopener noreferrer">
+              cloudproof_js
+            </Link>
+            : the Cloudproof Javascript Library,
           </li>
           <li>
-            <Link to="https://github.com/Cosmian/python">cloudproof_python</Link>: the Cloudproof Python Library,
+            <Link to="https://github.com/Cosmian/cloudproof_python" target="_blank" rel="noopener noreferrer">
+              cloudproof_python
+            </Link>
+            : the Cloudproof Python Library,
           </li>
           <li>
-            <Link to="https://github.com/Cosmian/flutter">cloudproof_flutter</Link>: the Cloudproof Flutter Library.
+            <Link to="https://github.com/Cosmian/cloudproof_flutter" target="_blank" rel="noopener noreferrer">
+              cloudproof_flutter
+            </Link>
+            : the Cloudproof Flutter Library.
           </li>
           <li>
-            <Link to="https://github.com/Cosmian/spark">cloudproof_spark</Link>: the Cloudproof Spark Library.
+            <Link to="https://github.com/Cosmian/cloudproof_spark" target="_blank" rel="noopener noreferrer">
+              cloudproof_spark
+            </Link>
+            : the Cloudproof Spark Library.
           </li>
         </ul>
         <p>
-          All these libraries are open-source and available on <Link to="https://github.com/Cosmian/">Github</Link>
+          All these libraries are open-source and available on <Link to="https://github.com/Cosmian/">Github</Link>.
         </p>
-        <p>The user libraries all contain extensive tests, and it is highly recommended to start by hacking those tests.</p>
       </Split.Content>
       <Split.Code>
         <Code

@@ -43,7 +43,7 @@ const router = createBrowserRouter(
     <>
       {/* Pages with layout */}
       <Route path="/" element={<Layout />}>
-        <Route index element={<>Home</>} />
+        <Route index element={<Navigate to={"client-side-encryption/overview"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
       {navigationConfig.map((item) => {

@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { decryptDataLocally } from "../../actions/javascript/decryptDataLocally";
 import { retrieveDecryptionKey } from "../../actions/javascript/retrieveDecryptionKey";
 import Code from "../../component/Code";
@@ -25,6 +26,7 @@ const DecryptData = (): JSX.Element => {
   const decryptionKeyUid = useBoundStore((state) => state.decryptionKeyUid);
   const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
   const setDecryptedEmployees = useBoundStore((state) => state.setDecryptedEmployees);
+  const navigate = useNavigate();
 
   const handleDecryptData = async (): Promise<void> => {
     try {
@@ -66,6 +68,7 @@ const DecryptData = (): JSX.Element => {
         setDecryptedEmployees(clearEmployee);
 
         updateNavigationSteps(steps, setSteps);
+        navigate("#");
       }
     } catch (error) {
       message.error((error as Error).message);

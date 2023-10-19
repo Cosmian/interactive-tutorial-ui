@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBoundStore } from "../store/store";
-import { findNextNavigationItem, findPreviousNavigationItem, updateNavigationSteps } from "../utils/navigationActions";
+import { findNextNavigationItem, findPreviousNavigationItem } from "../utils/navigationActions";
 import { SubMenuItem } from "../utils/navigationConfig";
 import "./layout.less";
 
@@ -11,7 +11,6 @@ export const FooterNavigation = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
   const steps = useBoundStore((state) => state.steps);
-  const setSteps = useBoundStore((state) => state.setSteps);
   const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
   const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
   const paths = window.location.pathname.split("/");
@@ -25,7 +24,6 @@ export const FooterNavigation = (): JSX.Element => {
   }, [params]);
 
   const goNext = (path: string): void => {
-    updateNavigationSteps(steps, setSteps);
     navigate(path);
   };
   const goPrevious = (path: string): void => {

@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -19,12 +20,14 @@ const CreateMasterKeyPair = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const setKeyPair = useBoundStore((state) => state.setKeyPair);
   const steps = useBoundStore((state) => state.steps);
+  const navigate = useNavigate();
 
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
       if (policy && kmsToken) {
         setKeyPair(await createCovercryptKeyPair(kmsToken, policy));
         updateNavigationSteps(steps, setSteps);
+        navigate("#");
       }
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);

@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -7,7 +8,6 @@ import { useBoundStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
 import { updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
-
 const activeLanguageList: Language[] = ["java", "javascript"];
 
 const GenerateUDK = (): JSX.Element => {
@@ -21,6 +21,7 @@ const GenerateUDK = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const decryptionKeyUid = useBoundStore((state) => state.decryptionKeyUid);
   const setDecryptionKeyUid = useBoundStore((state) => state.setDecryptionKeyUid);
+  const navigate = useNavigate();
 
   const handleGenerateUDK = async (): Promise<void> => {
     try {
@@ -29,6 +30,7 @@ const GenerateUDK = (): JSX.Element => {
         const udk = await createDecryptionKey(kmsToken, keyPair.masterSecretKeyUId, decryptionAccessPolicy);
         setDecryptionKeyUid(udk);
         updateNavigationSteps(steps, setSteps);
+        navigate("#");
       }
     } catch (error) {
       message.error((error as Error).message);

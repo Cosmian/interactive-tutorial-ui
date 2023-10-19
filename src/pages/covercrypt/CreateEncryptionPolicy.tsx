@@ -1,9 +1,9 @@
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { createPolicy } from "../../actions/javascript/createPolicy";
-import EmployeeDatabase from "../../assets/employees-database.png";
 import Code from "../../component/Code";
-import { ImageWrapper } from "../../component/Layout";
 import Split from "../../component/Split";
+import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { POLICY_AXIS } from "../../utils/covercryptConfig";
@@ -17,14 +17,17 @@ const CreateEncryptionPolicy = (): JSX.Element => {
   const { loadingCode, codeList } = useFetchCodeList("createPolicy", activeLanguageList);
   // states
   const policy = useBoundStore((state) => state.policy);
+  const clearEmployees = useBoundStore((state) => state.clearEmployees);
   const setPolicy = useBoundStore((state) => state.setPolicy);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
+  const navigate = useNavigate();
 
   const handleCreatePolicy = async (): Promise<void> => {
     try {
       setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
+      navigate("#");
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);
       console.error(error);
@@ -50,15 +53,15 @@ const CreateEncryptionPolicy = (): JSX.Element => {
         </p>
         <p>An access policy is defined by a set of partitions. It can be written as a boolean expression of axis attributes:</p>
         <pre>(Department::Marketing || Department::Sales) && Country::France</pre>
-        <ImageWrapper>
-          <img src={EmployeeDatabase} alt="Employee database" width="100%" />
-        </ImageWrapper>
+        <EmployeeTable data={clearEmployees} />
+
         <p>
           In the following demo, we will create a policy that combines two axes, a security level, and a department. A user will be able to
           decrypt data only if it possesses a key with a sufficient security level and the correct department.
         </p>
         {policy && <pre>{POLICY_AXIS_TEXT}</pre>}
       </Split.Content>
+
       <Split.Code>
         {!loadingCode && (
           <Code
