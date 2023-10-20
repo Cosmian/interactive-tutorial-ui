@@ -25,7 +25,7 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
 
   return (
     <div className="code-demo">
-      <LanguageTabs activeLanguageList={activeLanguageList} />
+      {activeLanguageList.length !== 0 && <LanguageTabs activeLanguageList={activeLanguageList} />}
 
       <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
       <button onClick={runCode != null ? onClickRun : undefined} className="flat-btn primary" disabled={runCode == null}>

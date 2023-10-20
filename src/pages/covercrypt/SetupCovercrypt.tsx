@@ -84,7 +84,7 @@ const SetupCovercrypt = (): JSX.Element => {
             flutter: "# successfully installed",
             cpp: "# successfully installed",
           }}
-          codeLanguage="zsh"
+          codeLanguage="bash"
           runCode={handleSetupService}
         />
       </Split.Code>

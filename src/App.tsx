@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Spinner } from "cosmian_ui";
 import "cosmian_ui/style.css";
 import { useEffect } from "react";
 import AppRouter from "./Router";
@@ -23,16 +24,18 @@ const App = (): JSX.Element => {
   };
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <Spinner fullpage />;
   }
 
   if (!isAuthenticated) {
     loginWithRedirect();
-    return <>Not authenticated</>;
+    console.log("Not authenticated");
+    return <Spinner fullpage />;
   }
 
   if (error) {
     handleLogout();
+    console.log("Authentication error");
     return <>Error</>;
   }
 

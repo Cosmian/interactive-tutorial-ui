@@ -8,14 +8,28 @@ interface LanguageSlice {
   language: Language;
   setLanguage: (language: Language) => void;
 }
+const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
+  language: "java",
+  setLanguage: (language: Language) => set(() => ({ language: language })),
+});
+
 interface StepSlice {
   steps: MenuItem[];
   setSteps: (newSteps: MenuItem[]) => void;
 }
+const createStepSlice: StateCreator<StepSlice, [], [], StepSlice> = (set) => ({
+  steps: navigationConfig as MenuItem[],
+  setSteps: (newSteps: MenuItem[]) => set(() => ({ steps: newSteps })),
+});
+
 interface TokenSlice {
   kmsToken: string | undefined;
   setKmsToken: (token: string) => void;
 }
+const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => ({
+  kmsToken: undefined,
+  setKmsToken: (token: string) => set(() => ({ kmsToken: token })),
+});
 
 interface CovercryptSlice {
   clearEmployees: Employee[];
@@ -30,32 +44,6 @@ interface CovercryptSlice {
   setDecryptionKeyUid: (decryptionKeyUid: string) => void;
   setDecryptedEmployees: (decryptedEmployees: Employee[]) => void;
 }
-interface FindexSlice {
-  findexKey: FindexKey | undefined;
-  label: Label | undefined;
-  callbacks: FindexCallbacks | undefined;
-  resultEmployees: Employee[] | undefined;
-  setFindexKey: (findexKey: FindexKey) => void;
-  setLabel: (label: Label) => void;
-  setCallbacks: (callbacks: FindexCallbacks) => void;
-  setResultEmployees: (resultEmployees: Employee[]) => void;
-}
-
-const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = (set) => ({
-  language: "java",
-  setLanguage: (language: Language) => set(() => ({ language: language })),
-});
-
-const createStepSlice: StateCreator<StepSlice, [], [], StepSlice> = (set) => ({
-  steps: navigationConfig as MenuItem[],
-  setSteps: (newSteps: MenuItem[]) => set(() => ({ steps: newSteps })),
-});
-
-const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => ({
-  kmsToken: undefined,
-  setKmsToken: (token: string) => set(() => ({ kmsToken: token })),
-});
-
 const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSlice> = (set) => ({
   clearEmployees: employees,
   encryptedEmployees: undefined,
@@ -70,6 +58,16 @@ const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSli
   setDecryptedEmployees: (decryptedEmployees: Employee[]) => set(() => ({ decryptedEmployees })),
 });
 
+interface FindexSlice {
+  findexKey: FindexKey | undefined;
+  label: Label | undefined;
+  callbacks: FindexCallbacks | undefined;
+  resultEmployees: Employee[] | undefined;
+  setFindexKey: (findexKey: FindexKey) => void;
+  setLabel: (label: Label) => void;
+  setCallbacks: (callbacks: FindexCallbacks) => void;
+  setResultEmployees: (resultEmployees: Employee[]) => void;
+}
 const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) => ({
   findexKey: undefined,
   label: undefined,
@@ -81,10 +79,29 @@ const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) 
   setResultEmployees: (resultEmployees: Employee[]) => set(() => ({ resultEmployees })),
 });
 
-export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice & FindexSlice>((...a) => ({
+type WrappedKey = { certBytes: Uint8Array; privateKeyBytes: Uint8Array };
+interface PkiSlice {
+  encryptedEmployeesPki: EncryptedResult[] | undefined;
+  clientOneUdkUid: string | undefined;
+  wrappedPk2: WrappedKey | undefined;
+  setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
+  setClientOneUdkUid: (uid: string) => void;
+  setWrappedPk2: (wrappedKey: WrappedKey) => void;
+}
+const createPkiSlice: StateCreator<PkiSlice, [], [], PkiSlice> = (set) => ({
+  encryptedEmployeesPki: undefined,
+  clientOneUdkUid: undefined,
+  wrappedPk2: undefined,
+  setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) => set(() => ({ encryptedEmployeesPki })),
+  setClientOneUdkUid: (clientOneUdkUid: string) => set(() => ({ clientOneUdkUid })),
+  setWrappedPk2: (wrappedPk2: WrappedKey) => set(() => ({ wrappedPk2 })),
+});
+
+export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice & FindexSlice & PkiSlice>((...a) => ({
   ...createLanguageSlice(...a),
   ...createStepSlice(...a),
   ...createTokenSlice(...a),
   ...createCovercryptSlice(...a),
   ...createFindexSlice(...a),
+  ...createPkiSlice(...a),
 }));

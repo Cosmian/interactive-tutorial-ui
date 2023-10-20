@@ -15,6 +15,9 @@ import IndexDatabase from "./pages/findex/IndexDatabase";
 import Labelling from "./pages/findex/Labelling";
 import SearchInDatabase from "./pages/findex/SearchInDatabase";
 import SetupFindex from "./pages/findex/SetupFindex";
+import AboutPKI from "./pages/pki/AboutPKI";
+import EncryptDataPki from "./pages/pki/EncryptDataPki";
+import SetupPki from "./pages/pki/SetupPki";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -35,8 +38,9 @@ const componentsList: {
   "build-encrypted-indexes/callbacks": <DefineCallbacks />,
   "build-encrypted-indexes/index-database": <IndexDatabase />,
   "build-encrypted-indexes/search-in-database": <SearchInDatabase />,
-  "distibute-keys/about-pki": <>about-pki</>,
-  "distibute-keys/set-up-service": <>set-up-service</>,
+  "distibute-keys/about-pki": <AboutPKI />,
+  "distibute-keys/set-up-service": <SetupPki />,
+  "distibute-keys/encrypt-data": <EncryptDataPki />,
   "distibute-keys/save-sk-publish-certificate": <>save-sk-publish-certificate</>,
   "distibute-keys/grant-access": <>grant-access</>,
   "distibute-keys/retrieve-wrapped-decryption-key": <>retrieve-wrapped-decryption-key</>,

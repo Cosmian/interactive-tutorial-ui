@@ -83,7 +83,7 @@ const SetupFindex = (): JSX.Element => {
                 }
               : undefined
           }
-          codeLanguage="zsh"
+          codeLanguage="bash"
           runCode={handleSetupService}
         />
       </Split.Code>

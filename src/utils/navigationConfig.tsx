@@ -119,6 +119,11 @@ export const navigationConfig: MenuItem[] = [
         footerNavigation: true,
       },
       {
+        key: "encrypt-data",
+        label: "Encrypt your data",
+        footerNavigation: true,
+      },
+      {
         key: "save-sk-publish-certificate",
         label: "Save the Secret Key and publish certificate",
         footerNavigation: true,
