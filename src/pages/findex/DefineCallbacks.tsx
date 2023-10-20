@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { callbacksExamplesInMemory } from "cloudproof_js";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -32,6 +33,8 @@ const DefineCallbacks = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -44,23 +47,21 @@ const DefineCallbacks = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={() => handleDefineCallbacks()}
-            codeOutputList={
-              callbacks
-                ? {
-                    java: JSON.stringify(callbacks, undefined, 2),
-                    javascript: JSON.stringify(callbacks, undefined, 2),
-                    python: JSON.stringify(callbacks, undefined, 2),
-                    flutter: JSON.stringify(callbacks, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={() => handleDefineCallbacks()}
+          codeOutputList={
+            callbacks
+              ? {
+                  java: JSON.stringify(callbacks, undefined, 2),
+                  javascript: JSON.stringify(callbacks, undefined, 2),
+                  python: JSON.stringify(callbacks, undefined, 2),
+                  flutter: JSON.stringify(callbacks, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

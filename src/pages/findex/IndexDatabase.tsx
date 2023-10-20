@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { Location } from "cloudproof_js";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
@@ -48,6 +49,8 @@ const IndexDatabase = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -61,19 +64,17 @@ const IndexDatabase = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
-            codeOutputList={{
-              java: RESPONSE,
-              javascript: RESPONSE,
-              python: RESPONSE,
-              flutter: RESPONSE,
-            }}
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
+          codeOutputList={{
+            java: RESPONSE,
+            javascript: RESPONSE,
+            python: RESPONSE,
+            flutter: RESPONSE,
+          }}
+        />
       </Split.Code>
     </Split>
   );

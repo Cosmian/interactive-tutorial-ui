@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createPolicy } from "../../actions/javascript/createPolicy";
 import Code from "../../component/Code";
@@ -34,6 +35,8 @@ const CreateEncryptionPolicy = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -63,24 +66,22 @@ const CreateEncryptionPolicy = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={() => handleCreatePolicy()}
-            codeOutputList={
-              policy
-                ? {
-                    java: JSON.stringify(policy, undefined, 2),
-                    javascript: JSON.stringify(policy, undefined, 2),
-                    python: JSON.stringify(policy, undefined, 2),
-                    flutter: JSON.stringify(policy, undefined, 2),
-                    cpp: JSON.stringify(policy, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={() => handleCreatePolicy()}
+          codeOutputList={
+            policy
+              ? {
+                  java: JSON.stringify(policy, undefined, 2),
+                  javascript: JSON.stringify(policy, undefined, 2),
+                  python: JSON.stringify(policy, undefined, 2),
+                  flutter: JSON.stringify(policy, undefined, 2),
+                  cpp: JSON.stringify(policy, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

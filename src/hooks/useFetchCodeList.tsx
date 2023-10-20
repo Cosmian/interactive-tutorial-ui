@@ -26,8 +26,8 @@ export const useFetchCodeList = (filename: string, activeLanguageList: Language[
       const codeListCopy = codeList;
       codeListCopy[language] = text;
       setCodeList(codeListCopy);
-      setLoadingcode(false);
     }
+    setLoadingcode(false);
   };
   return { loadingCode, codeList };
 };

@@ -217,6 +217,7 @@ ul {
 .split {
   display: flex;
   flex-direction: row;
+  width: calc(100% - 260px);
   max-width: calc(100% - 260px);
   .gutter {
     background-color: @gray-100;
@@ -236,6 +237,7 @@ ul {
   }
 }
 .main-navigation.hidden + .split {
+  width: calc(100% - 44px);
   max-width: calc(100% - 44px);
 }
 

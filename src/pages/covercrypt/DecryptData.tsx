@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { decryptDataLocally } from "../../actions/javascript/decryptDataLocally";
 import { retrieveDecryptionKey } from "../../actions/javascript/retrieveDecryptionKey";
@@ -75,6 +76,8 @@ const DecryptData = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -85,21 +88,19 @@ const DecryptData = (): JSX.Element => {
         {decryptedEmployees && <EmployeeTable data={decryptedEmployees} covercrypt />}
       </Split.Content>
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={keyPair && policy ? () => handleDecryptData() : undefined}
-            codeOutputList={
-              decryptedEmployees
-                ? {
-                    java: JSON.stringify(decryptedEmployees, undefined, 2),
-                    javascript: JSON.stringify(decryptedEmployees, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={keyPair && policy ? () => handleDecryptData() : undefined}
+          codeOutputList={
+            decryptedEmployees
+              ? {
+                  java: JSON.stringify(decryptedEmployees, undefined, 2),
+                  javascript: JSON.stringify(decryptedEmployees, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

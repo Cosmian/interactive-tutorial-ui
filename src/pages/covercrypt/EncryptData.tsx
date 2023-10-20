@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { encryptDataLocally } from "../../actions/javascript/encryptDataLocally";
 import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
@@ -67,6 +68,8 @@ const EncryptData = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -95,24 +98,22 @@ const EncryptData = (): JSX.Element => {
         {encryptedEmployees && <EncryptedTable data={encryptedEmployees} style={{ marginTop: 30 }} />}
       </Split.Content>
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={keyPair ? () => handleEncryptEmployees() : undefined}
-            codeOutputList={
-              encryptedEmployees
-                ? {
-                    java: JSON.stringify(encryptedEmployees, undefined, 2),
-                    javascript: JSON.stringify(encryptedEmployees, undefined, 2),
-                    python: "result",
-                    flutter: "result",
-                    cpp: "result",
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={keyPair ? () => handleEncryptEmployees() : undefined}
+          codeOutputList={
+            encryptedEmployees
+              ? {
+                  java: JSON.stringify(encryptedEmployees, undefined, 2),
+                  javascript: JSON.stringify(encryptedEmployees, undefined, 2),
+                  python: "result",
+                  flutter: "result",
+                  cpp: "result",
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

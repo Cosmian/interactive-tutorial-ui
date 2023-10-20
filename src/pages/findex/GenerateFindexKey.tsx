@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createFindexKey } from "../../actions/javascript/createFindexKey";
 import Code from "../../component/Code";
@@ -32,6 +33,8 @@ const GenerateFindexKey = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -41,23 +44,21 @@ const GenerateFindexKey = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={() => handleGenerateFindexKey()}
-            codeOutputList={
-              findexKey
-                ? {
-                    java: JSON.stringify(findexKey, undefined, 2),
-                    javascript: JSON.stringify(findexKey, undefined, 2),
-                    python: JSON.stringify(findexKey, undefined, 2),
-                    flutter: JSON.stringify(findexKey, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={() => handleGenerateFindexKey()}
+          codeOutputList={
+            findexKey
+              ? {
+                  java: JSON.stringify(findexKey, undefined, 2),
+                  javascript: JSON.stringify(findexKey, undefined, 2),
+                  python: JSON.stringify(findexKey, undefined, 2),
+                  flutter: JSON.stringify(findexKey, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

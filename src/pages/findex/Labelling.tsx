@@ -1,4 +1,5 @@
 import { Input, message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { defineLabel } from "../../actions/javascript/defineLabel";
@@ -34,6 +35,8 @@ const Labelling = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -46,23 +49,21 @@ const Labelling = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={() => handleLabelling()}
-            codeOutputList={
-              label
-                ? {
-                    java: JSON.stringify(label, undefined, 2),
-                    javascript: JSON.stringify(label, undefined, 2),
-                    python: JSON.stringify(label, undefined, 2),
-                    flutter: JSON.stringify(label, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={() => handleLabelling()}
+          codeOutputList={
+            label
+              ? {
+                  java: JSON.stringify(label, undefined, 2),
+                  javascript: JSON.stringify(label, undefined, 2),
+                  python: JSON.stringify(label, undefined, 2),
+                  flutter: JSON.stringify(label, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

@@ -1,4 +1,5 @@
 import { Input, message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchWords } from "../../actions/javascript/searchWords";
@@ -47,6 +48,8 @@ const SearchInDatabase = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -57,23 +60,21 @@ const SearchInDatabase = (): JSX.Element => {
       </Split.Content>
 
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={findexKey && label && callbacks ? () => handleSearchInDatabase() : undefined}
-            codeOutputList={
-              resultEmployees
-                ? {
-                    java: JSON.stringify(resultEmployees, undefined, 2),
-                    javascript: JSON.stringify(resultEmployees, undefined, 2),
-                    python: JSON.stringify(resultEmployees, undefined, 2),
-                    flutter: JSON.stringify(resultEmployees, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={findexKey && label && callbacks ? () => handleSearchInDatabase() : undefined}
+          codeOutputList={
+            resultEmployees
+              ? {
+                  java: JSON.stringify(resultEmployees, undefined, 2),
+                  javascript: JSON.stringify(resultEmployees, undefined, 2),
+                  python: JSON.stringify(resultEmployees, undefined, 2),
+                  flutter: JSON.stringify(resultEmployees, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

@@ -7,7 +7,7 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
-const CovercryptSetup = (): JSX.Element => {
+const SetupCovercrypt = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const CovercryptSetup = (): JSX.Element => {
   );
 };
 
-export default CovercryptSetup;
+export default SetupCovercrypt;
 
 const JS_CODE = `npm install covercrypt 
 # or yarn install covercrypt or pnpm install covercrypt`;

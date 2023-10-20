@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
 import Code from "../../component/Code";
@@ -37,6 +38,8 @@ const GenerateUDK = (): JSX.Element => {
     }
   };
 
+  if (loadingCode) return <Spinner fullcontent />;
+
   return (
     <Split>
       <Split.Content>
@@ -53,21 +56,19 @@ const GenerateUDK = (): JSX.Element => {
         </p>
       </Split.Content>
       <Split.Code>
-        {!loadingCode && (
-          <Code
-            activeLanguageList={activeLanguageList}
-            codeInputList={codeList}
-            runCode={keyPair && policy ? () => handleGenerateUDK() : undefined}
-            codeOutputList={
-              decryptionKeyUid
-                ? {
-                    java: JSON.stringify(decryptionKeyUid, undefined, 2),
-                    javascript: JSON.stringify(decryptionKeyUid, undefined, 2),
-                  }
-                : undefined
-            }
-          />
-        )}
+        <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={codeList}
+          runCode={keyPair && policy ? () => handleGenerateUDK() : undefined}
+          codeOutputList={
+            decryptionKeyUid
+              ? {
+                  java: JSON.stringify(decryptionKeyUid, undefined, 2),
+                  javascript: JSON.stringify(decryptionKeyUid, undefined, 2),
+                }
+              : undefined
+          }
+        />
       </Split.Code>
     </Split>
   );

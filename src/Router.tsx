@@ -2,12 +2,12 @@ import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromE
 import Layout from "./component/Layout";
 import OverView from "./pages/OverView";
 import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
-import CovercryptSetup from "./pages/covercrypt/CovercryptSetup";
 import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
 import DecryptData from "./pages/covercrypt/DecryptData";
 import EncryptData from "./pages/covercrypt/EncryptData";
 import GenerateUDK from "./pages/covercrypt/GenerateUDK";
+import SetupCovercrypt from "./pages/covercrypt/SetupCovercrypt";
 import AboutFindex from "./pages/findex/AboutFindex";
 import DefineCallbacks from "./pages/findex/DefineCallbacks";
 import GenerateFindexKey from "./pages/findex/GenerateFindexKey";
@@ -22,7 +22,7 @@ const componentsList: {
 } = {
   "client-side-encryption/overview": <OverView />,
   "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
-  "encrypt-with-access-policies/set-up-service": <CovercryptSetup />,
+  "encrypt-with-access-policies/set-up-service": <SetupCovercrypt />,
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
   "encrypt-with-access-policies/generate-master-key-pair": <CreateMasterKeyPair />,
   "encrypt-with-access-policies/encrypt-data": <EncryptData />,
