@@ -16,7 +16,13 @@ import Labelling from "./pages/findex/Labelling";
 import SearchInDatabase from "./pages/findex/SearchInDatabase";
 import SetupFindex from "./pages/findex/SetupFindex";
 import AboutPKI from "./pages/pki/AboutPKI";
+import DecryptDataPKI from "./pages/pki/DecryptDataPKI";
 import EncryptDataPki from "./pages/pki/EncryptDataPki";
+import GetCertificate from "./pages/pki/GetCertificate";
+import GrantAccess from "./pages/pki/GrantAccess";
+import ImportAndUnwrapUDK from "./pages/pki/ImportAndUnwrapUDK";
+import SaveSK2 from "./pages/pki/SaveSK2";
+import SendWrappedDecryptionKey from "./pages/pki/SendWrappedDecryptionKey";
 import SetupPki from "./pages/pki/SetupPki";
 import { navigationConfig } from "./utils/navigationConfig";
 
@@ -41,12 +47,12 @@ const componentsList: {
   "distibute-keys/about-pki": <AboutPKI />,
   "distibute-keys/set-up-service": <SetupPki />,
   "distibute-keys/encrypt-data": <EncryptDataPki />,
-  "distibute-keys/save-sk-publish-certificate": <>save-sk-publish-certificate</>,
-  "distibute-keys/grant-access": <>grant-access</>,
-  "distibute-keys/retrieve-wrapped-decryption-key": <>retrieve-wrapped-decryption-key</>,
-  "distibute-keys/send-key-in-kms": <>send-key-in-kms</>,
-  "distibute-keys/unwrap-decryption-key": <>unwrap-decryption-key</>,
-  "distibute-keys/decrypt-data": <>decrypt-data</>,
+  "distibute-keys/save-sk-publish-certificate": <SaveSK2 />,
+  "distibute-keys/grant-access": <GrantAccess />,
+  "distibute-keys/retrieve-wrapped-decryption-key": <GetCertificate />,
+  "distibute-keys/send-key-in-kms": <SendWrappedDecryptionKey />,
+  "distibute-keys/unwrap-decryption-key": <ImportAndUnwrapUDK />,
+  "distibute-keys/decrypt-data": <DecryptDataPKI />,
 };
 
 const router = createBrowserRouter(

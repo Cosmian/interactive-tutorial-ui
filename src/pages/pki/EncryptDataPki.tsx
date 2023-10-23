@@ -113,7 +113,7 @@ const EncryptDataPki = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={clientOneActions}
+          runCode={kmsToken ? clientOneActions : undefined}
           codeOutputList={
             encryptedEmployeesPki
               ? {
