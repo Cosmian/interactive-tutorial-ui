@@ -8,12 +8,14 @@ import { Language } from "../../utils/types";
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
 const SetupCovercrypt = (): JSX.Element => {
+  const serviceSetup = useBoundStore((state) => state.covercryptServiceSetup);
+  const setServiceSetup = useBoundStore((state) => state.setCovercryptServiceSetup);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
 
   const handleSetupService = (): void => {
-    console.log("# successfully installed");
+    setServiceSetup();
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };
@@ -77,13 +79,17 @@ const SetupCovercrypt = (): JSX.Element => {
             flutter: FLUTTER_CODE,
             cpp: CPP_CODE,
           }}
-          codeOutputList={{
-            java: "# successfully installed",
-            javascript: "# successfully installed",
-            python: "# successfully installed",
-            flutter: "# successfully installed",
-            cpp: "# successfully installed",
-          }}
+          codeOutputList={
+            serviceSetup
+              ? {
+                  java: "# successfully installed",
+                  javascript: "# successfully installed",
+                  python: "# successfully installed",
+                  flutter: "# successfully installed",
+                  cpp: "# successfully installed",
+                }
+              : undefined
+          }
           codeLanguage="bash"
           runCode={handleSetupService}
         />

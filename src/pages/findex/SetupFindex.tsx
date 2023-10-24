@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -9,14 +8,15 @@ import { Language } from "../../utils/types";
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter"];
 
 const SetupFindex = (): JSX.Element => {
-  const [setupOK, setSetupOK] = useState(false);
+  const serviceSetup = useBoundStore((state) => state.findexServiceSetup);
+  const setServiceSetup = useBoundStore((state) => state.setFindexServiceSetup);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
 
   const handleSetupService = (): void => {
     console.log("# successfully installed");
-    setSetupOK(true);
+    setServiceSetup();
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };
@@ -74,7 +74,7 @@ const SetupFindex = (): JSX.Element => {
             flutter: FLUTTER_CODE,
           }}
           codeOutputList={
-            setupOK
+            serviceSetup
               ? {
                   java: "# successfully installed",
                   javascript: "# successfully installed",

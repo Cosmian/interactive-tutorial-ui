@@ -7,7 +7,7 @@ import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
+import { FindexCallbacks, Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
@@ -54,10 +54,7 @@ const DefineCallbacks = (): JSX.Element => {
           codeOutputList={
             callbacks
               ? {
-                  java: JSON.stringify(callbacks, undefined, 2),
-                  javascript: JSON.stringify(callbacks, undefined, 2),
-                  python: JSON.stringify(callbacks, undefined, 2),
-                  flutter: JSON.stringify(callbacks, undefined, 2),
+                  javascript: printCallbacks(callbacks),
                 }
               : undefined
           }
@@ -68,3 +65,13 @@ const DefineCallbacks = (): JSX.Element => {
 };
 
 export default DefineCallbacks;
+
+const printCallbacks = (callbacks: FindexCallbacks): string => {
+  return `${callbacks.fetchChains.toString()}
+
+${callbacks.fetchEntries.toString()}
+
+${callbacks.insertChains.toString()}
+
+${callbacks.upsertEntries.toString()}  `;
+};
