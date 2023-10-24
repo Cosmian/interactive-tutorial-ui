@@ -1,65 +1,11 @@
 import { useEffect } from "react";
 import PkiDrawIo from "../../assets/pki.drawio.svg";
 
-import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
-import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
-import { createPolicy } from "../../actions/javascript/createPolicy";
-import { encryptDataInKms } from "../../actions/javascript/encryptDataInKms";
-import { wrapKeyInCertificate } from "../../actions/javascript/wrapKeyInCertificate";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { ClientOne, ClientTwo } from "../../component/Tags";
-import { useBoundStore } from "../../store/store";
-import { ACCESS_POLICY, POLICY_AXIS } from "../../utils/covercryptConfig";
 
 const AboutPKI = (): JSX.Element => {
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
-  const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
-  const setClientOneUdkUid = useBoundStore((state) => state.setClientOneUdkUid);
-  const setEncryptedEmployeesPki = useBoundStore((state) => state.setEncryptedEmployeesPki);
-  const setWrappedPk2 = useBoundStore((state) => state.setWrappedPk2);
-
   useEffect(() => {}, []);
-
-  const clientOneActions = async (): Promise<void> => {
-    if (kmsToken) {
-      // generate policy + key pair
-      const policy = await createPolicy(POLICY_AXIS);
-      const keyPair = await createCovercryptKeyPair(kmsToken, policy);
-      // generate decryption key
-      const decryptionKey = await createDecryptionKey(kmsToken, keyPair.masterSecretKeyUId, ACCESS_POLICY);
-      setClientOneUdkUid(decryptionKey);
-      // encrypt table
-      const encryptedEmployees = await Promise.all(
-        clearEmployees.map(async (employee) => {
-          const encryptedMarketing = await encryptDataInKms(
-            JSON.stringify({
-              first: employee.first,
-              last: employee.last,
-              country: employee.country,
-            }),
-            kmsToken,
-            `department::Marketing && country::${employee.country}`,
-            keyPair.masterPublicKeyUId
-          );
-          const encryptedHr = await encryptDataInKms(
-            JSON.stringify({
-              email: employee.email,
-              salary: employee.salary,
-            }),
-            kmsToken,
-            `department::HR && country::${employee.country}`,
-            keyPair.masterPublicKeyUId
-          );
-          return { key: employee.uuid, marketing: encryptedMarketing, hr: encryptedHr };
-        })
-      );
-      const { certBytes, privateKeyBytes } = wrapKeyInCertificate();
-
-      setEncryptedEmployeesPki(encryptedEmployees);
-      setWrappedPk2({ certBytes, privateKeyBytes });
-    }
-  };
 
   return (
     <SingleContent>

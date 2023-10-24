@@ -28,7 +28,7 @@ After the process is complete, open your browser and navigate to [http://localho
 Start a Cosmian KMS server on http://localhost:9998:
 
 ```
-docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.7 --jwt-issuer-uri=https://<your-tenant>.<region>.auth0.com/ --jwks-uri=https://<your-tenant>.<region>.auth0.com/.well-known/jwks.json
+docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.8.0 --jwt-issuer-uri=https://<your-tenant>.<region>.auth0.com/ --jwks-uri=https://<your-tenant>.<region>.auth0.com/.well-known/jwks.json
 ```
 
 Then start the UI with:
