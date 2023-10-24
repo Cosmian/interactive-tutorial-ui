@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { EmployeeTable } from "../../component/Table";
+import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
+import { IndexedEntries, Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
@@ -20,6 +20,8 @@ const IndexDatabase = (): JSX.Element => {
   const findexKey = useBoundStore((state) => state.findexKey);
   const label = useBoundStore((state) => state.label);
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
+  const indexedEntries = useBoundStore((state) => state.indexedEntries);
+  const setIndexedEntries = useBoundStore((state) => state.setIndexedEntries);
   const callbacks = useBoundStore((state) => state.callbacks);
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
@@ -38,6 +40,7 @@ const IndexDatabase = (): JSX.Element => {
             (employee.salary as string).toString(),
           ],
         }));
+        setIndexedEntries(indexedEntries as IndexedEntries);
         await upsertData(findexKey, label, indexedEntries, callbacks.fetchEntries, callbacks.upsertEntries, callbacks.insertChains);
         message.success("Employees table has been indexed.");
         updateNavigationSteps(steps, setSteps);
@@ -61,6 +64,7 @@ const IndexDatabase = (): JSX.Element => {
         </p>
         <p>In this example we will index employees’ database:</p>
         <EmployeeTable data={clearEmployees} />
+        {indexedEntries && <IndexedTable data={indexedEntries} style={{ marginTop: 40 }} />}
       </Split.Content>
 
       <Split.Code>
@@ -69,10 +73,10 @@ const IndexDatabase = (): JSX.Element => {
           codeInputList={codeList}
           runCode={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
           codeOutputList={{
-            java: RESPONSE,
-            javascript: RESPONSE,
-            python: RESPONSE,
-            flutter: RESPONSE,
+            java: JSON.stringify(indexedEntries, undefined, 2),
+            javascript: JSON.stringify(indexedEntries, undefined, 2),
+            python: JSON.stringify(indexedEntries, undefined, 2),
+            flutter: JSON.stringify(indexedEntries, undefined, 2),
           }}
         />
       </Split.Code>
@@ -81,5 +85,3 @@ const IndexDatabase = (): JSX.Element => {
 };
 
 export default IndexDatabase;
-
-const RESPONSE = "Employees table has been indexed";

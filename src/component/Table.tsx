@@ -1,7 +1,9 @@
 import { LockFilled } from "@ant-design/icons";
 import { Table, Tag } from "antd";
+import { ColumnsType } from "antd/es/table";
+import { IndexedEntry } from "cloudproof_js";
 import { Employee } from "../utils/covercryptConfig";
-import { EncryptedResult } from "../utils/types";
+import { EncryptedResult, IndexedEntries } from "../utils/types";
 
 const { Column, ColumnGroup } = Table;
 
@@ -13,6 +15,11 @@ type EmployeeTablePros = {
 };
 type EncryptedTablePros = {
   data: EncryptedResult[];
+  clasName?: string;
+  style?: React.CSSProperties;
+};
+type IndexedTableProps = {
+  data: IndexedEntries;
   clasName?: string;
   style?: React.CSSProperties;
 };
@@ -122,4 +129,27 @@ export const EncryptedTable: React.FC<EncryptedTablePros> = ({ data, ...rest }) 
       />
     </Table>
   );
+};
+
+export const IndexedTable: React.FC<IndexedTableProps> = ({ data, ...rest }) => {
+  const columns: ColumnsType<IndexedEntry> = [
+    {
+      title: "Indexed value",
+      dataIndex: "indexedValue",
+      key: "indexedValue",
+      render: (_, { indexedValue }) => <>{indexedValue.bytes}</>,
+    },
+    {
+      title: "Keywords",
+      key: "keywords",
+      render: (indexedEntry: IndexedEntry) => (
+        <>
+          {(indexedEntry.keywords as string[]).map((kw, index) => {
+            return <Tag key={index}>{kw}</Tag>;
+          })}
+        </>
+      ),
+    },
+  ];
+  return <Table dataSource={data} pagination={false} {...rest} scroll={{ x: 550 }} columns={columns} />;
 };
