@@ -1,4 +1,4 @@
-import { FetchChains, FetchEntries, IndexedEntry, InsertChains, UpsertEntries } from "cloudproof_js";
+import { FetchChains, FetchEntries, InsertChains, UpsertEntries } from "cloudproof_js";
 
 export type Language = "cpp" | "flutter" | "java" | "javascript" | "python";
 
@@ -27,5 +27,3 @@ export type FindexCallbacks = {
   upsertEntries: UpsertEntries;
   insertChains: InsertChains;
 };
-
-export type IndexedEntries = IndexedEntry[];

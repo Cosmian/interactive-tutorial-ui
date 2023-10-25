@@ -1,8 +1,8 @@
-import { FindexKey, KmsObject, Label, Policy } from "cloudproof_js";
+import { FindexKey, IndexedEntry, KmsObject, Label, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
 import { Employee, employees } from "../utils/covercryptConfig";
 import { MenuItem, navigationConfig } from "../utils/navigationConfig";
-import { EncryptedResult, FindexCallbacks, IndexedEntries, KeysUid, Language } from "../utils/types";
+import { EncryptedResult, FindexCallbacks, KeysUid, Language } from "../utils/types";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -73,13 +73,13 @@ interface FindexSlice {
   findexKey: FindexKey | undefined;
   label: Label | undefined;
   callbacks: FindexCallbacks | undefined;
-  indexedEntries: IndexedEntries | undefined;
+  indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: Employee[] | undefined;
   setFindexServiceSetup: () => void;
   setFindexKey: (findexKey: FindexKey) => void;
   setLabel: (label: Label) => void;
   setCallbacks: (callbacks: FindexCallbacks) => void;
-  setIndexedEntries: (indexedEntries: IndexedEntries) => void;
+  setIndexedEntries: (indexedEntries: IndexedEntry[]) => void;
   setResultEmployees: (resultEmployees: Employee[]) => void;
 }
 const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) => ({
@@ -93,7 +93,7 @@ const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) 
   setFindexKey: (findexKey: FindexKey) => set(() => ({ findexKey })),
   setLabel: (label: Label) => set(() => ({ label })),
   setCallbacks: (callbacks: FindexCallbacks) => set(() => ({ callbacks })),
-  setIndexedEntries: (indexedEntries: IndexedEntries) => set(() => ({ indexedEntries })),
+  setIndexedEntries: (indexedEntries: IndexedEntry[]) => set(() => ({ indexedEntries })),
   setResultEmployees: (resultEmployees: Employee[]) => set(() => ({ resultEmployees })),
 });
 

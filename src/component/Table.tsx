@@ -3,7 +3,7 @@ import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { IndexedEntry } from "cloudproof_js";
 import { Employee } from "../utils/covercryptConfig";
-import { EncryptedResult, IndexedEntries } from "../utils/types";
+import { EncryptedResult } from "../utils/types";
 
 const { Column, ColumnGroup } = Table;
 
@@ -19,7 +19,7 @@ type EncryptedTablePros = {
   style?: React.CSSProperties;
 };
 type IndexedTableProps = {
-  data: IndexedEntries;
+  data: IndexedEntry[];
   clasName?: string;
   style?: React.CSSProperties;
 };

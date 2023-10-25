@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { Location } from "cloudproof_js";
+import { IndexedEntry, Location } from "cloudproof_js";
 import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
@@ -9,7 +9,7 @@ import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { updateNavigationSteps } from "../../utils/navigationActions";
-import { IndexedEntries, Language } from "../../utils/types";
+import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
@@ -40,7 +40,7 @@ const IndexDatabase = (): JSX.Element => {
             (employee.salary as string).toString(),
           ],
         }));
-        setIndexedEntries(indexedEntries as IndexedEntries);
+        setIndexedEntries(indexedEntries as IndexedEntry[]);
         await upsertData(findexKey, label, indexedEntries, callbacks.fetchEntries, callbacks.upsertEntries, callbacks.insertChains);
         message.success("Employees table has been indexed.");
         updateNavigationSteps(steps, setSteps);
