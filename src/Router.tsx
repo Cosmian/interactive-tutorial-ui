@@ -29,7 +29,7 @@ import { navigationConfig } from "./utils/navigationConfig";
 const componentsList: {
   [key: string]: JSX.Element;
 } = {
-  "client-side-encryption/overview": <OverView />,
+  "client-side-encryption": <OverView />,
   "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
   "encrypt-with-access-policies/set-up-service": <SetupCovercrypt />,
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
@@ -60,20 +60,22 @@ const router = createBrowserRouter(
     <>
       {/* Pages with layout */}
       <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to={"client-side-encryption/overview"} />} />
+        <Route index element={<Navigate to={"client-side-encryption"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
       {navigationConfig.map((item) => {
         return (
           <Route path={item.key} element={<Layout />} key={item.key}>
-            {item.children.map((subItem) => {
-              const component = componentsList[item.key + "/" + subItem.key] ? (
-                componentsList[item.key + "/" + subItem.key]
-              ) : (
-                <>missing component</>
-              );
-              return <Route path={subItem.key} element={component} key={subItem.key} />;
-            })}
+            {item.children == null && <Route path={"/" + item.key} element={componentsList[item.key]} key={item.key} />}
+            {item.children != null &&
+              item.children.map((subItem) => {
+                const component = componentsList[item.key + "/" + subItem.key] ? (
+                  componentsList[item.key + "/" + subItem.key]
+                ) : (
+                  <>missing component</>
+                );
+                return <Route path={subItem.key} element={component} key={subItem.key} />;
+              })}
           </Route>
         );
       })}

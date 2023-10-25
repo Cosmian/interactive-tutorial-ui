@@ -6,7 +6,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -20,12 +20,14 @@ const GenerateFindexKey = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleGenerateFindexKey = async (): Promise<void> => {
     try {
       const key = createFindexKey();
       setFindexKey(key);
       updateNavigationSteps(steps, setSteps);
+      updatePreviousNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);
@@ -38,7 +40,7 @@ const GenerateFindexKey = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Generating Findex key</h1>
+        <h1>{currentItem?.label}</h1>
         <p>Findex uses a single symmetric 128 bit key to upsert and search. Encryption is performed using AES 128 GCM.</p>
         <p>To generate 16 random bytes locally, use the randomBytes generator from 'crypto'.</p>
       </Split.Content>
@@ -47,7 +49,7 @@ const GenerateFindexKey = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={() => handleGenerateFindexKey()}
+          runCode={handleGenerateFindexKey}
           codeOutputList={
             findexKey
               ? {

@@ -10,7 +10,7 @@ import Split from "../../component/Split";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -26,9 +26,11 @@ const GetCertificate = (): JSX.Element => {
   const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
   const setWrappedUdk = useBoundStore((state) => state.setWrappedUdk);
   const wrappedUdk = useBoundStore((state) => state.wrappedUdk);
+
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const getCertificateAndRetriveKey = async (): Promise<void> => {
     try {
@@ -37,7 +39,6 @@ const GetCertificate = (): JSX.Element => {
         if (kmsObject.type === "Certificate") {
           const uid = await uploadPemInPKI(kmsToken, uuidv4(), kmsObject.value.certificateValue);
           setCertificateUid(uid);
-
           const wrappedKey = await fetchWrappedKey(kmsToken, clientOneUdkUid, uid);
           setWrappedUdk(wrappedKey);
         }
@@ -55,7 +56,7 @@ const GetCertificate = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Getting certificate and retrieve wrapped Decryption Key</h1>
+        <h1>{currentItem?.label}</h1>
         <ul>
           <li>
             <ClientOne /> gets the certificate from the <b>Cosmian KMS</b>

@@ -5,19 +5,20 @@ import { getKmsVersion } from "../../actions/javascript/testKmsVersion";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = [];
 
 const SetupPki = (): JSX.Element => {
+  // states
+  const [version, setVersion] = useState<string | undefined>();
   const setServiceSetup = useBoundStore((state) => state.setPkiServiceSetup);
   const kmsToken = useBoundStore((state) => state.kmsToken);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
-  // states
-  const [version, setVersion] = useState<string | undefined>();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = async (): Promise<void> => {
     try {
@@ -38,7 +39,7 @@ const SetupPki = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Set up your service</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           The Cosmian Key Management System (KMS) is a high-performance, open-source, server application written in Rust that provides a{" "}
           <Link to={"https://docs.cosmian.com/cosmian_key_management_system/#kmip-21-api"} target="_blank" rel="noopener noreferrer">

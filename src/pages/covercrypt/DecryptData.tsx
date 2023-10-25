@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
+import { Button, Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { decryptDataLocally } from "../../actions/javascript/decryptDataLocally";
 import { retrieveDecryptionKey } from "../../actions/javascript/retrieveDecryptionKey";
@@ -9,7 +9,7 @@ import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -28,6 +28,7 @@ const DecryptData = (): JSX.Element => {
   const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
   const setDecryptedEmployees = useBoundStore((state) => state.setDecryptedEmployees);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleDecryptData = async (): Promise<void> => {
     try {
@@ -81,17 +82,24 @@ const DecryptData = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Decrypting Data</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           The User Decryption Key can only decrypt the <code>(country::Germany) && (department::HR)</code> axis.
         </p>
+        <Button
+          disabled={keyPair == null || policy == null}
+          onClick={keyPair && policy ? handleDecryptData : undefined}
+          style={{ width: "100%", margin: "20px 0" }}
+        >
+          Decrypt database
+        </Button>
         {decryptedEmployees && <EmployeeTable data={decryptedEmployees} covercrypt />}
       </Split.Content>
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={keyPair && policy ? () => handleDecryptData() : undefined}
+          runCode={keyPair && policy ? handleDecryptData : undefined}
           codeOutputList={
             decryptedEmployees
               ? {

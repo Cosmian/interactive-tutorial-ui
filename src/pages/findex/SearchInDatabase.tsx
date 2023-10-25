@@ -1,5 +1,5 @@
 import { Input, message } from "antd";
-import { Spinner } from "cosmian_ui";
+import { Button, Spinner } from "cosmian_ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchWords } from "../../actions/javascript/searchWords";
@@ -9,7 +9,7 @@ import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -19,6 +19,7 @@ const SearchInDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeList } = useFetchCodeList("searchWords", activeLanguageList);
   // states
+  const indexedEntries = useBoundStore((state) => state.indexedEntries);
   const resultEmployees = useBoundStore((state) => state.resultEmployees);
   const setResultEmployees = useBoundStore((state) => state.setResultEmployees);
   const findexKey = useBoundStore((state) => state.findexKey);
@@ -28,6 +29,7 @@ const SearchInDatabase = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleSearchInDatabase = async (): Promise<void> => {
     try {
@@ -53,9 +55,12 @@ const SearchInDatabase = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Searching words in database</h1>
+        <h1>{currentItem?.label}</h1>
         <p>Querying the index is performed using the search function.</p>
         <Input defaultValue={keyWords} onChange={(e) => setKeyWords(e.target.value)} />
+        <Button onClick={handleSearchInDatabase} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%" }}>
+          Search in database
+        </Button>
         {resultEmployees && <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />}
       </Split.Content>
 
@@ -63,7 +68,7 @@ const SearchInDatabase = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={findexKey && label && callbacks ? () => handleSearchInDatabase() : undefined}
+          runCode={indexedEntries ? () => handleSearchInDatabase() : undefined}
           codeOutputList={
             resultEmployees
               ? {

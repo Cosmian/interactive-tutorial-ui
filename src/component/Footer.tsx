@@ -17,9 +17,9 @@ export const FooterNavigation = (): JSX.Element => {
   paths.shift();
 
   useEffect(() => {
-    const previousItemFound = findPreviousNavigationItem(paths, steps);
+    const previousItemFound = findPreviousNavigationItem(steps);
     setPreviousItem(previousItemFound);
-    const nextItemFound = findNextNavigationItem(paths, steps);
+    const nextItemFound = findNextNavigationItem(steps);
     setNextItem(nextItemFound);
   }, [params]);
 

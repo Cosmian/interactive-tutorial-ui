@@ -8,7 +8,7 @@ import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -23,16 +23,17 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
   const wrappedUdk2 = useBoundStore((state) => state.wrappedUdk2);
   const unwrappedUdkUid = useBoundStore((state) => state.unwrappedUdkUid);
   const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
+
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const importAndUnwrapUDK = async (): Promise<void> => {
     try {
       if (kmsToken && wrappedUdk2 && wrappedPkCertUid) {
         const uid = await uploadKeyInPKI(kmsTwoToken, uuidv4(), wrappedUdk2, true, wrappedPkCertUid);
         setUnwrappedUdkUid(uid);
-
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -46,7 +47,7 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Importing and unwrapping Decryption Key</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           <ClientTwo /> imports and unwraps the decryption key <code>Wrap(sk_a)</code> in his KMS (<b>KMS 2</b>).
         </p>

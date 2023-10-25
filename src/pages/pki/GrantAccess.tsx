@@ -7,7 +7,7 @@ import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -23,13 +23,13 @@ const GrantAccess = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const grantAccess = async (): Promise<void> => {
     try {
       if (kmsTwoToken && wrappedPkCertUid) {
         grantGetKeyAccess(kmsTwoToken, wrappedPkCertUid, "*");
-        setAccessGranted();
-
+        setAccessGranted(true);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -43,7 +43,7 @@ const GrantAccess = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Granting access</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           <ClientTwo /> grants wildcard access for GET operation to his imported wrapped public key in <b>Cosmian KMS</b>
         </p>

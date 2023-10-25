@@ -7,7 +7,7 @@ import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 const activeLanguageList: Language[] = ["java", "javascript"];
 
@@ -23,6 +23,7 @@ const GenerateUDK = (): JSX.Element => {
   const decryptionKeyUid = useBoundStore((state) => state.decryptionKeyUid);
   const setDecryptionKeyUid = useBoundStore((state) => state.setDecryptionKeyUid);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleGenerateUDK = async (): Promise<void> => {
     try {
@@ -43,7 +44,7 @@ const GenerateUDK = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Generating User Decryption Key</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           A User Decryption Key is issued from the Master Private Key and for a given access Policy that will determine its rights to
           decrypt some of the ciphertexts. User decryption keys have a unique fingerprint: two keys with the same policy will have a

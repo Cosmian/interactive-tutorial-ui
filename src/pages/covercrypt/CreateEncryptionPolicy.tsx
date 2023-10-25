@@ -8,7 +8,7 @@ import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { POLICY_AXIS } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -23,11 +23,13 @@ const CreateEncryptionPolicy = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreatePolicy = async (): Promise<void> => {
     try {
       setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
+      updatePreviousNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);
@@ -40,7 +42,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Creating an encryption Policy</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           A <em>policy</em> defines the space of rights that are used for encryption. It is composed by a set of axes that contain
           attributes.
@@ -69,7 +71,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={() => handleCreatePolicy()}
+          runCode={handleCreatePolicy}
           codeOutputList={
             policy
               ? {

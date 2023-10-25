@@ -6,7 +6,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { FindexCallbacks, Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -20,6 +20,7 @@ const DefineCallbacks = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleDefineCallbacks = async (): Promise<void> => {
     try {
@@ -38,7 +39,7 @@ const DefineCallbacks = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Defining callbacks</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           The Findex library abstracts the calls to the tables hosting the indexes. The developer is expected to provide the database’s
           backend, typically a fast key/value store, and implement the necessary code in the callbacks used by Findex. Findex uses two
@@ -50,11 +51,12 @@ const DefineCallbacks = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={() => handleDefineCallbacks()}
+          runCode={handleDefineCallbacks}
           codeOutputList={
             callbacks
               ? {
                   javascript: printCallbacks(callbacks),
+                  java: "Callbacks imported",
                 }
               : undefined
           }

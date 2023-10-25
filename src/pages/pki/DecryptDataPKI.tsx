@@ -1,4 +1,4 @@
-import { Spinner } from "cosmian_ui";
+import { Button, Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { decryptDataInKms } from "../../actions/javascript/decryptDataInKms";
 import Code from "../../component/Code";
@@ -8,7 +8,7 @@ import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -25,6 +25,7 @@ const DecryptDataPKI = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const decryptData = async (): Promise<void> => {
     if (encryptedEmployeesPki && unwrappedUdkUid) {
@@ -73,11 +74,18 @@ const DecryptDataPKI = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Decrypting Employee table</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           <ClientTwo /> can decrypt the Employee table with his user decryption key, previously encrypted by <ClientOne /> using Covercrypt
           elements.
         </p>
+        <Button
+          disabled={unwrappedUdkUid == null}
+          onClick={unwrappedUdkUid ? decryptData : undefined}
+          style={{ width: "100%", margin: "20px 0" }}
+        >
+          Decrypt database
+        </Button>
         {clearEmployeesPki && <EmployeeTable data={clearEmployeesPki} />}
       </Split.Content>
       <Split.Code>

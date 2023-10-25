@@ -28,7 +28,7 @@ const Layout = (): JSX.Element => {
             <CosmianLogo />
           </Link>
         }
-        title="Client-side Encryption – Intervactive demonstration"
+        title="Client-side Encryption – Interactive tutorial"
         userMenu={
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
@@ -65,7 +65,7 @@ const ExternalLink = ({ children, link }: { children: React.ReactNode; link: str
 
 const findNavigationSubItem = (paths: string[]) => {
   const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null) {
+  if (parentItem != null && parentItem.children != null) {
     const childrenItem = parentItem.children.find((item) => item.key === paths[1]) as SubMenuItem;
     return childrenItem;
   }

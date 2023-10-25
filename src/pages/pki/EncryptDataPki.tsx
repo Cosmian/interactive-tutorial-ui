@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
+import { Button, Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
@@ -13,7 +13,7 @@ import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
 import { ACCESS_POLICY, POLICY_AXIS } from "../../utils/covercryptConfig";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -31,6 +31,7 @@ const EncryptDataPki = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const clientOneActions = async (): Promise<void> => {
     try {
@@ -72,6 +73,7 @@ const EncryptDataPki = (): JSX.Element => {
         setWrappedPk2({ certBytes, privateKeyBytes });
 
         updateNavigationSteps(steps, setSteps);
+        updatePreviousNavigationSteps(steps, setSteps);
         navigate("#");
       }
     } catch (error) {
@@ -84,7 +86,7 @@ const EncryptDataPki = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Client 1 encrypting data</h1>
+        <h1>{currentItem?.label}</h1>
 
         <ul>
           <li>
@@ -100,12 +102,15 @@ const EncryptDataPki = (): JSX.Element => {
             <ClientTwo /> has a key pair <code>sk_2/pk_2</code> and its public key is signed as a <b>certificate</b>
           </li>
         </ul>
-        <h3>Clear employee database</h3>
+        <h3>Clear employee database:</h3>
         <EmployeeTable data={clearEmployees} covercrypt />
+        <Button disabled={kmsToken == null} onClick={kmsToken ? clientOneActions : undefined} style={{ width: "100%", margin: "20px 0" }}>
+          Encrypt database
+        </Button>
         {encryptedEmployeesPki && (
           <>
-            <h3 style={{ marginTop: 30 }}>Encrypted employee database</h3>
-            <EncryptedTable data={encryptedEmployeesPki} style={{ marginTop: 30 }} />
+            <h3 style={{ marginTop: 10 }}>Encrypted employee database:</h3>
+            <EncryptedTable data={encryptedEmployeesPki} style={{ marginTop: 10 }} />
           </>
         )}
       </Split.Content>

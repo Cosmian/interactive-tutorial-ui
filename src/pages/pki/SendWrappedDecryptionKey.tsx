@@ -10,7 +10,7 @@ import Split from "../../component/Split";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -25,9 +25,11 @@ const SendWrappedDecryptionKey = (): JSX.Element => {
   const wrappedUdk = useBoundStore((state) => state.wrappedUdk);
   const wrappedUdk2 = useBoundStore((state) => state.wrappedUdk2);
   const setWrappedUdk2 = useBoundStore((state) => state.setWrappedUdk2);
+
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const sendWrappedDecryptionKey = async (): Promise<void> => {
     try {
@@ -52,7 +54,7 @@ const SendWrappedDecryptionKey = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Sending wrapped Decryption Key</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           <ClientOne /> sends wrapped Decryption Key in <b>Cosmian KMS</b>, <ClientOne /> grants access to <ClientTwo /> for this key.
         </p>

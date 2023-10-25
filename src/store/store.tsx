@@ -39,32 +39,48 @@ const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => 
 interface CovercryptSlice {
   clearEmployees: Employee[];
   covercryptServiceSetup: boolean;
-  encryptedEmployees: EncryptedResult[] | undefined;
-  decryptedEmployees: Employee[] | undefined;
   policy: Policy | undefined;
   keyPair: KeysUid | undefined;
+  encryptedEmployees: EncryptedResult[] | undefined;
   decryptionKeyUid: string | undefined;
+  decryptedEmployees: Employee[] | undefined;
   setCovercryptServiceSetup: () => void;
-  setEncryptedEmployees: (encryptedEmployees: EncryptedResult[]) => void;
-  setDecryptedEmployees: (decryptedEmployees: Employee[]) => void;
   setPolicy: (policy: Policy) => void;
-  setKeyPair: (keyPair: KeysUid) => void;
-  setDecryptionKeyUid: (decryptionKeyUid: string) => void;
+  setKeyPair: (keyPair?: KeysUid) => void;
+  setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) => void;
+  setDecryptionKeyUid: (decryptionKeyUid?: string) => void;
+  setDecryptedEmployees: (decryptedEmployees?: Employee[]) => void;
 }
 const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSlice> = (set) => ({
   clearEmployees: employees,
   covercryptServiceSetup: false,
-  encryptedEmployees: undefined,
-  decryptedEmployees: undefined,
   policy: undefined,
   keyPair: undefined,
+  encryptedEmployees: undefined,
   decryptionKeyUid: undefined,
+  decryptedEmployees: undefined,
   setCovercryptServiceSetup: () => set(() => ({ covercryptServiceSetup: true })),
-  setDecryptionKeyUid: (decryptionKeyUid: string) => set(() => ({ decryptionKeyUid })),
-  setEncryptedEmployees: (encryptedEmployees: EncryptedResult[]) => set(() => ({ encryptedEmployees })),
-  setPolicy: (policy: Policy) => set(() => ({ policy })),
-  setKeyPair: (keyPair: KeysUid) => set(() => ({ keyPair })),
-  setDecryptedEmployees: (decryptedEmployees: Employee[]) => set(() => ({ decryptedEmployees })),
+  setPolicy: (policy: Policy) =>
+    set((state) => {
+      state.setKeyPair(); // reset next steps
+      return { policy };
+    }),
+  setKeyPair: (keyPair?: KeysUid) =>
+    set((state) => {
+      state.setEncryptedEmployees(); // reset next steps
+      return { keyPair };
+    }),
+  setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) =>
+    set((state) => {
+      state.setDecryptionKeyUid(); // reset next steps
+      return { encryptedEmployees };
+    }),
+  setDecryptionKeyUid: (decryptionKeyUid?: string) =>
+    set((state) => {
+      state.setDecryptedEmployees(); // reset next steps
+      return { decryptionKeyUid };
+    }),
+  setDecryptedEmployees: (decryptedEmployees?: Employee[]) => set(() => ({ decryptedEmployees })),
 });
 
 // FINDEX
@@ -77,10 +93,10 @@ interface FindexSlice {
   resultEmployees: Employee[] | undefined;
   setFindexServiceSetup: () => void;
   setFindexKey: (findexKey: FindexKey) => void;
-  setLabel: (label: Label) => void;
-  setCallbacks: (callbacks: FindexCallbacks) => void;
-  setIndexedEntries: (indexedEntries: IndexedEntry[]) => void;
-  setResultEmployees: (resultEmployees: Employee[]) => void;
+  setLabel: (label?: Label) => void;
+  setCallbacks: (callbacks?: FindexCallbacks) => void;
+  setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
+  setResultEmployees: (resultEmployees?: Employee[]) => void;
 }
 const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) => ({
   findexServiceSetup: false,
@@ -90,71 +106,125 @@ const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) 
   indexedEntries: undefined,
   resultEmployees: undefined,
   setFindexServiceSetup: () => set(() => ({ findexServiceSetup: true })),
-  setFindexKey: (findexKey: FindexKey) => set(() => ({ findexKey })),
-  setLabel: (label: Label) => set(() => ({ label })),
-  setCallbacks: (callbacks: FindexCallbacks) => set(() => ({ callbacks })),
-  setIndexedEntries: (indexedEntries: IndexedEntry[]) => set(() => ({ indexedEntries })),
-  setResultEmployees: (resultEmployees: Employee[]) => set(() => ({ resultEmployees })),
+  setFindexKey: (findexKey: FindexKey) =>
+    set((state) => {
+      state.setLabel(); // reset next steps
+      return { findexKey };
+    }),
+  setLabel: (label?: Label) =>
+    set((state) => {
+      state.setCallbacks();
+      return { label };
+    }),
+  setCallbacks: (callbacks?: FindexCallbacks) =>
+    set((state) => {
+      state.setIndexedEntries(); // reset next steps
+      return { callbacks };
+    }),
+  setIndexedEntries: (indexedEntries?: IndexedEntry[]) =>
+    set((state) => {
+      state.setResultEmployees(); // reset next steps
+      return { indexedEntries };
+    }),
+  setResultEmployees: (resultEmployees?: Employee[]) => set(() => ({ resultEmployees })),
 });
 
 // PKI
 interface PkiSlice {
   pkiServiceSetup: boolean;
-  encryptedEmployeesPki: EncryptedResult[] | undefined;
-  clearEmployeesPki: Employee[] | undefined;
   clientOneUdkUid: string | undefined;
+  encryptedEmployeesPki: EncryptedResult[] | undefined;
   wrappedPk2: WrappedKey | undefined;
   savedSk2: string | undefined;
   wrappedPkCertUid: string | undefined;
   accessGranted: boolean;
-  certificate: KmsObject | undefined;
   certificateUid: string | undefined;
   wrappedUdk: KmsObject | undefined;
   wrappedUdkUid: string | undefined;
   wrappedUdk2: KmsObject | undefined;
   unwrappedUdkUid: string | undefined;
+  clearEmployeesPki: Employee[] | undefined;
   setPkiServiceSetup: () => void;
-  setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
-  setClearEmployeesPki: (clearEmployeesPki: Employee[]) => void;
   setClientOneUdkUid: (uid: string) => void;
-  setWrappedPk2: (wrappedKey: WrappedKey) => void;
-  setSavedSk2: (savedSk2: string) => void;
-  setPublishedWrappedPkUid: (wrappedPkCertUid: string) => void;
-  setAccessGranted: () => void;
-  setCertificateUid: (certificateUid: string) => void;
-  setWrappedUdk: (wrappedUdk: KmsObject) => void;
-  setWrappedUdkUid: (wrappedUdkUid: string) => void;
-  setWrappedUdk2: (wrappedUdk2: KmsObject) => void;
-  setUnwrappedUdkUid: (unwrappedUdkUid: string) => void;
+  setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
+  setWrappedPk2: (wrappedPk2?: WrappedKey) => void;
+  setSavedSk2: (savedSk2?: string) => void;
+  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) => void;
+  setAccessGranted: (granted: boolean) => void;
+  setCertificateUid: (certificateUid?: string) => void;
+  setWrappedUdk: (wrappedUdk?: KmsObject) => void;
+  setWrappedUdkUid: (wrappedUdkUid?: string) => void;
+  setWrappedUdk2: (wrappedUdk2?: KmsObject) => void;
+  setUnwrappedUdkUid: (unwrappedUdkUid?: string) => void;
+  setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => void;
 }
 const createPkiSlice: StateCreator<PkiSlice, [], [], PkiSlice> = (set) => ({
   pkiServiceSetup: false,
-  encryptedEmployeesPki: undefined,
-  clearEmployeesPki: undefined,
   clientOneUdkUid: undefined,
+  encryptedEmployeesPki: undefined,
   wrappedPk2: undefined,
   savedSk2: undefined,
   wrappedPkCertUid: undefined,
-  certificate: undefined,
   accessGranted: false,
   certificateUid: undefined,
   wrappedUdk: undefined,
   wrappedUdkUid: undefined,
   wrappedUdk2: undefined,
   unwrappedUdkUid: undefined,
+  clearEmployeesPki: undefined,
   setPkiServiceSetup: () => set(() => ({ pkiServiceSetup: true })),
-  setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) => set(() => ({ encryptedEmployeesPki })),
-  setClearEmployeesPki: (clearEmployeesPki: Employee[]) => set(() => ({ clearEmployeesPki })),
   setClientOneUdkUid: (clientOneUdkUid: string) => set(() => ({ clientOneUdkUid })),
-  setWrappedPk2: (wrappedPk2: WrappedKey) => set(() => ({ wrappedPk2 })),
-  setSavedSk2: (savedSk2: string) => set(() => ({ savedSk2 })),
-  setPublishedWrappedPkUid: (wrappedPkCertUid: string) => set(() => ({ wrappedPkCertUid })),
-  setAccessGranted: () => set(() => ({ accessGranted: true })),
-  setCertificateUid: (certificateUid: string) => set(() => ({ certificateUid })),
-  setWrappedUdk: (wrappedUdk: KmsObject) => set(() => ({ wrappedUdk })),
-  setWrappedUdk2: (wrappedUdk2: KmsObject) => set(() => ({ wrappedUdk2 })),
-  setWrappedUdkUid: (wrappedUdkUid: string) => set(() => ({ wrappedUdkUid })),
-  setUnwrappedUdkUid: (unwrappedUdkUid: string) => set(() => ({ unwrappedUdkUid })),
+  setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) =>
+    set((store) => {
+      store.setWrappedPk2(); // reset next steps
+      return { encryptedEmployeesPki };
+    }),
+  setWrappedPk2: (wrappedPk2?: WrappedKey) =>
+    set((state) => {
+      state.setSavedSk2();
+      return { wrappedPk2 };
+    }),
+  setSavedSk2: (savedSk2?: string) =>
+    set((store) => {
+      store.setPublishedWrappedPkUid();
+      return { savedSk2 };
+    }),
+  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) =>
+    set((state) => {
+      state.setAccessGranted(false);
+      return { wrappedPkCertUid };
+    }),
+  setAccessGranted: (granted: boolean) =>
+    set((state) => {
+      state.setCertificateUid(); // reset next steps
+      return { accessGranted: granted };
+    }),
+  setCertificateUid: (certificateUid?: string) =>
+    set((state) => {
+      state.setWrappedUdk(); // reset next steps
+      return { certificateUid };
+    }),
+  setWrappedUdk: (wrappedUdk?: KmsObject) =>
+    set((state) => {
+      state.setWrappedUdkUid(); // reset next steps
+      return { wrappedUdk };
+    }),
+  setWrappedUdkUid: (wrappedUdkUid?: string) =>
+    set((state) => {
+      state.setWrappedUdk2(); // reset next steps
+      return { wrappedUdkUid };
+    }),
+  setWrappedUdk2: (wrappedUdk2?: KmsObject) =>
+    set((state) => {
+      state.setUnwrappedUdkUid(); // reset next steps
+      return { wrappedUdk2 };
+    }),
+  setUnwrappedUdkUid: (unwrappedUdkUid?: string) =>
+    set((state) => {
+      state.setClearEmployeesPki(); // reset next steps
+      return { unwrappedUdkUid };
+    }),
+  setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => set(() => ({ clearEmployeesPki })),
 });
 
 // BOUND STORE

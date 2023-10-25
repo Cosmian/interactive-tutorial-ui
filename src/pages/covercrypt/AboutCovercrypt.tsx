@@ -3,12 +3,16 @@ import DbSchema from "../../assets/db-schema.png";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { EmployeeTable } from "../../component/Table";
 import { useBoundStore } from "../../store/store";
+import { findCurrentNavigationItem } from "../../utils/navigationActions";
 
 const AboutCovercrypt = (): JSX.Element => {
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
+  const steps = useBoundStore((state) => state.steps);
+  const currentItem = findCurrentNavigationItem(steps);
+
   return (
     <SingleContent>
-      <h1>About Covercrypt</h1>
+      <h1>{currentItem?.label}</h1>
       <p className="introduction">
         Covercrypt is a post-quantum resistant algorithm that provides access policies in user decryption keys, allowing fine-grained
         control by the client of the data that can be decrypted.

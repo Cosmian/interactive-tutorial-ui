@@ -26,7 +26,9 @@ export const MainNavigation = () => {
           if (item.children == null) {
             return (
               <li key={idx}>
-                <Link to={item.key}>{item.label}</Link>
+                <Link to={origin + "/" + item.key} className={item.key === paths[0] ? "active" : ""}>
+                  {item.label}
+                </Link>
               </li>
             );
           } else {

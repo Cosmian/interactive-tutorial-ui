@@ -1,7 +1,7 @@
 export interface MenuItem {
   key: string;
   label: string;
-  children: SubMenuItem[];
+  children?: SubMenuItem[];
 }
 export interface SubMenuItem {
   key: string;
@@ -14,13 +14,6 @@ export const navigationConfig: MenuItem[] = [
   {
     key: "client-side-encryption",
     label: "Cosmian Client-side Encryption",
-    children: [
-      {
-        key: "overview",
-        label: "Overview",
-        footerNavigation: false,
-      },
-    ],
   },
   {
     key: "encrypt-with-access-policies",
@@ -33,7 +26,7 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "set-up-service",
-        label: "Set up your service",
+        label: "Set up service",
         footerNavigation: true,
       },
       {
@@ -58,7 +51,7 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "decrypt-data",
-        label: "Decrypt your data",
+        label: "Decrypt data",
         footerNavigation: true,
       },
     ],
@@ -74,7 +67,7 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "set-up-service",
-        label: "Set up your service",
+        label: "Set up service",
         footerNavigation: true,
       },
       {
@@ -94,12 +87,12 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "index-database",
-        label: "Index your database",
+        label: "Index database",
         footerNavigation: true,
       },
       {
         key: "search-in-database",
-        label: "Search words in your database",
+        label: "Search words in database",
         footerNavigation: true,
       },
     ],
@@ -115,12 +108,12 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "set-up-service",
-        label: "Set up your service",
+        label: "Set up service",
         footerNavigation: true,
       },
       {
         key: "encrypt-data",
-        label: "Encrypt your data",
+        label: "Encrypt data",
         footerNavigation: true,
       },
       {
@@ -150,7 +143,7 @@ export const navigationConfig: MenuItem[] = [
       },
       {
         key: "decrypt-data",
-        label: "Decrypt your data",
+        label: "Decrypt data",
         footerNavigation: true,
       },
     ],

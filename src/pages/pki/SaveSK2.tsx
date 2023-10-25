@@ -8,7 +8,7 @@ import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
@@ -18,14 +18,15 @@ const SaveSK2 = (): JSX.Element => {
   const { loadingCode, codeList } = useFetchCodeList("uploadPemInPKI", activeLanguageList);
   // states
   const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
-  const setPublishedWrappedPkUid = useBoundStore((state) => state.setPublishedWrappedPkUid);
   const wrappedPk2 = useBoundStore((state) => state.wrappedPk2);
-  const setSavedSk2 = useBoundStore((state) => state.setSavedSk2);
   const savedSk2 = useBoundStore((state) => state.savedSk2);
+  const setSavedSk2 = useBoundStore((state) => state.setSavedSk2);
   const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
+  const setPublishedWrappedPkUid = useBoundStore((state) => state.setPublishedWrappedPkUid);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const saveSecretKeyAndPublishCertificate = async (): Promise<void> => {
     try {
@@ -34,7 +35,6 @@ const SaveSK2 = (): JSX.Element => {
         setSavedSk2(savedSk2Uid);
         const wrappedPkCertUid = await uploadPemInPKI(kmsTwoToken, uuidv4(), wrappedPk2.certBytes);
         setPublishedWrappedPkUid(wrappedPkCertUid);
-
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -48,7 +48,7 @@ const SaveSK2 = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Saving Secret Key and publishing certificate</h1>
+        <h1>{currentItem?.label}</h1>
         <ul>
           <li>
             <ClientTwo /> saves its secret key sk_2 in his own KMS <b>KMS 2</b>
@@ -66,7 +66,8 @@ const SaveSK2 = (): JSX.Element => {
           codeOutputList={
             wrappedPkCertUid && savedSk2
               ? {
-                  javascript: JSON.stringify(savedSk2, undefined, 2) + JSON.stringify(wrappedPkCertUid, undefined, 2),
+                  javascript: `${JSON.stringify(savedSk2, undefined, 2)}  
+${JSON.stringify(wrappedPkCertUid, undefined, 2)}`,
                 }
               : undefined
           }

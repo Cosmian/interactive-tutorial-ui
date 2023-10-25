@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { SyncOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -16,10 +17,18 @@ type CodeHihlighterProps = {
 
 const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList, activeLanguageList, codeLanguage, runCode }) => {
   const language = useBoundStore((state) => state.language);
+  const [loadingButton, setLoadingButton] = useState(false);
+
+  useEffect(() => {
+    if (codeOutputList != null) {
+      setLoadingButton(false);
+    }
+  }, [codeOutputList]);
 
   const onClickRun = (): void => {
     if (runCode != null) {
       runCode();
+      setLoadingButton(true);
     }
   };
 
@@ -28,12 +37,10 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
       {activeLanguageList.length !== 0 && <LanguageTabs activeLanguageList={activeLanguageList} />}
 
       <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
-      <button onClick={runCode != null ? onClickRun : undefined} className="flat-btn primary" disabled={runCode == null}>
-        Run code <IoPlayCircleOutline />
-      </button>
+      <FlatButton onClick={runCode != null ? onClickRun : undefined} loading={loadingButton} disabled={runCode == null} />
 
       {codeOutputList && codeOutputList[language] && (
-        <CodeHihlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} />
+        <CodeHihlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} copyButton={false} />
       )}
     </div>
   );
@@ -41,7 +48,11 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
 
 export default CodeDemo;
 
-export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language: string }> = ({ codeInput, language }) => {
+export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language: string; copyButton?: boolean }> = ({
+  codeInput,
+  language,
+  copyButton = true,
+}) => {
   const [copied, setCopied] = useState(false);
 
   if (codeInput == null) return <></>;
@@ -53,15 +64,17 @@ export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language:
   };
   return (
     <div className="code-highlighter">
-      <button onClick={handleCopy} className="copy-btn">
-        {copied ? (
-          <>
-            Copied <IoCheckmarkSharp style={{ marginBottom: -2 }} />
-          </>
-        ) : (
-          "Copy"
-        )}
-      </button>
+      {copyButton && (
+        <button onClick={handleCopy} className="copy-btn">
+          {copied ? (
+            <>
+              Copied <IoCheckmarkSharp style={{ marginBottom: -2 }} />
+            </>
+          ) : (
+            "Copy"
+          )}
+        </button>
+      )}
       <SyntaxHighlighter
         language={language ? language : "typescript"}
         style={atelierSulphurpoolDark}
@@ -72,5 +85,18 @@ export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language:
         {codeInput}
       </SyntaxHighlighter>
     </div>
+  );
+};
+
+type FlatButtonProps = {
+  loading?: boolean;
+  disabled?: boolean;
+  onClick: (() => void) | undefined;
+};
+const FlatButton: React.FC<FlatButtonProps> = ({ loading, disabled, onClick }) => {
+  return (
+    <button onClick={onClick} className="flat-btn primary" disabled={loading || disabled}>
+      Run code {loading ? <SyncOutlined spin /> : <IoPlayCircleOutline />}
+    </button>
   );
 };

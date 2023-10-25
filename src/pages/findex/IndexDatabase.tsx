@@ -1,6 +1,6 @@
 import { message } from "antd";
 import { IndexedEntry, Location } from "cloudproof_js";
-import { Spinner } from "cosmian_ui";
+import { Button, Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
@@ -8,7 +8,7 @@ import Split from "../../component/Split";
 import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -26,6 +26,7 @@ const IndexDatabase = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
@@ -57,21 +58,28 @@ const IndexDatabase = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Indexing database</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           To perform insertions or updates (a.k.a upserts), supply an array of IndexedEntry. This structure maps an IndexedValue to a list
           of Keywords.
         </p>
         <p>In this example we will index employees’ database:</p>
         <EmployeeTable data={clearEmployees} />
-        {indexedEntries && <IndexedTable data={indexedEntries} style={{ marginTop: 40 }} />}
+        <Button
+          disabled={findexKey == null || label == null || callbacks == null}
+          onClick={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
+          style={{ width: "100%", margin: "20px 0" }}
+        >
+          Index database
+        </Button>
+        {indexedEntries && <IndexedTable data={indexedEntries} />}
       </Split.Content>
 
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeList}
-          runCode={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
+          runCode={findexKey && label && callbacks ? handleIndexDatabase : undefined}
           codeOutputList={{
             java: JSON.stringify(indexedEntries, undefined, 2),
             javascript: JSON.stringify(indexedEntries, undefined, 2),

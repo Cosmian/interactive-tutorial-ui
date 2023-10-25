@@ -6,7 +6,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -22,6 +22,7 @@ const CreateMasterKeyPair = (): JSX.Element => {
   const setKeyPair = useBoundStore((state) => state.setKeyPair);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
@@ -40,7 +41,7 @@ const CreateMasterKeyPair = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Generating the Master Key Pair</h1>
+        <h1>{currentItem?.label}</h1>
         <p>The master authority possesses the master key pair:</p>
         <ol>
           <li>

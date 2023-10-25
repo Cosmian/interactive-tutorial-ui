@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter"];
@@ -13,6 +13,7 @@ const SetupFindex = (): JSX.Element => {
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = (): void => {
     console.log("# successfully installed");
@@ -24,7 +25,7 @@ const SetupFindex = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Set up your service</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           The Findex core cryptographic library is open-source and written in Rust. For cryptographic documentation and implementation
           details, check the{" "}

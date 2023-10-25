@@ -7,7 +7,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeList } from "../../hooks/useFetchCodeList";
 import { useBoundStore } from "../../store/store";
-import { updateNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
@@ -22,6 +22,7 @@ const Labelling = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
   const setSteps = useBoundStore((state) => state.setSteps);
   const navigate = useNavigate();
+  const currentItem = findCurrentNavigationItem(steps);
 
   const handleLabelling = async (): Promise<void> => {
     try {
@@ -40,7 +41,7 @@ const Labelling = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
-        <h1>Labeling: salting the encryption</h1>
+        <h1>{currentItem?.label}</h1>
         <p>
           When indexing, Findex uses an arbitrarily chosen public label; this label may represent anything, such as a period, e.g., “Q3
           2023”. Changing it regularly significantly increases the difficulty of performing statistical attacks.
