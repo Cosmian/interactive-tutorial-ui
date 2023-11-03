@@ -80,7 +80,7 @@ jobs:
       - name: On staging env
         if: github.ref_name == 'main'
         env:
-          REMOTE_URL: interactive-tutorial.cosmian.com
+          REMOTE_URL: interactive-tutorial.staging.cosmian.com
           DOCKER_COMPOSE_FILE: interactive-tutorial-ui/staging/docker-compose.yml
         run: |
           ssh cosmian@${REMOTE_URL} docker login ${{ env.REGISTRY }} -u ${{ github.actor }} -p "${{ secrets.GITHUB_TOKEN }}"
