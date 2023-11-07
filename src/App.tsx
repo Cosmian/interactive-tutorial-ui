@@ -3,6 +3,7 @@ import { Spinner } from "cosmian_ui";
 import "cosmian_ui/style.css";
 import { useEffect } from "react";
 import AppRouter from "./Router";
+import LoginPage from "./pages/LoginPage";
 import { useBoundStore } from "./store/store";
 
 const App = (): JSX.Element => {
@@ -27,16 +28,14 @@ const App = (): JSX.Element => {
     return <Spinner fullpage />;
   }
 
-  if (!isAuthenticated) {
-    loginWithRedirect();
-    console.log("Not authenticated");
-    return <Spinner fullpage />;
-  }
-
   if (error) {
     handleLogout();
     console.log("Authentication error");
-    return <>Error</>;
+    return <Spinner fullpage />;
+  }
+
+  if (!isAuthenticated) {
+    return <LoginPage loginWithRedirect={() => loginWithRedirect()} />;
   }
 
   return (
