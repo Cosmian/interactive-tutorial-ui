@@ -4,13 +4,13 @@ import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useBoundStore } from "../store/store";
-import { Language, LanguageList } from "../utils/types";
+import { CodeContent, Language } from "../utils/types";
 import LanguageTabs from "./LanguageTabs";
 
 type CodeHihlighterProps = {
   activeLanguageList: Language[];
-  codeInputList: LanguageList;
-  codeOutputList?: LanguageList;
+  codeInputList: CodeContent;
+  codeOutputList?: CodeContent;
   codeLanguage?: string;
   runCode?: () => void;
 };
@@ -36,11 +36,11 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
     <div className="code-demo">
       {activeLanguageList.length !== 0 && <LanguageTabs activeLanguageList={activeLanguageList} />}
 
-      <CodeHihlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
-      <FlatButton onClick={runCode != null ? onClickRun : undefined} loading={loadingButton} disabled={runCode == null} />
+      <CodeHighlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
+      <FlatButton onClick={onClickRun} loading={loadingButton} disabled={runCode == null} />
 
       {codeOutputList && codeOutputList[language] && (
-        <CodeHihlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} copyButton={false} />
+        <CodeHighlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} copyButton={false} />
       )}
     </div>
   );
@@ -48,7 +48,7 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
 
 export default CodeDemo;
 
-export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language: string; copyButton?: boolean }> = ({
+export const CodeHighlighter: React.FC<{ codeInput: string | undefined; language: string; copyButton?: boolean }> = ({
   codeInput,
   language,
   copyButton = true,
@@ -91,7 +91,7 @@ export const CodeHihlighter: React.FC<{ codeInput: string | undefined; language:
 type FlatButtonProps = {
   loading?: boolean;
   disabled?: boolean;
-  onClick: (() => void) | undefined;
+  onClick: () => void;
 };
 const FlatButton: React.FC<FlatButtonProps> = ({ loading, disabled, onClick }) => {
   return (

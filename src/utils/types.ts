@@ -2,7 +2,7 @@ import { FetchChains, FetchEntries, InsertChains, UpsertEntries } from "cloudpro
 
 export type Language = "cpp" | "flutter" | "java" | "javascript" | "python";
 
-export type LanguageList = {
+export type CodeContent = {
   java?: string;
   javascript?: string;
   python?: string;

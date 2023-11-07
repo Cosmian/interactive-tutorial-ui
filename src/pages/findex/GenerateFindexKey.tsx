@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { createFindexKey } from "../../actions/javascript/createFindexKey";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
-import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
 const GenerateFindexKey = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("createFindexKey", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("createFindexKey", activeLanguageList);
   // states
   const findexKey = useBoundStore((state) => state.findexKey);
   const setFindexKey = useBoundStore((state) => state.setFindexKey);
@@ -27,7 +27,6 @@ const GenerateFindexKey = (): JSX.Element => {
       const key = createFindexKey();
       setFindexKey(key);
       updateNavigationSteps(steps, setSteps);
-      updatePreviousNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);
@@ -48,7 +47,7 @@ const GenerateFindexKey = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={handleGenerateFindexKey}
           codeOutputList={
             findexKey

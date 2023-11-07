@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
@@ -13,7 +13,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const GenerateUDK = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("createDecryptionKey", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("createDecryptionKey", activeLanguageList);
   // states
   const kmsToken = useBoundStore((state) => state.kmsToken);
   const keyPair = useBoundStore((state) => state.keyPair);
@@ -59,13 +59,16 @@ const GenerateUDK = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={keyPair && policy ? () => handleGenerateUDK() : undefined}
           codeOutputList={
             decryptionKeyUid
               ? {
                   java: JSON.stringify(decryptionKeyUid, undefined, 2),
                   javascript: JSON.stringify(decryptionKeyUid, undefined, 2),
+                  python: JSON.stringify(decryptionKeyUid, undefined, 2),
+                  flutter: JSON.stringify(decryptionKeyUid, undefined, 2),
+                  cpp: JSON.stringify(decryptionKeyUid, undefined, 2),
                 }
               : undefined
           }

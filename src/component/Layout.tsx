@@ -54,7 +54,7 @@ const Layout = (): JSX.Element => {
 
 export default Layout;
 
-const ExternalLink = ({ children, link }: { children: React.ReactNode; link: string }) => {
+const ExternalLink: React.FC<{ children: React.ReactNode; link: string }> = ({ children, link }) => {
   return (
     <a href={link} target="_blank" rel="noopener noreferrer" className="external-link">
       <span>{children}</span>
@@ -63,7 +63,7 @@ const ExternalLink = ({ children, link }: { children: React.ReactNode; link: str
   );
 };
 
-const findNavigationSubItem = (paths: string[]) => {
+const findNavigationSubItem = (paths: string[]): SubMenuItem | undefined => {
   const parentItem = navigationConfig.find((item) => item.key === paths[0]);
   if (parentItem != null && parentItem.children != null) {
     const childrenItem = parentItem.children.find((item) => item.key === paths[1]) as SubMenuItem;
@@ -71,7 +71,7 @@ const findNavigationSubItem = (paths: string[]) => {
   }
 };
 
-export const SingleContent = ({ children }: { children: React.ReactNode }) => {
+export const SingleContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="single-content">
       <div className="inner">{children}</div>
@@ -82,7 +82,7 @@ export const SingleContent = ({ children }: { children: React.ReactNode }) => {
 type ImageWrapperProps = {
   children: React.ReactNode;
   maxWidth?: number;
-  clasName?: string;
+  className?: string;
   style?: React.CSSProperties;
 };
 export const ImageWrapper = ({ children, maxWidth, style, ...rest }: ImageWrapperProps): JSX.Element => {

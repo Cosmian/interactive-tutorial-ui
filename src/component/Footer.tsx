@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBoundStore } from "../store/store";
-import { findNextNavigationItem, findPreviousNavigationItem } from "../utils/navigationActions";
+import { findNavigationItems } from "../utils/navigationActions";
 import { SubMenuItem } from "../utils/navigationConfig";
 import "./layout.less";
 
@@ -17,18 +17,10 @@ export const FooterNavigation = (): JSX.Element => {
   paths.shift();
 
   useEffect(() => {
-    const previousItemFound = findPreviousNavigationItem(steps);
-    setPreviousItem(previousItemFound);
-    const nextItemFound = findNextNavigationItem(steps);
-    setNextItem(nextItemFound);
+    const itemsFound = findNavigationItems(steps);
+    setPreviousItem(itemsFound?.previous);
+    setNextItem(itemsFound?.next);
   }, [params]);
-
-  const goNext = (path: string): void => {
-    navigate(path);
-  };
-  const goPrevious = (path: string): void => {
-    navigate(path);
-  };
 
   const previousOnly = previousItem != null && nextItem == null;
   const nextOnly = nextItem != null && previousItem == null;
@@ -37,7 +29,7 @@ export const FooterNavigation = (): JSX.Element => {
       {previousItem && (
         <Button
           type="outline"
-          onClick={() => goPrevious(previousItem.key)}
+          onClick={() => navigate(previousItem.key)}
           icon={<IoArrowBackOutline size={18} style={{ marginBottom: -4 }} />}
         >
           Previous: {previousItem.label}
@@ -46,7 +38,7 @@ export const FooterNavigation = (): JSX.Element => {
       {nextItem && (
         <Button
           type="dark"
-          onClick={() => goNext(nextItem.key)}
+          onClick={() => navigate(nextItem.key)}
           rightIcon={<IoArrowForwardOutline size={18} style={{ marginBottom: -4 }} />}
         >
           Next: {nextItem.label}

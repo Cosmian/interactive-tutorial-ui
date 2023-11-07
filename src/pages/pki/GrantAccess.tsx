@@ -5,7 +5,7 @@ import { grantGetKeyAccess } from "../../actions/javascript/grantGetKeyAccess";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -14,7 +14,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const GrantAccess = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("grantGetKeyAccess", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("grantGetKeyAccess", activeLanguageList);
   // states
   const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
   const accessGranted = useBoundStore((state) => state.accessGranted);
@@ -51,7 +51,7 @@ const GrantAccess = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={kmsTwoToken && wrappedPkCertUid ? grantAccess : undefined}
           codeOutputList={
             accessGranted

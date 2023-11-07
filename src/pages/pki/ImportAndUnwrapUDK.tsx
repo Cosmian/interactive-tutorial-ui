@@ -6,7 +6,7 @@ import { uploadKeyInPKI } from "../../actions/javascript/uploadKeyInPKI";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const ImportAndUnwrapUDK = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("uploadKeyInPKI", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("uploadKeyInPKI", activeLanguageList);
   // states
   const kmsToken = useBoundStore((state) => state.kmsToken);
   const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
@@ -55,7 +55,7 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={kmsToken && wrappedUdk2 && wrappedPkCertUid ? importAndUnwrapUDK : undefined}
           codeOutputList={
             unwrappedUdkUid

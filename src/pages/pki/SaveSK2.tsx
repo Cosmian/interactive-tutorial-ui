@@ -6,7 +6,7 @@ import { uploadPemInPKI } from "../../actions/javascript/uploadPemInPKI";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const SaveSK2 = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("uploadPemInPKI", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("uploadPemInPKI", activeLanguageList);
   // states
   const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
   const wrappedPk2 = useBoundStore((state) => state.wrappedPk2);
@@ -61,7 +61,7 @@ const SaveSK2 = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={kmsTwoToken && wrappedPk2 ? saveSecretKeyAndPublishCertificate : undefined}
           codeOutputList={
             wrappedPkCertUid && savedSk2

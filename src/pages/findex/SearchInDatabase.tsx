@@ -6,7 +6,7 @@ import { searchWords } from "../../actions/javascript/searchWords";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
@@ -17,7 +17,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 const SearchInDatabase = (): JSX.Element => {
   const [keyWords, setKeyWords] = useState("Susan");
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("searchWords", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("searchWords", activeLanguageList);
   // states
   const indexedEntries = useBoundStore((state) => state.indexedEntries);
   const resultEmployees = useBoundStore((state) => state.resultEmployees);
@@ -35,11 +35,8 @@ const SearchInDatabase = (): JSX.Element => {
     try {
       if (findexKey && label && callbacks && keyWords) {
         const kewordsList = keyWords.replace(/ /g, "").toLowerCase().split(",");
-        console.log(kewordsList);
         const res = await searchWords(findexKey, label, kewordsList, callbacks.fetchEntries, callbacks.fetchChains);
-        const resEmployees = res
-          .map((result) => clearEmployees.find((employee) => result.toNumber() === employee.uuid))
-          .filter((employee) => employee);
+        const resEmployees = res.map((result) => clearEmployees.find((employee) => result.toNumber() === employee.uuid));
         setResultEmployees(resEmployees as Employee[]);
       }
       updateNavigationSteps(steps, setSteps);
@@ -67,7 +64,7 @@ const SearchInDatabase = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={indexedEntries ? () => handleSearchInDatabase() : undefined}
           codeOutputList={
             resultEmployees

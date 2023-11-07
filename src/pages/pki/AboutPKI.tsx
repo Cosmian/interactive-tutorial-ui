@@ -1,12 +1,9 @@
-import { useEffect } from "react";
 import PkiDrawIo from "../../assets/pki.drawio.svg";
 
 import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 
 const AboutPKI = (): JSX.Element => {
-  useEffect(() => {}, []);
-
   return (
     <SingleContent>
       <h1>

@@ -6,7 +6,7 @@ import { retrieveDecryptionKey } from "../../actions/javascript/retrieveDecrypti
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
@@ -16,10 +16,10 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const DecryptData = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("decryptDataLocally", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("decryptDataLocally", activeLanguageList);
   // states
   const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPair = useBoundStore((state) => state.keyPair);
+  const keyPairUids = useBoundStore((state) => state.keyPairUids);
   const policy = useBoundStore((state) => state.policy);
   const decryptedEmployees = useBoundStore((state) => state.decryptedEmployees);
   const setSteps = useBoundStore((state) => state.setSteps);
@@ -34,6 +34,7 @@ const DecryptData = (): JSX.Element => {
     try {
       if (encryptedEmployees && kmsToken) {
         const retrievedDecryptionKey = await retrieveDecryptionKey(kmsToken, decryptionKeyUid as string);
+
         const clearMarketing: Employee[] = await Promise.all(
           encryptedEmployees.map(async (row) => {
             try {
@@ -41,7 +42,8 @@ const DecryptData = (): JSX.Element => {
               const decryptedMarketing = JSON.parse(marketing);
               return decryptedMarketing;
             } catch {
-              //
+              // do nothing
+              console.error("no access policy for this entry");
             }
           })
         );
@@ -52,12 +54,13 @@ const DecryptData = (): JSX.Element => {
               const decryptedHR = JSON.parse(hr);
               return decryptedHR;
             } catch {
-              //
+              // do nothing
+              console.error("no access policy for this entry");
             }
           })
         );
 
-        const clearEmployee: Employee[] = clearMarketing.map((row, key) => {
+        const decryptedEmployees: Employee[] = clearMarketing.map((row, key) => {
           return {
             uuid: key,
             first: row?.first != null ? row.first : undefined,
@@ -67,7 +70,7 @@ const DecryptData = (): JSX.Element => {
             salary: clearHR[key]?.salary != null ? clearHR[key].salary : undefined,
           };
         });
-        setDecryptedEmployees(clearEmployee);
+        setDecryptedEmployees(decryptedEmployees);
 
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -87,8 +90,8 @@ const DecryptData = (): JSX.Element => {
           The User Decryption Key can only decrypt the <code>(country::Germany) && (department::HR)</code> axis.
         </p>
         <Button
-          disabled={keyPair == null || policy == null}
-          onClick={keyPair && policy ? handleDecryptData : undefined}
+          disabled={keyPairUids == null || policy == null}
+          onClick={keyPairUids && policy ? handleDecryptData : undefined}
           style={{ width: "100%", margin: "20px 0" }}
         >
           Decrypt database
@@ -98,8 +101,8 @@ const DecryptData = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
-          runCode={keyPair && policy ? handleDecryptData : undefined}
+          codeInputList={codeContent}
+          runCode={keyPairUids && policy ? handleDecryptData : undefined}
           codeOutputList={
             decryptedEmployees
               ? {

@@ -10,17 +10,17 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { ACCESS_POLICY, POLICY_AXIS } from "../../utils/covercryptConfig";
-import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
 const EncryptDataPki = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("encryptDataLocally", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("encryptDataLocally", activeLanguageList);
   // states
   const kmsToken = useBoundStore((state) => state.kmsToken);
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
@@ -73,7 +73,6 @@ const EncryptDataPki = (): JSX.Element => {
         setWrappedPk2({ certBytes, privateKeyBytes });
 
         updateNavigationSteps(steps, setSteps);
-        updatePreviousNavigationSteps(steps, setSteps);
         navigate("#");
       }
     } catch (error) {
@@ -117,7 +116,7 @@ const EncryptDataPki = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={kmsToken ? clientOneActions : undefined}
           codeOutputList={
             encryptedEmployeesPki

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { defineLabel } from "../../actions/javascript/defineLabel";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 const Labelling = (): JSX.Element => {
   const [labelValue, setLabelValue] = useState("Q3 2023");
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("defineLabel", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("defineLabel", activeLanguageList);
   // states
   const label = useBoundStore((state) => state.label);
   const setLabel = useBoundStore((state) => state.setLabel);
@@ -52,7 +52,7 @@ const Labelling = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={() => handleLabelling()}
           codeOutputList={
             label

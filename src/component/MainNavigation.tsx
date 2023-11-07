@@ -39,14 +39,14 @@ export const MainNavigation = () => {
                 </li>
                 <li>
                   <ul>
-                    {item.children.map((subitem, subIdx) => (
+                    {item.children.map((subItem, subIdx) => (
                       <div className="outer" key={idx + "sub" + subIdx}>
-                        <li className={subitem.done ? "done" : ""}>
+                        <li className={subItem.done ? "done" : ""}>
                           <Link
-                            to={origin + "/" + item.key + "/" + subitem.key}
-                            className={item.key === paths[0] && subitem.key === paths[1] ? "active" : ""}
+                            to={origin + "/" + item.key + "/" + subItem.key}
+                            className={item.key === paths[0] && subItem.key === paths[1] ? "active" : ""}
                           >
-                            {subitem.label}
+                            {subItem.label}
                           </Link>
                         </li>
                       </div>

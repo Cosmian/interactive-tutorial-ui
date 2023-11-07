@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -13,13 +13,13 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("createCovercryptKeyPair", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("createCovercryptKeyPair", activeLanguageList);
   // states
   const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPair = useBoundStore((state) => state.keyPair);
+  const keyPairUids = useBoundStore((state) => state.keyPairUids);
   const policy = useBoundStore((state) => state.policy);
   const setSteps = useBoundStore((state) => state.setSteps);
-  const setKeyPair = useBoundStore((state) => state.setKeyPair);
+  const setKeyPairUids = useBoundStore((state) => state.setKeyPairUids);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
@@ -27,7 +27,7 @@ const CreateMasterKeyPair = (): JSX.Element => {
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
       if (policy && kmsToken) {
-        setKeyPair(await createCovercryptKeyPair(kmsToken, policy));
+        setKeyPairUids(await createCovercryptKeyPair(kmsToken, policy));
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -56,16 +56,16 @@ const CreateMasterKeyPair = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={policy ? () => handleCreateMasterKeyPair() : undefined}
           codeOutputList={
-            keyPair
+            keyPairUids
               ? {
-                  java: JSON.stringify(keyPair, undefined, 2),
-                  javascript: JSON.stringify(keyPair, undefined, 2),
-                  python: JSON.stringify(keyPair, undefined, 2),
-                  flutter: JSON.stringify(keyPair, undefined, 2),
-                  cpp: JSON.stringify(keyPair, undefined, 2),
+                  java: JSON.stringify(keyPairUids, undefined, 2),
+                  javascript: JSON.stringify(keyPairUids, undefined, 2),
+                  python: JSON.stringify(keyPairUids, undefined, 2),
+                  flutter: JSON.stringify(keyPairUids, undefined, 2),
+                  cpp: JSON.stringify(keyPairUids, undefined, 2),
                 }
               : undefined
           }

@@ -13,9 +13,9 @@ const LanguageTabs: React.FC<LanguageTabsProps> = ({ activeLanguageList }) => {
 
   useEffect(() => {
     // if langage is not in the activeLanguagelist, then set a default language
-    const notInList = activeLanguageList?.find((el) => el === language) == null;
-    if (notInList) setLanguage(activeLanguageList[0]);
-  }, [language]);
+    const languageIsInList = activeLanguageList.includes(language);
+    if (!languageIsInList) setLanguage(activeLanguageList[0]);
+  }, []);
 
   const handleChangeLanguage = (language: Language, disabled?: boolean): void => {
     if (!disabled) setLanguage(language);
@@ -26,14 +26,14 @@ const LanguageTabs: React.FC<LanguageTabsProps> = ({ activeLanguageList }) => {
       <ul role="tablist">
         {allLanguageList.map((languageItem) => {
           const classNames = [];
-          const disabled = activeLanguageList?.find((el) => el === languageItem) == null;
-          if (disabled) classNames.push("disabled");
+          const languageIsInList = activeLanguageList.includes(languageItem);
+          if (!languageIsInList) classNames.push("disabled");
           if (language === languageItem) classNames.push("selected");
           const prettyLangageItem = languageItem === "cpp" ? "C++" : languageItem.charAt(0).toUpperCase() + languageItem.slice(1);
           return (
             <li key={languageItem}>
               <a
-                onClick={() => handleChangeLanguage(languageItem, disabled)}
+                onClick={() => handleChangeLanguage(languageItem, !languageIsInList)}
                 aria-controls={languageItem}
                 aria-selected={language === languageItem}
                 id={`tab-${languageItem}`}

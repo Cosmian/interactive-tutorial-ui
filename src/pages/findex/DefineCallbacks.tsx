@@ -4,7 +4,7 @@ import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { FindexCallbacks, Language } from "../../utils/types";
@@ -13,7 +13,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const DefineCallbacks = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("defineCallbacks", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("defineCallbacks", activeLanguageList);
   // states
   const callbacks = useBoundStore((state) => state.callbacks);
   const setCallbacks = useBoundStore((state) => state.setCallbacks);
@@ -50,7 +50,7 @@ const DefineCallbacks = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={handleDefineCallbacks}
           codeOutputList={
             callbacks

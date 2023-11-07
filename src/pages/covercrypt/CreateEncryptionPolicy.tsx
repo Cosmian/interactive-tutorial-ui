@@ -5,17 +5,17 @@ import { createPolicy } from "../../actions/javascript/createPolicy";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { POLICY_AXIS } from "../../utils/covercryptConfig";
-import { findCurrentNavigationItem, updateNavigationSteps, updatePreviousNavigationSteps } from "../../utils/navigationActions";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript"];
 
 const CreateEncryptionPolicy = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("createPolicy", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("createPolicy", activeLanguageList);
   // states
   const policy = useBoundStore((state) => state.policy);
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
@@ -29,7 +29,6 @@ const CreateEncryptionPolicy = (): JSX.Element => {
     try {
       setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
-      updatePreviousNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
       message.error(typeof error === "string" ? error : (error as Error).message);
@@ -70,7 +69,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={handleCreatePolicy}
           codeOutputList={
             policy

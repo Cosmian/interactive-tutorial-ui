@@ -3,7 +3,7 @@ import Decryption from "../assets/client_side_decryption.drawio.svg";
 import Encryption from "../assets/client_side_encryption.drawio.svg";
 import { ImageWrapper, SingleContent } from "../component/Layout";
 
-const OverView = () => {
+const OverView = (): JSX.Element => {
   const origin = window.location.origin;
 
   return (
@@ -34,7 +34,7 @@ const OverView = () => {
       </p>
       <ImageWrapper maxWidth={1000}>
         <img src={Encryption} alt="Cosmian Client-side Encryption" width="100%" />
-        <img src={Decryption} alt="Cosmian Client-side Encryption" width="100%" />
+        <img src={Decryption} alt="Cosmian Client-side Decryption" width="100%" />
       </ImageWrapper>
       <h2>State-of-the-art post-quantum encryption with embedded access policies</h2>
       <p>

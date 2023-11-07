@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
@@ -8,15 +9,14 @@ import { Language } from "../../utils/types";
 const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
 
 const SetupCovercrypt = (): JSX.Element => {
-  const serviceSetup = useBoundStore((state) => state.covercryptServiceSetup);
-  const setServiceSetup = useBoundStore((state) => state.setCovercryptServiceSetup);
+  const [serviceSetup, setServiceSetup] = useState(false);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = (): void => {
-    setServiceSetup();
+    setServiceSetup(true);
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };

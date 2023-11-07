@@ -6,7 +6,7 @@ import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable, IndexedTable } from "../../component/Table";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const IndexDatabase = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("upsertData", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("upsertData", activeLanguageList);
   // states
   const findexKey = useBoundStore((state) => state.findexKey);
   const label = useBoundStore((state) => state.label);
@@ -78,7 +78,7 @@ const IndexDatabase = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={findexKey && label && callbacks ? handleIndexDatabase : undefined}
           codeOutputList={{
             java: JSON.stringify(indexedEntries, undefined, 2),

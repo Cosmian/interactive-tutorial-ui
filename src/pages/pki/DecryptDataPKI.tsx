@@ -5,7 +5,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const DecryptDataPKI = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("decryptDataInKms", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("decryptDataInKms", activeLanguageList);
   // states
   const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
   const encryptedEmployeesPki = useBoundStore((state) => state.encryptedEmployeesPki);
@@ -36,7 +36,8 @@ const DecryptDataPKI = (): JSX.Element => {
             const decryptedMarketing = JSON.parse(marketing);
             return decryptedMarketing;
           } catch {
-            //
+            // do nothing
+            console.error("no access policy for this entry");
           }
         })
       );
@@ -47,7 +48,8 @@ const DecryptDataPKI = (): JSX.Element => {
             const decryptedHr = JSON.parse(hr);
             return decryptedHr;
           } catch {
-            //
+            // do nothing
+            console.error("no access policy for this entry");
           }
         })
       );
@@ -91,7 +93,7 @@ const DecryptDataPKI = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={unwrappedUdkUid ? decryptData : undefined}
           codeOutputList={
             clearEmployeesPki

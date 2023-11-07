@@ -8,7 +8,7 @@ import { uploadPemInPKI } from "../../actions/javascript/uploadPemInPKI";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientOne, ClientTwo } from "../../component/Tags";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -17,7 +17,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const GetCertificate = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("fetchWrappedKey", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("fetchWrappedKey", activeLanguageList);
   // states
   const accessGranted = useBoundStore((state) => state.accessGranted);
   const kmsToken = useBoundStore((state) => state.kmsToken);
@@ -71,7 +71,7 @@ const GetCertificate = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
+          codeInputList={codeContent}
           runCode={accessGranted && kmsToken && wrappedPkCertUid && clientOneUdkUid ? getCertificateAndRetriveKey : undefined}
           codeOutputList={
             wrappedUdk

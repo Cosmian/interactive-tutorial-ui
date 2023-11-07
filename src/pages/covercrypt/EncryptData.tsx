@@ -6,7 +6,7 @@ import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
-import { useFetchCodeList } from "../../hooks/useFetchCodeList";
+import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,11 +15,11 @@ const activeLanguageList: Language[] = ["java", "javascript"];
 
 const EncryptData = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeList } = useFetchCodeList("encryptDataLocally", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("encryptDataLocally", activeLanguageList);
   // states
   const clearEmployees = useBoundStore((state) => state.clearEmployees);
   const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPair = useBoundStore((state) => state.keyPair);
+  const keyPairUids = useBoundStore((state) => state.keyPairUids);
   const policy = useBoundStore((state) => state.policy);
   const setSteps = useBoundStore((state) => state.setSteps);
   const steps = useBoundStore((state) => state.steps);
@@ -30,8 +30,8 @@ const EncryptData = (): JSX.Element => {
 
   const handleEncryptEmployees = async (): Promise<void> => {
     try {
-      if (policy && kmsToken && keyPair) {
-        const { masterPublicKeyBytes } = await retrieveKeyPair(kmsToken, keyPair);
+      if (policy && kmsToken && keyPairUids) {
+        const { masterPublicKeyBytes } = await retrieveKeyPair(kmsToken, keyPairUids);
         const encryptedEmployees = await Promise.all(
           clearEmployees.map(async (employee) => {
             const encryptedMarketing = await encryptDataLocally(
@@ -97,8 +97,8 @@ const EncryptData = (): JSX.Element => {
         </p>
         <EmployeeTable data={clearEmployees} covercrypt />
         <Button
-          disabled={keyPair == null}
-          onClick={keyPair ? handleEncryptEmployees : undefined}
+          disabled={keyPairUids == null}
+          onClick={keyPairUids ? handleEncryptEmployees : undefined}
           style={{ width: "100%", margin: "20px 0" }}
         >
           Encrypt database
@@ -109,16 +109,16 @@ const EncryptData = (): JSX.Element => {
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
-          codeInputList={codeList}
-          runCode={keyPair ? handleEncryptEmployees : undefined}
+          codeInputList={codeContent}
+          runCode={keyPairUids ? handleEncryptEmployees : undefined}
           codeOutputList={
             encryptedEmployees
               ? {
                   java: JSON.stringify(encryptedEmployees, undefined, 2),
                   javascript: JSON.stringify(encryptedEmployees, undefined, 2),
-                  python: "result",
-                  flutter: "result",
-                  cpp: "result",
+                  python: JSON.stringify(encryptedEmployees, undefined, 2),
+                  flutter: JSON.stringify(encryptedEmployees, undefined, 2),
+                  cpp: JSON.stringify(encryptedEmployees, undefined, 2),
                 }
               : undefined
           }
