@@ -6,7 +6,7 @@ import { defineLabel } from "../../actions/javascript/defineLabel";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -17,10 +17,8 @@ const Labelling = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("defineLabel", activeLanguageList);
   // states
-  const label = useBoundStore((state) => state.label);
-  const setLabel = useBoundStore((state) => state.setLabel);
-  const steps = useBoundStore((state) => state.steps);
-  const setSteps = useBoundStore((state) => state.setSteps);
+  const { label, setLabel } = useFindexStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

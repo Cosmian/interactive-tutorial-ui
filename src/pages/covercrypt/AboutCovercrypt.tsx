@@ -2,11 +2,11 @@ import CovercryptPrincipe from "../../assets/covercrypt_principle.drawio.svg";
 import DbSchema from "../../assets/db-schema.png";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { EmployeeTable } from "../../component/Table";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem } from "../../utils/navigationActions";
 
 const AboutCovercrypt = (): JSX.Element => {
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
+  const { clearEmployees } = useCovercryptStore((state) => state);
   const steps = useBoundStore((state) => state.steps);
   const currentItem = findCurrentNavigationItem(steps);
 

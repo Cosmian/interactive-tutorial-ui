@@ -10,8 +10,8 @@ const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter
 
 const SetupFindex = (): JSX.Element => {
   const [serviceSetup, setServiceSetup] = useState(false);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

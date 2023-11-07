@@ -11,7 +11,7 @@ import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore, usePkiStore } from "../../store/store";
 import { ACCESS_POLICY, POLICY_AXIS } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -22,14 +22,9 @@ const EncryptDataPki = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("encryptDataLocally", activeLanguageList);
   // states
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
-  const encryptedEmployeesPki = useBoundStore((state) => state.encryptedEmployeesPki);
-  const setClientOneUdkUid = useBoundStore((state) => state.setClientOneUdkUid);
-  const setEncryptedEmployeesPki = useBoundStore((state) => state.setEncryptedEmployeesPki);
-  const setWrappedPk2 = useBoundStore((state) => state.setWrappedPk2);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { encryptedEmployeesPki, setClientOneUdkUid, setEncryptedEmployeesPki, setWrappedPk2 } = usePkiStore((state) => state);
+  const { clearEmployees } = useCovercryptStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

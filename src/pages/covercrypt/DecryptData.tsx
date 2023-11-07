@@ -7,7 +7,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -18,16 +18,12 @@ const DecryptData = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("decryptDataLocally", activeLanguageList);
   // states
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPairUids = useBoundStore((state) => state.keyPairUids);
-  const policy = useBoundStore((state) => state.policy);
-  const decryptedEmployees = useBoundStore((state) => state.decryptedEmployees);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
-  const decryptionKeyUid = useBoundStore((state) => state.decryptionKeyUid);
-  const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
-  const setDecryptedEmployees = useBoundStore((state) => state.setDecryptedEmployees);
+  const { encryptedEmployees, decryptionKeyUid, setDecryptedEmployees, keyPairUids, policy, decryptedEmployees } = useCovercryptStore(
+    (state) => state
+  );
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
+
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleDecryptData = async (): Promise<void> => {

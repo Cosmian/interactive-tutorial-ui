@@ -7,7 +7,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -17,14 +17,9 @@ const IndexDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("upsertData", activeLanguageList);
   // states
-  const findexKey = useBoundStore((state) => state.findexKey);
-  const label = useBoundStore((state) => state.label);
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
-  const indexedEntries = useBoundStore((state) => state.indexedEntries);
-  const setIndexedEntries = useBoundStore((state) => state.setIndexedEntries);
-  const callbacks = useBoundStore((state) => state.callbacks);
-  const steps = useBoundStore((state) => state.steps);
-  const setSteps = useBoundStore((state) => state.setSteps);
+  const { findexKey, label, indexedEntries, setIndexedEntries, callbacks } = useFindexStore((state) => state);
+  const { clearEmployees } = useCovercryptStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

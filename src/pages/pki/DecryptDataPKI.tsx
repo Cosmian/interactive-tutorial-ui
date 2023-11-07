@@ -6,7 +6,7 @@ import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, usePkiStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -17,13 +17,9 @@ const DecryptDataPKI = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("decryptDataInKms", activeLanguageList);
   // states
-  const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
-  const encryptedEmployeesPki = useBoundStore((state) => state.encryptedEmployeesPki);
-  const clearEmployeesPki = useBoundStore((state) => state.clearEmployeesPki);
-  const setClearEmployeesPki = useBoundStore((state) => state.setClearEmployeesPki);
-  const unwrappedUdkUid = useBoundStore((state) => state.unwrappedUdkUid);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { encryptedEmployeesPki, clearEmployeesPki, setClearEmployeesPki, unwrappedUdkUid } = usePkiStore((state) => state);
+  const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

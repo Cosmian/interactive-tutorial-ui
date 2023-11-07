@@ -7,7 +7,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -17,14 +17,10 @@ const EncryptData = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("encryptDataLocally", activeLanguageList);
   // states
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPairUids = useBoundStore((state) => state.keyPairUids);
-  const policy = useBoundStore((state) => state.policy);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
-  const encryptedEmployees = useBoundStore((state) => state.encryptedEmployees);
-  const setEncryptedEmployees = useBoundStore((state) => state.setEncryptedEmployees);
+
+  const { encryptedEmployees, clearEmployees, keyPairUids, policy, setEncryptedEmployees } = useCovercryptStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

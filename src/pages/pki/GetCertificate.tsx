@@ -9,7 +9,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientOne, ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, usePkiStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -19,16 +19,8 @@ const GetCertificate = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("fetchWrappedKey", activeLanguageList);
   // states
-  const accessGranted = useBoundStore((state) => state.accessGranted);
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const clientOneUdkUid = useBoundStore((state) => state.clientOneUdkUid);
-  const setCertificateUid = useBoundStore((state) => state.setCertificateUid);
-  const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
-  const setWrappedUdk = useBoundStore((state) => state.setWrappedUdk);
-  const wrappedUdk = useBoundStore((state) => state.wrappedUdk);
-
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { accessGranted, wrappedPkCertUid, clientOneUdkUid, wrappedUdk, setCertificateUid, setWrappedUdk } = usePkiStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

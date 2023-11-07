@@ -12,11 +12,9 @@ const activeLanguageList: Language[] = [];
 
 const SetupPki = (): JSX.Element => {
   // states
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const [version, setVersion] = useState<string | undefined>();
-  const setServiceSetup = useBoundStore((state) => state.setPkiServiceSetup);
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
@@ -26,7 +24,6 @@ const SetupPki = (): JSX.Element => {
         const version = await getKmsVersion(kmsToken);
         if (version) {
           setVersion(version);
-          setServiceSetup();
           updateNavigationSteps(steps, setSteps);
           navigate("#");
         }

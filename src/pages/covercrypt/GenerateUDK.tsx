@@ -5,7 +5,7 @@ import { createDecryptionKey } from "../../actions/javascript/createDecryptionKe
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -15,21 +15,16 @@ const GenerateUDK = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createDecryptionKey", activeLanguageList);
   // states
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPair = useBoundStore((state) => state.keyPair);
-  const policy = useBoundStore((state) => state.policy);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
-  const decryptionKeyUid = useBoundStore((state) => state.decryptionKeyUid);
-  const setDecryptionKeyUid = useBoundStore((state) => state.setDecryptionKeyUid);
+  const { policy, keyPairUids, decryptionKeyUid, setDecryptionKeyUid } = useCovercryptStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleGenerateUDK = async (): Promise<void> => {
     try {
-      if (kmsToken && policy && keyPair) {
+      if (kmsToken && policy && keyPairUids) {
         const decryptionAccessPolicy = ACCESS_POLICY;
-        const udk = await createDecryptionKey(kmsToken, keyPair.masterSecretKeyUId, decryptionAccessPolicy);
+        const udk = await createDecryptionKey(kmsToken, keyPairUids.masterSecretKeyUId, decryptionAccessPolicy);
         setDecryptionKeyUid(udk);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -60,7 +55,7 @@ const GenerateUDK = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={keyPair && policy ? () => handleGenerateUDK() : undefined}
+          runCode={keyPairUids && policy ? () => handleGenerateUDK() : undefined}
           codeOutputList={
             decryptionKeyUid
               ? {

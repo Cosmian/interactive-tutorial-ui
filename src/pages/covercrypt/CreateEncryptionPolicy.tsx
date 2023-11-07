@@ -6,7 +6,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { POLICY_AXIS } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
@@ -17,17 +17,14 @@ const CreateEncryptionPolicy = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createPolicy", activeLanguageList);
   // states
-  const policy = useBoundStore((state) => state.policy);
-  const clearEmployees = useBoundStore((state) => state.clearEmployees);
-  const setPolicy = useBoundStore((state) => state.setPolicy);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const covercryptState = useCovercryptStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreatePolicy = async (): Promise<void> => {
     try {
-      setPolicy(await createPolicy(POLICY_AXIS));
+      covercryptState.setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
@@ -57,13 +54,13 @@ const CreateEncryptionPolicy = (): JSX.Element => {
         </p>
         <p>An access policy is defined by a set of partitions. It can be written as a boolean expression of axis attributes:</p>
         <pre>(Department::Marketing || Department::Sales) && Country::France</pre>
-        <EmployeeTable data={clearEmployees} covercrypt />
+        <EmployeeTable data={covercryptState.clearEmployees} covercrypt />
 
         <p>
           In the following demo, we will create a policy that combines two axes, a security level, and a department. A user will be able to
           decrypt data only if it possesses a key with a sufficient security level and the correct department.
         </p>
-        {policy && <pre>{POLICY_AXIS_TEXT}</pre>}
+        {covercryptState.policy && <pre>{POLICY_AXIS_TEXT}</pre>}
       </Split.Content>
 
       <Split.Code>
@@ -72,13 +69,13 @@ const CreateEncryptionPolicy = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={handleCreatePolicy}
           codeOutputList={
-            policy
+            covercryptState.policy
               ? {
-                  java: JSON.stringify(policy, undefined, 2),
-                  javascript: JSON.stringify(policy, undefined, 2),
-                  python: JSON.stringify(policy, undefined, 2),
-                  flutter: JSON.stringify(policy, undefined, 2),
-                  cpp: JSON.stringify(policy, undefined, 2),
+                  java: JSON.stringify(covercryptState.policy, undefined, 2),
+                  javascript: JSON.stringify(covercryptState.policy, undefined, 2),
+                  python: JSON.stringify(covercryptState.policy, undefined, 2),
+                  flutter: JSON.stringify(covercryptState.policy, undefined, 2),
+                  cpp: JSON.stringify(covercryptState.policy, undefined, 2),
                 }
               : undefined
           }

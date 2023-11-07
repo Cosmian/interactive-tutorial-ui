@@ -6,7 +6,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, usePkiStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -16,12 +16,9 @@ const GrantAccess = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("grantGetKeyAccess", activeLanguageList);
   // states
-  const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
-  const accessGranted = useBoundStore((state) => state.accessGranted);
-  const setAccessGranted = useBoundStore((state) => state.setAccessGranted);
-  const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { accessGranted, wrappedPkCertUid, setAccessGranted } = usePkiStore((state) => state);
+  const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

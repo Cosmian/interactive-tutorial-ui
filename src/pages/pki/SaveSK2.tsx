@@ -7,7 +7,7 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, usePkiStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -17,14 +17,9 @@ const SaveSK2 = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("uploadPemInPKI", activeLanguageList);
   // states
-  const kmsTwoToken = useBoundStore((state) => state.kmsTwoToken);
-  const wrappedPk2 = useBoundStore((state) => state.wrappedPk2);
-  const savedSk2 = useBoundStore((state) => state.savedSk2);
-  const setSavedSk2 = useBoundStore((state) => state.setSavedSk2);
-  const wrappedPkCertUid = useBoundStore((state) => state.wrappedPkCertUid);
-  const setPublishedWrappedPkUid = useBoundStore((state) => state.setPublishedWrappedPkUid);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const steps = useBoundStore((state) => state.steps);
+  const { wrappedPk2, wrappedPkCertUid, savedSk2, setSavedSk2, setPublishedWrappedPkUid } = usePkiStore((state) => state);
+  const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { FindexCallbacks, Language } from "../../utils/types";
 
@@ -15,10 +15,9 @@ const DefineCallbacks = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("defineCallbacks", activeLanguageList);
   // states
-  const callbacks = useBoundStore((state) => state.callbacks);
-  const setCallbacks = useBoundStore((state) => state.setCallbacks);
-  const steps = useBoundStore((state) => state.steps);
-  const setSteps = useBoundStore((state) => state.setSteps);
+  const { callbacks, setCallbacks } = useFindexStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

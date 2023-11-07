@@ -5,7 +5,7 @@ import { createFindexKey } from "../../actions/javascript/createFindexKey";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -15,10 +15,9 @@ const GenerateFindexKey = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createFindexKey", activeLanguageList);
   // states
-  const findexKey = useBoundStore((state) => state.findexKey);
-  const setFindexKey = useBoundStore((state) => state.setFindexKey);
-  const steps = useBoundStore((state) => state.steps);
-  const setSteps = useBoundStore((state) => state.setSteps);
+  const { findexKey, setFindexKey } = useFindexStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
+
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 

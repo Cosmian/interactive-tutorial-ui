@@ -5,7 +5,7 @@ import { createCovercryptKeyPair } from "../../actions/javascript/createCovercry
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -15,19 +15,15 @@ const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createCovercryptKeyPair", activeLanguageList);
   // states
-  const kmsToken = useBoundStore((state) => state.kmsToken);
-  const keyPairUids = useBoundStore((state) => state.keyPairUids);
-  const policy = useBoundStore((state) => state.policy);
-  const setSteps = useBoundStore((state) => state.setSteps);
-  const setKeyPairUids = useBoundStore((state) => state.setKeyPairUids);
-  const steps = useBoundStore((state) => state.steps);
+  const covercryptState = useCovercryptStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
-      if (policy && kmsToken) {
-        setKeyPairUids(await createCovercryptKeyPair(kmsToken, policy));
+      if (covercryptState.policy && kmsToken) {
+        covercryptState.setKeyPairUids(await createCovercryptKeyPair(kmsToken, covercryptState.policy));
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -57,15 +53,15 @@ const CreateMasterKeyPair = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={policy ? () => handleCreateMasterKeyPair() : undefined}
+          runCode={covercryptState.policy ? () => handleCreateMasterKeyPair() : undefined}
           codeOutputList={
-            keyPairUids
+            covercryptState.keyPairUids
               ? {
-                  java: JSON.stringify(keyPairUids, undefined, 2),
-                  javascript: JSON.stringify(keyPairUids, undefined, 2),
-                  python: JSON.stringify(keyPairUids, undefined, 2),
-                  flutter: JSON.stringify(keyPairUids, undefined, 2),
-                  cpp: JSON.stringify(keyPairUids, undefined, 2),
+                  java: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
+                  javascript: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
+                  python: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
+                  flutter: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
+                  cpp: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
                 }
               : undefined
           }

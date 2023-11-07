@@ -35,40 +35,45 @@ const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => 
   setKmsToken: (token: string) => set(() => ({ kmsToken: token })),
 });
 
+interface BearState {
+  bears: number;
+  increase: (by: number) => void;
+}
+export const useBearStore = create<BearState>()((set) => ({
+  bears: 0,
+  increase: (by) => set((state) => ({ bears: state.bears + by })),
+}));
+
 // COVERCRYPT
-interface CovercryptSlice {
+interface CovercryptState {
   clearEmployees: Employee[];
-  covercryptServiceSetup: boolean;
   policy: Policy | undefined;
-  keyPair: KeysUid | undefined;
+  keyPairUids: KeysUid | undefined;
   encryptedEmployees: EncryptedResult[] | undefined;
   decryptionKeyUid: string | undefined;
   decryptedEmployees: Employee[] | undefined;
-  setCovercryptServiceSetup: () => void;
   setPolicy: (policy: Policy) => void;
-  setKeyPair: (keyPair?: KeysUid) => void;
+  setKeyPairUids: (keyPairUids?: KeysUid) => void;
   setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) => void;
   setDecryptionKeyUid: (decryptionKeyUid?: string) => void;
   setDecryptedEmployees: (decryptedEmployees?: Employee[]) => void;
 }
-const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSlice> = (set) => ({
+export const useCovercryptStore = create<CovercryptState>()((set) => ({
   clearEmployees: employees,
-  covercryptServiceSetup: false,
   policy: undefined,
-  keyPair: undefined,
+  keyPairUids: undefined,
   encryptedEmployees: undefined,
   decryptionKeyUid: undefined,
   decryptedEmployees: undefined,
-  setCovercryptServiceSetup: () => set(() => ({ covercryptServiceSetup: true })),
   setPolicy: (policy: Policy) =>
     set((state) => {
-      state.setKeyPair(); // reset next steps
+      state.setKeyPairUids(); // reset next steps
       return { policy };
     }),
-  setKeyPair: (keyPair?: KeysUid) =>
+  setKeyPairUids: (keyPairUids?: KeysUid) =>
     set((state) => {
       state.setEncryptedEmployees(); // reset next steps
-      return { keyPair };
+      return { keyPairUids };
     }),
   setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) =>
     set((state) => {
@@ -81,31 +86,27 @@ const createCovercryptSlice: StateCreator<CovercryptSlice, [], [], CovercryptSli
       return { decryptionKeyUid };
     }),
   setDecryptedEmployees: (decryptedEmployees?: Employee[]) => set(() => ({ decryptedEmployees })),
-});
+}));
 
 // FINDEX
-interface FindexSlice {
-  findexServiceSetup: boolean;
+interface FindexState {
   findexKey: FindexKey | undefined;
   label: Label | undefined;
   callbacks: FindexCallbacks | undefined;
   indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: Employee[] | undefined;
-  setFindexServiceSetup: () => void;
   setFindexKey: (findexKey: FindexKey) => void;
   setLabel: (label?: Label) => void;
   setCallbacks: (callbacks?: FindexCallbacks) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
   setResultEmployees: (resultEmployees?: Employee[]) => void;
 }
-const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) => ({
-  findexServiceSetup: false,
+export const useFindexStore = create<FindexState>()((set) => ({
   findexKey: undefined,
   label: undefined,
   callbacks: undefined,
   indexedEntries: undefined,
   resultEmployees: undefined,
-  setFindexServiceSetup: () => set(() => ({ findexServiceSetup: true })),
   setFindexKey: (findexKey: FindexKey) =>
     set((state) => {
       state.setLabel(); // reset next steps
@@ -127,11 +128,10 @@ const createFindexSlice: StateCreator<FindexSlice, [], [], FindexSlice> = (set) 
       return { indexedEntries };
     }),
   setResultEmployees: (resultEmployees?: Employee[]) => set(() => ({ resultEmployees })),
-});
+}));
 
 // PKI
-interface PkiSlice {
-  pkiServiceSetup: boolean;
+interface PkiState {
   clientOneUdkUid: string | undefined;
   encryptedEmployeesPki: EncryptedResult[] | undefined;
   wrappedPk2: WrappedKey | undefined;
@@ -144,7 +144,6 @@ interface PkiSlice {
   wrappedUdk2: KmsObject | undefined;
   unwrappedUdkUid: string | undefined;
   clearEmployeesPki: Employee[] | undefined;
-  setPkiServiceSetup: () => void;
   setClientOneUdkUid: (uid: string) => void;
   setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
   setWrappedPk2: (wrappedPk2?: WrappedKey) => void;
@@ -158,8 +157,8 @@ interface PkiSlice {
   setUnwrappedUdkUid: (unwrappedUdkUid?: string) => void;
   setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => void;
 }
-const createPkiSlice: StateCreator<PkiSlice, [], [], PkiSlice> = (set) => ({
-  pkiServiceSetup: false,
+
+export const usePkiStore = create<PkiState>()((set) => ({
   clientOneUdkUid: undefined,
   encryptedEmployeesPki: undefined,
   wrappedPk2: undefined,
@@ -172,7 +171,6 @@ const createPkiSlice: StateCreator<PkiSlice, [], [], PkiSlice> = (set) => ({
   wrappedUdk2: undefined,
   unwrappedUdkUid: undefined,
   clearEmployeesPki: undefined,
-  setPkiServiceSetup: () => set(() => ({ pkiServiceSetup: true })),
   setClientOneUdkUid: (clientOneUdkUid: string) => set(() => ({ clientOneUdkUid })),
   setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) =>
     set((store) => {
@@ -225,16 +223,13 @@ const createPkiSlice: StateCreator<PkiSlice, [], [], PkiSlice> = (set) => ({
       return { unwrappedUdkUid };
     }),
   setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => set(() => ({ clearEmployeesPki })),
-});
+}));
 
 // BOUND STORE
-export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice & CovercryptSlice & FindexSlice & PkiSlice>((...a) => ({
+export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice>((...a) => ({
   ...createLanguageSlice(...a),
   ...createStepSlice(...a),
   ...createTokenSlice(...a),
-  ...createCovercryptSlice(...a),
-  ...createFindexSlice(...a),
-  ...createPkiSlice(...a),
 }));
 
 // TYPES
