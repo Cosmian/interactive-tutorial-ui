@@ -1,49 +1,54 @@
-import { MenuItem, SubMenuItem } from "./navigationConfig";
+import { NavigationConfig, NavigationItem } from "./navigationConfig";
 
-export const findCurrentNavigationItem = (steps: MenuItem[]): SubMenuItem | undefined => {
+export const findCurrentNavigationItem = (steps: NavigationConfig): NavigationItem | undefined => {
   const paths = window.location.pathname.split("/");
   paths.shift();
-  const parentItem = steps.find((item) => item.key === paths[0]);
+  const parentItem = Object.values(steps).find((item) => item.url === paths[0]);
   if (parentItem != null && parentItem.children != null) {
-    const index = parentItem.children.findIndex((subItem) => subItem.key === paths[1]);
-    return parentItem.children[index];
+    const subItem = Object.values(parentItem.children).find((subItem) => subItem.url === paths[1]);
+    return subItem;
   }
 };
 
 type ItemsFound = {
-  previous: SubMenuItem | undefined;
-  next: SubMenuItem | undefined;
+  previous: NavigationItem | undefined;
+  next: NavigationItem | undefined;
 };
-export const findNavigationItems = (steps: MenuItem[]): ItemsFound | undefined => {
+export const findNavigationItems = (steps: NavigationConfig): ItemsFound | undefined => {
   const paths = window.location.pathname.split("/");
   paths.shift();
-  const parentItem = steps.find((item) => item.key === paths[0]);
+  const parentUrl = paths[0];
+  const childrenUrl = paths[1];
+  const parentItem = Object.values(steps).find((item) => item.url === parentUrl);
   if (parentItem != null && parentItem.children != null) {
-    const index = parentItem.children.findIndex((subItem) => subItem.key === paths[1]);
+    let previous;
+    let next;
+    const subItem = Object.values(parentItem.children).find((subItem) => subItem.url === childrenUrl);
+    if (subItem) next = Object.values(parentItem.children).find((sub) => sub.key === subItem.key + 1);
+    if (subItem && subItem.key > 0) previous = Object.values(parentItem.children).find((sub) => sub.key === subItem.key - 1);
     return {
-      previous: index > 0 ? parentItem.children[index - 1] : undefined,
-      next: index ? parentItem.children[index + 1] : undefined,
+      previous,
+      next,
     };
   }
 };
 
-export const updateNavigationSteps = (initialSteps: MenuItem[], updateSteps: (newSteps: MenuItem[]) => void): void => {
+export const updateNavigationSteps = (initialSteps: NavigationConfig, updateSteps: (newSteps: NavigationConfig) => void): void => {
   const paths = window.location.pathname.split("/");
   paths.shift();
+  const parentUrl = paths[0];
+  const childrenUrl = paths[1];
+
+  // update current step
   const stepsCopy = initialSteps;
-  const parentIndex = initialSteps.findIndex((item) => item.key === paths[0]);
-  if (initialSteps[parentIndex].children != null && stepsCopy[parentIndex].children != null) {
-    const subIndex = (initialSteps[parentIndex].children as SubMenuItem[]).findIndex((subItem) => subItem.key === paths[1]);
-    if ((stepsCopy[parentIndex].children as SubMenuItem[])[subIndex] != null) {
-      (stepsCopy[parentIndex].children as SubMenuItem[])[subIndex] = {
-        ...(stepsCopy[parentIndex].children as SubMenuItem[])[subIndex],
-        done: true,
-      };
-      (stepsCopy[parentIndex].children as SubMenuItem[])[subIndex - 1] = {
-        ...(stepsCopy[parentIndex].children as SubMenuItem[])[subIndex - 1],
-        done: true,
-      };
-    }
-    updateSteps(stepsCopy);
+  (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[childrenUrl].done = true;
+
+  // update previous items
+  const items = findNavigationItems(initialSteps);
+  const previousItem = items?.previous;
+  if (previousItem) {
+    (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[previousItem.url].done = true;
   }
+
+  updateSteps(stepsCopy);
 };

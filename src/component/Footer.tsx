@@ -4,22 +4,24 @@ import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBoundStore } from "../store/store";
 import { findNavigationItems } from "../utils/navigationActions";
-import { SubMenuItem } from "../utils/navigationConfig";
+import { NavigationItem } from "../utils/navigationConfig";
 import "./layout.less";
 
 export const FooterNavigation = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
-  const steps = useBoundStore((state) => state.steps);
-  const [nextItem, setNextItem] = useState<undefined | SubMenuItem>();
-  const [previousItem, setPreviousItem] = useState<undefined | SubMenuItem>();
+  const { steps } = useBoundStore((state) => state);
+  const [nextItem, setNextItem] = useState<NavigationItem | undefined>();
+  const [previousItem, setPreviousItem] = useState<NavigationItem | undefined>();
   const paths = window.location.pathname.split("/");
   paths.shift();
 
   useEffect(() => {
     const itemsFound = findNavigationItems(steps);
-    setPreviousItem(itemsFound?.previous);
-    setNextItem(itemsFound?.next);
+    if (itemsFound) {
+      setPreviousItem(itemsFound.previous);
+      setNextItem(itemsFound.next);
+    }
   }, [params]);
 
   const previousOnly = previousItem != null && nextItem == null;
@@ -29,7 +31,7 @@ export const FooterNavigation = (): JSX.Element => {
       {previousItem && (
         <Button
           type="outline"
-          onClick={() => navigate(previousItem.key)}
+          onClick={() => navigate(previousItem.url)}
           icon={<IoArrowBackOutline size={18} style={{ marginBottom: -4 }} />}
         >
           Previous: {previousItem.label}
@@ -38,7 +40,7 @@ export const FooterNavigation = (): JSX.Element => {
       {nextItem && (
         <Button
           type="dark"
-          onClick={() => navigate(nextItem.key)}
+          onClick={() => navigate(nextItem.url)}
           rightIcon={<IoArrowForwardOutline size={18} style={{ marginBottom: -4 }} />}
         >
           Next: {nextItem.label}

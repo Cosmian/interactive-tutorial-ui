@@ -4,15 +4,16 @@ import React from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
 import { Link, Outlet } from "react-router-dom";
-import { SubMenuItem, navigationConfig } from "../utils/navigationConfig";
+import { useBoundStore } from "../store/store";
+import { findCurrentNavigationItem } from "../utils/navigationActions";
 import { FooterNavigation } from "./Footer";
 import { MainNavigation } from "./MainNavigation";
 import "./layout.less";
 
 const Layout = (): JSX.Element => {
-  const paths = window.location.pathname.split("/");
-  paths.shift();
-  const navigationSubItem = findNavigationSubItem(paths);
+  const steps = useBoundStore((state) => state.steps);
+
+  const navigationSubItem = findCurrentNavigationItem(steps);
   const footerNavigation = navigationSubItem?.footerNavigation;
   const { logout } = useAuth0();
 
@@ -61,14 +62,6 @@ const ExternalLink: React.FC<{ children: React.ReactNode; link: string }> = ({ c
       <LiaExternalLinkAltSolid size={18} />
     </a>
   );
-};
-
-const findNavigationSubItem = (paths: string[]): SubMenuItem | undefined => {
-  const parentItem = navigationConfig.find((item) => item.key === paths[0]);
-  if (parentItem != null && parentItem.children != null) {
-    const childrenItem = parentItem.children.find((item) => item.key === paths[1]) as SubMenuItem;
-    return childrenItem;
-  }
 };
 
 export const SingleContent: React.FC<{ children: React.ReactNode }> = ({ children }) => {

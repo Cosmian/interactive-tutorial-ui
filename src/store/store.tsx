@@ -1,7 +1,7 @@
 import { FindexKey, IndexedEntry, KmsObject, Label, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
 import { Employee, employees } from "../utils/covercryptConfig";
-import { MenuItem, navigationConfig } from "../utils/navigationConfig";
+import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
 import { EncryptedResult, FindexCallbacks, KeysUid, Language } from "../utils/types";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
@@ -16,12 +16,12 @@ const createLanguageSlice: StateCreator<LanguageSlice, [], [], LanguageSlice> = 
 });
 
 interface StepSlice {
-  steps: MenuItem[];
-  setSteps: (newSteps: MenuItem[]) => void;
+  steps: NavigationConfig;
+  setSteps: (newSteps: NavigationConfig) => void;
 }
 const createStepSlice: StateCreator<StepSlice, [], [], StepSlice> = (set) => ({
-  steps: navigationConfig as MenuItem[],
-  setSteps: (newSteps: MenuItem[]) => set(() => ({ steps: newSteps })),
+  steps: navigationConfig,
+  setSteps: (newSteps: NavigationConfig) => set(() => ({ steps: newSteps })),
 });
 
 interface TokenSlice {

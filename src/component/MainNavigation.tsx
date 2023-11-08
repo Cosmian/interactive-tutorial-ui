@@ -3,11 +3,11 @@ import { HiChevronDoubleLeft, HiOutlineChevronDoubleRight } from "react-icons/hi
 import { Link, useParams } from "react-router-dom";
 import { useBoundStore } from "../store/store";
 
-export const MainNavigation = () => {
+export const MainNavigation = (): JSX.Element => {
   const params = useParams();
   const [hidden, setHidden] = useState(false);
   const origin = window.location.origin;
-  const ititialSteps = useBoundStore((state) => state.steps);
+  const steps = useBoundStore((state) => state.steps);
   const paths = window.location.pathname.split("/");
   paths.shift();
 
@@ -22,11 +22,11 @@ export const MainNavigation = () => {
         {hidden ? <HiOutlineChevronDoubleRight /> : <HiChevronDoubleLeft />}
       </button>
       <ul>
-        {ititialSteps.map((item, idx) => {
+        {Object.values(steps).map((item, idx) => {
           if (item.children == null) {
             return (
               <li key={idx}>
-                <Link to={origin + "/" + item.key} className={item.key === paths[0] ? "active" : ""}>
+                <Link to={origin + "/" + item.url} className={item.url === paths[0] ? "active" : ""}>
                   {item.label}
                 </Link>
               </li>
@@ -35,16 +35,16 @@ export const MainNavigation = () => {
             return (
               <React.Fragment key={"fragment_" + idx}>
                 <li>
-                  <Link to={origin + "/" + item.key + "/" + item.children[0].key}>{item.label}</Link>
+                  <Link to={origin + "/" + item.url + "/" + Object.values(item.children)[0].url}>{item.label}</Link>
                 </li>
                 <li>
                   <ul>
-                    {item.children.map((subItem, subIdx) => (
+                    {Object.values(item.children).map((subItem, subIdx) => (
                       <div className="outer" key={idx + "sub" + subIdx}>
                         <li className={subItem.done ? "done" : ""}>
                           <Link
-                            to={origin + "/" + item.key + "/" + subItem.key}
-                            className={item.key === paths[0] && subItem.key === paths[1] ? "active" : ""}
+                            to={origin + "/" + item.url + "/" + subItem.url}
+                            className={item.url === paths[0] && subItem.url === paths[1] ? "active" : ""}
                           >
                             {subItem.label}
                           </Link>

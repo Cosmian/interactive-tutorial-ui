@@ -63,18 +63,18 @@ const router = createBrowserRouter(
         <Route index element={<Navigate to={"client-side-encryption"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
-      {navigationConfig.map((item) => {
+      {Object.values(navigationConfig).map((item) => {
         return (
-          <Route path={item.key} element={<Layout />} key={item.key}>
-            {item.children == null && <Route path={"/" + item.key} element={componentsList[item.key]} key={item.key} />}
+          <Route path={item.url} element={<Layout />} key={item.url}>
+            {item.children == null && <Route path={"/" + item.url} element={componentsList[item.url]} key={item.url} />}
             {item.children != null &&
-              item.children.map((subItem) => {
-                const component = componentsList[item.key + "/" + subItem.key] ? (
-                  componentsList[item.key + "/" + subItem.key]
+              Object.values(item.children).map((subItem) => {
+                const component = componentsList[item.url + "/" + subItem.url] ? (
+                  componentsList[item.url + "/" + subItem.url]
                 ) : (
                   <>missing component</>
                 );
-                return <Route path={subItem.key} element={component} key={subItem.key} />;
+                return <Route path={subItem.url} element={component} key={subItem.url} />;
               })}
           </Route>
         );

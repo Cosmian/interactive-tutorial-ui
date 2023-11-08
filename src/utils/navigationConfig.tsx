@@ -1,151 +1,200 @@
-export interface MenuItem {
-  key: string;
+export type NavigationItem = {
+  key: number;
+  url: string;
   label: string;
-  children?: SubMenuItem[];
-}
-export interface SubMenuItem {
-  key: string;
-  label: string;
+  children?: Record<string, NavigationItem>;
   footerNavigation?: boolean;
   done?: boolean;
-}
+};
 
-export const navigationConfig: MenuItem[] = [
-  {
-    key: "client-side-encryption",
+export type NavigationConfig = Record<string, NavigationItem>;
+
+export const navigationConfig: NavigationConfig = {
+  "client-side-encryption": {
+    key: 0,
+    url: "client-side-encryption",
     label: "Cosmian Client-side Encryption",
   },
-  {
-    key: "encrypt-with-access-policies",
+  "encrypt-with-access-policies": {
+    key: 1,
+    url: "encrypt-with-access-policies",
     label: "Encrypt with Access Policies",
-    children: [
-      {
-        key: "about-covercrypt",
+    children: {
+      "about-covercrypt": {
+        key: 0,
+        url: "about-covercrypt",
         label: "About Cosmian Covercrypt",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "set-up-service",
+      "set-up-service": {
+        key: 1,
+        url: "set-up-service",
         label: "Set up service",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "create-policy",
+      "create-policy": {
+        key: 2,
+        url: "create-policy",
         label: "Create encryption policy",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "generate-master-key-pair",
+      "generate-master-key-pair": {
+        key: 3,
+        url: "generate-master-key-pair",
         label: "Generate public and secret master key pair",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "encrypt-data",
+      "encrypt-data": {
+        key: 4,
+        url: "encrypt-data",
         label: "Encrypt data",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "user-decryption-key",
+      "user-decryption-key": {
+        key: 5,
+        url: "user-decryption-key",
         label: "Generate user decryption key",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "decrypt-data",
+      "decrypt-data": {
+        key: 6,
+        url: "decrypt-data",
         label: "Decrypt data",
         footerNavigation: true,
+        done: false,
       },
-    ],
+    },
   },
-  {
-    key: "build-encrypted-indexes",
+  "build-encrypted-indexes": {
+    key: 2,
+    url: "build-encrypted-indexes",
     label: "Build Encrypted Indexes",
-    children: [
-      {
-        key: "about-findex",
+    children: {
+      "about-findex": {
+        key: 0,
+        url: "about-findex",
         label: "About Cosmian Findex",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "set-up-service",
+      "set-up-service": {
+        key: 1,
+        url: "set-up-service",
         label: "Set up service",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "generate-findex-key",
+      "generate-findex-key": {
+        key: 2,
+        url: "generate-findex-key",
         label: "Generate Findex key",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "labelling",
+      labelling: {
+        key: 3,
+        url: "labelling",
         label: "Labeling: salting the encryption",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "callbacks",
+      callbacks: {
+        key: 4,
+        url: "callbacks",
         label: "Define callbacks",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "index-database",
+      "index-database": {
+        key: 5,
+        url: "index-database",
         label: "Index database",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "search-in-database",
+      "search-in-database": {
+        key: 6,
+        url: "search-in-database",
         label: "Search words in database",
         footerNavigation: true,
+        done: false,
       },
-    ],
+    },
   },
-  {
-    key: "distibute-keys",
+  "distibute-keys": {
+    key: 3,
+    url: "distibute-keys",
     label: "Distribute keys between clients",
-    children: [
-      {
-        key: "about-pki",
+    children: {
+      "about-pki": {
+        key: 0,
+        url: "about-pki",
         label: "About Cosmian PKI",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "set-up-service",
+      "set-up-service": {
+        key: 1,
+        url: "set-up-service",
         label: "Set up service",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "encrypt-data",
+      "encrypt-data": {
+        key: 2,
+        url: "encrypt-data",
         label: "Encrypt data",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "save-sk-publish-certificate",
+      "save-sk-publish-certificate": {
+        key: 3,
+        url: "save-sk-publish-certificate",
         label: "Save the Secret Key and publish certificate",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "grant-access",
+      "grant-access": {
+        key: 4,
+        url: "grant-access",
         label: "Grant access",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "retrieve-wrapped-decryption-key",
+      "retrieve-wrapped-decryption-key": {
+        key: 5,
+        url: "retrieve-wrapped-decryption-key",
         label: "Get certificate and retrieve wrapped Decryption Key",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "send-key-in-kms",
+      "send-key-in-kms": {
+        key: 6,
+        url: "send-key-in-kms",
         label: "Send wrapped Decryption Key in Cosmian KMS",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "unwrap-decryption-key",
+      "unwrap-decryption-key": {
+        key: 7,
+        url: "unwrap-decryption-key",
         label: "Import and unwrap Decryption Key",
         footerNavigation: true,
+        done: false,
       },
-      {
-        key: "decrypt-data",
+      "decrypt-data": {
+        key: 8,
+        url: "decrypt-data",
         label: "Decrypt data",
         footerNavigation: true,
+        done: false,
       },
-    ],
+    },
   },
-];
+};
