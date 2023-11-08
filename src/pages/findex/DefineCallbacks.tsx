@@ -9,7 +9,7 @@ import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { FindexCallbacks, Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const DefineCallbacks = (): JSX.Element => {
   // custom hooks

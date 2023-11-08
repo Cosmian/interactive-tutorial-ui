@@ -9,7 +9,7 @@ import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const GenerateUDK = (): JSX.Element => {
   // custom hooks

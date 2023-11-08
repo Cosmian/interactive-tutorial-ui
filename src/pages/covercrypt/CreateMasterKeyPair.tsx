@@ -9,7 +9,7 @@ import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks
