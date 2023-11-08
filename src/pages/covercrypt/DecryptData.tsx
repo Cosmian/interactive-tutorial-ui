@@ -83,7 +83,7 @@ const DecryptData = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>
-          The User Decryption Key can only decrypt the <code>(country::Germany) && (department::HR)</code> axis.
+          The User Decryption Key can only decrypt the <code>(country::Germany) && (department::Marketing)</code> axis.
         </p>
         <Button
           disabled={keyPairUids == null || policy == null}
@@ -98,7 +98,7 @@ const DecryptData = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={keyPairUids && policy ? handleDecryptData : undefined}
+          runCode={decryptionKeyUid ? handleDecryptData : undefined}
           codeOutputList={
             decryptedEmployees
               ? {

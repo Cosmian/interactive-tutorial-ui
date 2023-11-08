@@ -15,7 +15,7 @@ const GenerateUDK = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createDecryptionKey", activeLanguageList);
   // states
-  const { policy, keyPairUids, decryptionKeyUid, setDecryptionKeyUid } = useCovercryptStore((state) => state);
+  const { policy, keyPairUids, encryptedEmployees, decryptionKeyUid, setDecryptionKeyUid } = useCovercryptStore((state) => state);
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
@@ -48,14 +48,14 @@ const GenerateUDK = (): JSX.Element => {
         </p>
         <p>
           In this example we will generate a User Decryption Key with the following given access policy:{" "}
-          <code>(country::Germany) && (department::HR)</code>.
+          <code>(country::Germany) && (department::Marketing)</code>.
         </p>
       </Split.Content>
       <Split.Code>
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={keyPairUids && policy ? () => handleGenerateUDK() : undefined}
+          runCode={encryptedEmployees ? () => handleGenerateUDK() : undefined}
           codeOutputList={
             decryptionKeyUid
               ? {
