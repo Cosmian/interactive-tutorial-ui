@@ -31,41 +31,32 @@ const DecryptData = (): JSX.Element => {
       if (encryptedEmployees && kmsToken) {
         const retrievedDecryptionKey = await retrieveDecryptionKey(kmsToken, decryptionKeyUid as string);
 
-        const clearMarketing: Employee[] = await Promise.all(
-          encryptedEmployees.map(async (row) => {
+        const decryptedEmployees: Employee[] = await Promise.all(
+          encryptedEmployees.map(async (row, key): Promise<Employee> => {
+            let decryptedMarketing = undefined;
+            let decryptedHR = undefined;
             try {
               const marketing = await decryptDataLocally(row.marketing, retrievedDecryptionKey.bytes());
-              const decryptedMarketing = JSON.parse(marketing);
-              return decryptedMarketing;
+              decryptedMarketing = JSON.parse(marketing);
             } catch {
-              // do nothing
               console.error("no access policy for this entry");
             }
-          })
-        );
-        const clearHR: Employee[] = await Promise.all(
-          encryptedEmployees.map(async (row) => {
             try {
               const hr = await decryptDataLocally(row.hr, retrievedDecryptionKey.bytes());
-              const decryptedHR = JSON.parse(hr);
-              return decryptedHR;
+              decryptedHR = JSON.parse(hr);
             } catch {
-              // do nothing
               console.error("no access policy for this entry");
             }
+            return {
+              uuid: key,
+              first: decryptedMarketing?.first != null ? decryptedMarketing.first : undefined,
+              last: decryptedMarketing?.last != null ? decryptedMarketing.last : undefined,
+              country: decryptedMarketing?.country != null ? decryptedMarketing.country : undefined,
+              email: decryptedHR && decryptedHR[key]?.email != null ? decryptedHR[key].email : undefined,
+              salary: decryptedHR && decryptedHR[key]?.salary != null ? decryptedHR[key].salary : undefined,
+            };
           })
         );
-
-        const decryptedEmployees: Employee[] = clearMarketing.map((row, key) => {
-          return {
-            uuid: key,
-            first: row?.first != null ? row.first : undefined,
-            last: row?.last != null ? row.last : undefined,
-            country: row?.country != null ? row.country : undefined,
-            email: clearHR[key]?.email != null ? clearHR[key].email : undefined,
-            salary: clearHR[key]?.salary != null ? clearHR[key].salary : undefined,
-          };
-        });
         setDecryptedEmployees(decryptedEmployees);
 
         updateNavigationSteps(steps, setSteps);

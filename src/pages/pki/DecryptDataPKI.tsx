@@ -25,43 +25,33 @@ const DecryptDataPKI = (): JSX.Element => {
 
   const decryptData = async (): Promise<void> => {
     if (encryptedEmployeesPki && unwrappedUdkUid) {
-      const clearMarketing: Employee[] = await Promise.all(
-        encryptedEmployeesPki.map(async (row) => {
+      const clearEmployees: Employee[] = await Promise.all(
+        encryptedEmployeesPki.map(async (row, key): Promise<Employee> => {
+          let decryptedMarketing = undefined;
+          let decryptedHR = undefined;
           try {
             const marketing = await decryptDataInKms(row.marketing, kmsTwoToken, unwrappedUdkUid);
-            const decryptedMarketing = JSON.parse(marketing);
-            return decryptedMarketing;
+            decryptedMarketing = JSON.parse(marketing);
           } catch {
-            // do nothing
             console.error("no access policy for this entry");
           }
-        })
-      );
-      const clearHR: Employee[] = await Promise.all(
-        encryptedEmployeesPki.map(async (row) => {
           try {
             const hr = await decryptDataInKms(row.hr, kmsTwoToken, unwrappedUdkUid);
-            const decryptedHr = JSON.parse(hr);
-            return decryptedHr;
+            decryptedHR = JSON.parse(hr);
           } catch {
-            // do nothing
             console.error("no access policy for this entry");
           }
+          return {
+            uuid: key,
+            first: decryptedMarketing?.first != null ? decryptedMarketing.first : undefined,
+            last: decryptedMarketing?.last != null ? decryptedMarketing.last : undefined,
+            country: decryptedMarketing?.country != null ? decryptedMarketing.country : undefined,
+            email: decryptedHR && decryptedHR[key]?.email != null ? decryptedHR[key].email : undefined,
+            salary: decryptedHR && decryptedHR[key]?.salary != null ? decryptedHR[key].salary : undefined,
+          };
         })
       );
-
-      const clearEmployee = clearMarketing.map((row, key) => {
-        return {
-          uuid: key,
-          first: row?.first != null ? row.first : "–",
-          last: row?.last != null ? row.last : "–",
-          country: row?.country != null ? row.country : "–",
-          email: clearHR[key]?.email != null ? clearHR[key].email : "–",
-          salary: clearHR[key]?.salary != null ? clearHR[key].salary : "–",
-        };
-      });
-
-      setClearEmployeesPki(clearEmployee as Employee[]);
+      setClearEmployeesPki(clearEmployees);
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     }
