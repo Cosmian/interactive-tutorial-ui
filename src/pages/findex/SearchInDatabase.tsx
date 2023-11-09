@@ -12,7 +12,7 @@ import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
   const [keyWords, setKeyWords] = useState("Susan");

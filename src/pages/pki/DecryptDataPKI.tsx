@@ -11,7 +11,7 @@ import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["javascript"];
+const activeLanguageList: Language[] = ["javascript", "java", "python"];
 
 const DecryptDataPKI = (): JSX.Element => {
   // custom hooks
@@ -85,6 +85,8 @@ const DecryptDataPKI = (): JSX.Element => {
             clearEmployeesPki
               ? {
                   javascript: JSON.stringify(clearEmployeesPki, undefined, 2),
+                  java: JSON.stringify(clearEmployeesPki, undefined, 2),
+                  python: JSON.stringify(clearEmployeesPki, undefined, 2),
                 }
               : undefined
           }

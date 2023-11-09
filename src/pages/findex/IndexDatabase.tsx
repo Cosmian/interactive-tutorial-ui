@@ -11,7 +11,7 @@ import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/s
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const IndexDatabase = (): JSX.Element => {
   // custom hooks

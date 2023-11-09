@@ -10,7 +10,7 @@ import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const Labelling = (): JSX.Element => {
   const [labelValue, setLabelValue] = useState("Q3 2023");
