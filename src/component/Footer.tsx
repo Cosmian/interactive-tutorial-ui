@@ -24,6 +24,17 @@ export const FooterNavigation = (): JSX.Element => {
     }
   }, [params]);
 
+  document.onkeydown = (event: KeyboardEvent) => {
+    switch (event.code) {
+      case "ArrowRight":
+        if (nextItem) navigate(nextItem.url);
+        break;
+      case "ArrowLeft":
+        if (previousItem) navigate(previousItem.url);
+        break;
+    }
+  };
+
   const previousOnly = previousItem != null && nextItem == null;
   const nextOnly = nextItem != null && previousItem == null;
   return (
