@@ -1,6 +1,6 @@
 from cloudproof_py.findex import Label
 
 
-def defineLabel():
+def defineLabel(label: string):
     """Define label, salting the encryption"""
-    return Label.from_string("Week 13")
+    return Label.from_string(label)

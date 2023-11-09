@@ -1,6 +1,6 @@
 from cloudproof_py.findex import MasterKey
 
 
-def createFindexKey():
-  """Create Findex Key"""
-  master_key = MasterKey.random()
+def create_findex_key():
+    """Create Findex Key"""
+    return MasterKey.random()

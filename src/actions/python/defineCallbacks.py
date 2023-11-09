@@ -1,3 +1,6 @@
+from cloudproof_py.findex import Findex
+
+
 class FindexSQLite(Findex.FindexUpsert, Findex.FindexSearch):
     """Implement Findex callbacks using SQLite."""
 

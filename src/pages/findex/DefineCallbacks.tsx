@@ -56,6 +56,7 @@ const DefineCallbacks = (): JSX.Element => {
               ? {
                   javascript: printCallbacks(callbacks),
                   java: "Callbacks imported",
+                  python: "Callbacks imported",
                 }
               : undefined
           }
