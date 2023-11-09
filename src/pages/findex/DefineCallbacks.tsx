@@ -15,7 +15,7 @@ const DefineCallbacks = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("defineCallbacks", activeLanguageList);
   // states
-  const { callbacks, setCallbacks } = useFindexStore((state) => state);
+  const { callbacks, setCallbacks, label } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const DefineCallbacks = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={handleDefineCallbacks}
+          runCode={label ? handleDefineCallbacks : undefined}
           codeOutputList={
             callbacks
               ? {

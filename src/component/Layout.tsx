@@ -1,9 +1,12 @@
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons/lib/icons";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Tag } from "antd";
 import { Button, CosmianLogo, Header } from "cosmian_ui";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
 import { Link, Outlet } from "react-router-dom";
+import { getKmsVersion } from "../actions/javascript/testKmsVersion";
 import { useBoundStore } from "../store/store";
 import { findCurrentNavigationItem } from "../utils/navigationActions";
 import { FooterNavigation } from "./Footer";
@@ -16,6 +19,20 @@ const Layout = (): JSX.Element => {
   const navigationSubItem = findCurrentNavigationItem(steps);
   const footerNavigation = navigationSubItem?.footerNavigation;
   const { logout } = useAuth0();
+
+  const [healthOK, setHealthOK] = useState(false);
+  const ksmToken = useBoundStore((state) => state.kmsToken);
+
+  useEffect(() => {
+    handleKMSVersion();
+  }, [ksmToken]);
+
+  const handleKMSVersion = async () => {
+    if (ksmToken) {
+      const version = await getKmsVersion(ksmToken);
+      if (version != null) setHealthOK(true);
+    }
+  };
 
   const handleLogout = (): void => {
     logout({ logoutParams: { returnTo: window.location.origin } });
@@ -34,9 +51,10 @@ const Layout = (): JSX.Element => {
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
             <ExternalLink link="https://github.com/Cosmian/saas-applications-examples">GitHub repository</ExternalLink>
+            <KmsHealthTag healthOK={healthOK} />
             <Button
               rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />}
-              style={{ marginLeft: 20 }}
+              // style={{ marginLeft: 20 }}
               onClick={handleLogout}
             >
               Logout
@@ -95,5 +113,17 @@ export const ImageWrapper = ({ children, maxWidth, style, ...rest }: ImageWrappe
     >
       {children}
     </div>
+  );
+};
+
+const KmsHealthTag: React.FC<{ healthOK: boolean }> = ({ healthOK }) => {
+  return healthOK ? (
+    <Tag icon={<CheckCircleOutlined />} color="success">
+      KMS is up
+    </Tag>
+  ) : (
+    <Tag icon={<CloseCircleOutlined />} color="error">
+      KMS is down
+    </Tag>
   );
 };

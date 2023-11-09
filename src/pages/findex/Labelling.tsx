@@ -17,7 +17,7 @@ const Labelling = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("defineLabel", activeLanguageList);
   // states
-  const { label, setLabel } = useFindexStore((state) => state);
+  const { label, setLabel, findexKey } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
@@ -51,7 +51,7 @@ const Labelling = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={() => handleLabelling()}
+          runCode={findexKey ? () => handleLabelling() : undefined}
           codeOutputList={
             label
               ? {
