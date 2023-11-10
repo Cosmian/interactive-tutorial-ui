@@ -77,7 +77,7 @@ const DecryptData = (): JSX.Element => {
           The User Decryption Key can only decrypt the <code>(country::Germany) && (department::Marketing)</code> axis.
         </p>
         <Button
-          disabled={keyPairUids == null || policy == null}
+          disabled={decryptionKeyUid == null}
           onClick={keyPairUids && policy ? handleDecryptData : undefined}
           style={{ width: "100%", margin: "20px 0" }}
         >

@@ -61,7 +61,7 @@ const IndexDatabase = (): JSX.Element => {
         <p>In this example we will index employees’ database:</p>
         <EmployeeTable data={clearEmployees} />
         <Button
-          disabled={findexKey == null || label == null || callbacks == null}
+          disabled={findexKey == null}
           onClick={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
           style={{ width: "100%", margin: "20px 0" }}
         >
