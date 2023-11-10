@@ -13,8 +13,16 @@ export const findCurrentNavigationItem = (steps: NavigationConfig): NavigationIt
 };
 
 type ItemsFound = {
-  previous: NavigationItem | undefined;
-  next: NavigationItem | undefined;
+  previous:
+    | (NavigationItem & {
+        url: string;
+      })
+    | undefined;
+  next:
+    | (NavigationItem & {
+        url: string;
+      })
+    | undefined;
 };
 export const findNavigationItems = (steps: NavigationConfig): ItemsFound | undefined => {
   const paths = window.location.pathname.split("/");
@@ -23,14 +31,32 @@ export const findNavigationItems = (steps: NavigationConfig): ItemsFound | undef
   const childrenUrl = paths[1];
   const parentItem = steps[parentUrl];
   if (parentItem != null && parentItem.children != null) {
-    let previous;
-    let next;
+    let previousEntries: [string, NavigationItem] | undefined;
+    let nextEntries: [string, NavigationItem] | undefined;
     const subItem = parentItem.children[childrenUrl];
-    if (subItem) next = Object.values(parentItem.children).find((sub) => sub.key === subItem.key + 1);
-    if (subItem && subItem.key > 0) previous = Object.values(parentItem.children).find((sub) => sub.key === subItem.key - 1);
+    if (subItem) {
+      nextEntries = Object.entries(parentItem.children).find((sub) => sub[1].key === subItem.key + 1);
+    }
+    if (subItem) {
+      previousEntries = Object.entries(parentItem.children).find((sub) => sub[1].key === subItem.key - 1);
+    }
     return {
-      previous,
-      next,
+      previous: previousEntries
+        ? {
+            url: previousEntries[0],
+            done: previousEntries[1].done,
+            key: previousEntries[1].key,
+            label: previousEntries[1].label,
+          }
+        : undefined,
+      next: nextEntries
+        ? {
+            url: nextEntries[0],
+            done: nextEntries[1].done,
+            key: nextEntries[1].key,
+            label: nextEntries[1].label,
+          }
+        : undefined,
     };
   }
 };

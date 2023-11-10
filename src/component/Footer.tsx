@@ -11,8 +11,18 @@ export const FooterNavigation = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
   const { steps } = useBoundStore((state) => state);
-  const [nextItem, setNextItem] = useState<NavigationItem | undefined>();
-  const [previousItem, setPreviousItem] = useState<NavigationItem | undefined>();
+  const [nextItem, setNextItem] = useState<
+    | (NavigationItem & {
+        url: string;
+      })
+    | undefined
+  >();
+  const [previousItem, setPreviousItem] = useState<
+    | (NavigationItem & {
+        url: string;
+      })
+    | undefined
+  >();
   const paths = window.location.pathname.split("/");
   paths.shift();
 
