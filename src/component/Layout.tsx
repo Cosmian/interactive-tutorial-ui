@@ -27,7 +27,7 @@ const Layout = (): JSX.Element => {
     handleKMSVersion();
   }, [ksmToken]);
 
-  const handleKMSVersion = async () => {
+  const handleKMSVersion = async (): Promise<void> => {
     if (ksmToken) {
       const version = await getKmsVersion(ksmToken);
       if (version != null) setHealthOK(true);

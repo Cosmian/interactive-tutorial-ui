@@ -1,6 +1,6 @@
 import { default as ReactSplit } from "react-split";
 
-const Split = ({ children }: { children: React.ReactNode }) => {
+const Split = ({ children }: { children: React.ReactNode }): JSX.Element => {
   return <ReactSplit className="split">{children}</ReactSplit>;
 };
 
