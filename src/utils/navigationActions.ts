@@ -53,5 +53,12 @@ export const updateNavigationSteps = (initialSteps: NavigationConfig, updateStep
     previousItem.done = true;
   }
 
+  // update next items
+  const nextItems = Object.values(stepsCopy[parentUrl].children as Record<string, NavigationItem>).filter((sub) => {
+    return (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[childrenUrl].key < sub.key;
+  });
+  nextItems.forEach((nextItem) => (nextItem.done = false));
+
+  // set all
   updateSteps(stepsCopy);
 };
