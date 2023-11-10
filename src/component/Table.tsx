@@ -10,17 +10,17 @@ const { Column, ColumnGroup } = Table;
 type EmployeeTablePros = {
   data: Employee[];
   covercrypt?: boolean;
-  clasName?: string;
+  className?: string;
   style?: React.CSSProperties;
 };
 type EncryptedTablePros = {
   data: EncryptedResult[];
-  clasName?: string;
+  className?: string;
   style?: React.CSSProperties;
 };
 type IndexedTableProps = {
   data: IndexedEntry[];
-  clasName?: string;
+  className?: string;
   style?: React.CSSProperties;
 };
 

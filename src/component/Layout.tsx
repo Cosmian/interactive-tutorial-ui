@@ -52,11 +52,7 @@ const Layout = (): JSX.Element => {
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
             <ExternalLink link="https://github.com/Cosmian/saas-applications-examples">GitHub repository</ExternalLink>
             <KmsHealthTag healthOK={healthOK} />
-            <Button
-              rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />}
-              // style={{ marginLeft: 20 }}
-              onClick={handleLogout}
-            >
+            <Button rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />} onClick={handleLogout}>
               Logout
             </Button>
           </div>
