@@ -3,9 +3,11 @@ import { NavigationConfig, NavigationItem } from "./navigationConfig";
 export const findCurrentNavigationItem = (steps: NavigationConfig): NavigationItem | undefined => {
   const paths = window.location.pathname.split("/");
   paths.shift();
-  const parentItem = Object.values(steps).find((item) => item.url === paths[0]);
+  const parentUrl = paths[0];
+  const childrenUrl = paths[1];
+  const parentItem = steps[parentUrl];
   if (parentItem != null && parentItem.children != null) {
-    const subItem = Object.values(parentItem.children).find((subItem) => subItem.url === paths[1]);
+    const subItem = parentItem.children[childrenUrl];
     return subItem;
   }
 };
@@ -19,11 +21,11 @@ export const findNavigationItems = (steps: NavigationConfig): ItemsFound | undef
   paths.shift();
   const parentUrl = paths[0];
   const childrenUrl = paths[1];
-  const parentItem = Object.values(steps).find((item) => item.url === parentUrl);
+  const parentItem = steps[parentUrl];
   if (parentItem != null && parentItem.children != null) {
     let previous;
     let next;
-    const subItem = Object.values(parentItem.children).find((subItem) => subItem.url === childrenUrl);
+    const subItem = parentItem.children[childrenUrl];
     if (subItem) next = Object.values(parentItem.children).find((sub) => sub.key === subItem.key + 1);
     if (subItem && subItem.key > 0) previous = Object.values(parentItem.children).find((sub) => sub.key === subItem.key - 1);
     return {
@@ -44,10 +46,11 @@ export const updateNavigationSteps = (initialSteps: NavigationConfig, updateStep
   (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[childrenUrl].done = true;
 
   // update previous items
-  const items = findNavigationItems(initialSteps);
-  const previousItem = items?.previous;
+  const previousItem = Object.values(stepsCopy[parentUrl].children as Record<string, NavigationItem>).find(
+    (sub) => sub.key === (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[childrenUrl].key - 1
+  );
   if (previousItem) {
-    (stepsCopy[parentUrl].children as Record<string, NavigationItem>)[previousItem.url].done = true;
+    previousItem.done = true;
   }
 
   updateSteps(stepsCopy);

@@ -63,22 +63,26 @@ const router = createBrowserRouter(
         <Route index element={<Navigate to={"client-side-encryption"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
-      {Object.values(navigationConfig).map((item) => {
+      {Object.entries(navigationConfig).map((item) => {
+        const itemKey = item[0];
+        const itemValue = item[1];
         return (
-          <Route path={item.url} element={<Layout />} key={item.url}>
-            {item.children == null && <Route path={"/" + item.url} element={componentsList[item.url]} key={item.url} />}
-            {item.children != null &&
-              Object.values(item.children).map((subItem) => {
-                const component = componentsList[item.url + "/" + subItem.url] ? (
-                  componentsList[item.url + "/" + subItem.url]
+          <Route path={itemKey} element={<Layout />} key={itemKey}>
+            {itemValue.children == null && <Route path={"/" + itemKey} element={componentsList[itemKey]} key={itemKey} />}
+            {itemValue.children != null &&
+              Object.entries(itemValue.children).map((childrenItem) => {
+                const childrenItemKey = childrenItem[0];
+                const component = componentsList[itemKey + "/" + childrenItemKey] ? (
+                  componentsList[itemKey + "/" + childrenItemKey]
                 ) : (
                   <>missing component</>
                 );
-                return <Route path={subItem.url} element={component} key={subItem.url} />;
+                return <Route path={childrenItemKey} element={component} key={childrenItemKey} />;
               })}
           </Route>
         );
       })}
+
       {/* Pages without layout */}
       <Route path="/">
         <Route path="404" element={<>404</>} />

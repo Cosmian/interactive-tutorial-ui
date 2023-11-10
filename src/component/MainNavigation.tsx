@@ -22,12 +22,15 @@ export const MainNavigation = (): JSX.Element => {
         {hidden ? <HiOutlineChevronDoubleRight /> : <HiChevronDoubleLeft />}
       </button>
       <ul>
-        {Object.values(steps).map((item, idx) => {
-          if (item.children == null) {
+        {Object.entries(steps).map((item, idx) => {
+          const itemKey = item[0];
+          const itemValue = item[1];
+
+          if (itemValue.children == null) {
             return (
               <li key={idx}>
-                <Link to={origin + "/" + item.url} className={item.url === paths[0] ? "active" : ""}>
-                  {item.label}
+                <Link to={origin + "/" + itemKey} className={itemKey === paths[0] ? "active" : ""}>
+                  {itemValue.label}
                 </Link>
               </li>
             );
@@ -35,22 +38,27 @@ export const MainNavigation = (): JSX.Element => {
             return (
               <React.Fragment key={"fragment_" + idx}>
                 <li>
-                  <Link to={origin + "/" + item.url + "/" + Object.values(item.children)[0].url}>{item.label}</Link>
+                  <Link to={origin + "/" + itemKey + "/" + Object.entries(itemValue.children)[0][0]}>{itemValue.label}</Link>
                 </li>
                 <li>
                   <ul>
-                    {Object.values(item.children).map((subItem, subIdx) => (
-                      <div className="outer" key={idx + "sub" + subIdx}>
-                        <li className={subItem.done ? "done" : ""}>
-                          <Link
-                            to={origin + "/" + item.url + "/" + subItem.url}
-                            className={item.url === paths[0] && subItem.url === paths[1] ? "active" : ""}
-                          >
-                            {subItem.label}
-                          </Link>
-                        </li>
-                      </div>
-                    ))}
+                    {Object.entries(itemValue.children).map((childrenItem, subIdx) => {
+                      const childrenItemKey = childrenItem[0];
+                      const ChildrenItemValue = childrenItem[1];
+
+                      return (
+                        <div className="outer" key={idx + "sub" + subIdx}>
+                          <li className={ChildrenItemValue.done ? "done" : ""}>
+                            <Link
+                              to={origin + "/" + itemKey + "/" + childrenItemKey}
+                              className={itemKey === paths[0] && childrenItemKey === paths[1] ? "active" : ""}
+                            >
+                              {ChildrenItemValue.label}
+                            </Link>
+                          </li>
+                        </div>
+                      );
+                    })}
                   </ul>
                 </li>
               </React.Fragment>
