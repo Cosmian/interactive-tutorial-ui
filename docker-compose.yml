@@ -1,5 +1,13 @@
 version: "3"
 services:
+  backend:
+    container_name: kms_4.8.0
+    image: ghcr.io/cosmian/kms:4.8.0
+    ports:
+      - 9998:9998
+    environment:
+      - KMS_JWT_ISSUER_URI=https://${VITE_AUTH0_DOMAIN}
+      - KMS_JWKS_URI=https://${VITE_AUTH0_DOMAIN}/.well-known/jwks.json
   frontend:
     build:
       context: .
