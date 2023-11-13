@@ -1,0 +1,22 @@
+version: "3"
+services:
+  backend:
+    container_name: kms_4.8.0
+    image: ghcr.io/cosmian/kms:4.8.0
+    ports:
+      - 9998:9998
+    environment:
+      - KMS_JWT_ISSUER_URI=https://${VITE_AUTH0_DOMAIN}
+      - KMS_JWKS_URI=https://${VITE_AUTH0_DOMAIN}/.well-known/jwks.json
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
+        - VITE_AUTH0_CUSTOM_DOMAIN=${VITE_AUTH0_CUSTOM_DOMAIN}
+        - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
+        - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+        - VITE_CLIENT_2_TOKEN=${VITE_CLIENT_2_TOKEN}
+    ports:
+      - 3000:3000
