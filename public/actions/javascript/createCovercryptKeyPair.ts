@@ -1,4 +1,4 @@
-import { KmsClient, Policy } from "cloudproof_js";
+import { KmsClient, PolicyKms } from "cloudproof_js";
 import { BACKEND_URL } from "./backendConfig";
 
 //
@@ -11,7 +11,7 @@ export type KeysUid = {
 
 export const createCovercryptKeyPair = async (
   kmsToken: string,
-  policy: Policy,
+  policy: PolicyKms,
   tags: string[] | undefined = undefined
 ): Promise<KeysUid> => {
   const client = new KmsClient(BACKEND_URL, kmsToken);
