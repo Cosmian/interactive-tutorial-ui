@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { PolicyKms } from "cloudproof_js";
 import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
@@ -15,15 +16,16 @@ const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createCovercryptKeyPair", activeLanguageList);
   // states
-  const covercryptState = useCovercryptStore((state) => state);
+  const { policy, keyPairUids, setKeyPairUids } = useCovercryptStore((state) => state);
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreateMasterKeyPair = async (): Promise<void> => {
     try {
-      if (covercryptState.policy && kmsToken) {
-        covercryptState.setKeyPairUids(await createCovercryptKeyPair(kmsToken, covercryptState.policy));
+      if (policy && kmsToken) {
+        const bytesPolicy: PolicyKms = new PolicyKms(policy.toBytes());
+        setKeyPairUids(await createCovercryptKeyPair(kmsToken, bytesPolicy));
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -53,15 +55,15 @@ const CreateMasterKeyPair = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={covercryptState.policy ? () => handleCreateMasterKeyPair() : undefined}
+          runCode={policy ? () => handleCreateMasterKeyPair() : undefined}
           codeOutputList={
-            covercryptState.keyPairUids
+            keyPairUids
               ? {
-                  java: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
-                  javascript: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
-                  python: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
-                  flutter: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
-                  cpp: JSON.stringify(covercryptState.keyPairUids, undefined, 2),
+                  java: JSON.stringify(keyPairUids, undefined, 2),
+                  javascript: JSON.stringify(keyPairUids, undefined, 2),
+                  python: JSON.stringify(keyPairUids, undefined, 2),
+                  flutter: JSON.stringify(keyPairUids, undefined, 2),
+                  cpp: JSON.stringify(keyPairUids, undefined, 2),
                 }
               : undefined
           }

@@ -2,7 +2,7 @@ import { message } from "antd";
 import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { uploadPemInPKI } from "../../actions/javascript/uploadPemInPKI";
+import { uploadDerInPKI } from "../../actions/javascript/uploadDerInPKI";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
@@ -15,7 +15,7 @@ const activeLanguageList: Language[] = ["javascript"];
 
 const SaveSK2 = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeContent } = useFetchCodeContent("uploadPemInPKI", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("uploadDerInPKI", activeLanguageList);
   // states
   const { wrappedPk2, wrappedPkCertUid, savedSk2, setSavedSk2, setPublishedWrappedPkUid } = usePkiStore((state) => state);
   const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
@@ -26,9 +26,9 @@ const SaveSK2 = (): JSX.Element => {
   const saveSecretKeyAndPublishCertificate = async (): Promise<void> => {
     try {
       if (kmsTwoToken && wrappedPk2) {
-        const savedSk2Uid = await uploadPemInPKI(kmsTwoToken, uuidv4(), wrappedPk2.privateKeyBytes);
+        const savedSk2Uid = await uploadDerInPKI(kmsTwoToken, uuidv4(), wrappedPk2.privateKeyBytes);
         setSavedSk2(savedSk2Uid);
-        const wrappedPkCertUid = await uploadPemInPKI(kmsTwoToken, uuidv4(), wrappedPk2.certBytes);
+        const wrappedPkCertUid = await uploadDerInPKI(kmsTwoToken, uuidv4(), wrappedPk2.certBytes);
         setPublishedWrappedPkUid(wrappedPkCertUid);
         updateNavigationSteps(steps, setSteps);
         navigate("#");

@@ -1,8 +1,8 @@
 version: "3"
 services:
   backend:
-    container_name: kms_4.8.0
-    image: ghcr.io/cosmian/kms:4.8.0
+    container_name: kms_4.9.1
+    image: ghcr.io/cosmian/kms:4.9.1
     ports:
       - 9998:9998
     environment:
