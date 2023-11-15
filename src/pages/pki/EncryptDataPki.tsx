@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { PolicyKms } from "cloudproof_js";
 import { Button, Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
@@ -33,7 +34,8 @@ const EncryptDataPki = (): JSX.Element => {
       if (kmsToken) {
         // generate policy + key pair
         const policy = await createPolicy(POLICY_AXIS);
-        const keyPair = await createCovercryptKeyPair(kmsToken, policy);
+        const bytesPolicy: PolicyKms = new PolicyKms(policy.toBytes());
+        const keyPair = await createCovercryptKeyPair(kmsToken, bytesPolicy);
         // generate decryption key
         const decryptionKey = await createDecryptionKey(kmsToken, keyPair.masterSecretKeyUId, ACCESS_POLICY);
         setClientOneUdkUid(decryptionKey);

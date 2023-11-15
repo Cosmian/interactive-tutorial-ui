@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { fetchPKI } from "../../actions/javascript/fetchPKI";
 import { fetchWrappedKey } from "../../actions/javascript/fetchWrappedKey";
-import { uploadPemInPKI } from "../../actions/javascript/uploadPemInPKI";
+import { uploadDerInPKI } from "../../actions/javascript/uploadDerInPKI";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { ClientOne, ClientTwo } from "../../component/Tags";
@@ -29,7 +29,7 @@ const GetCertificate = (): JSX.Element => {
       if (accessGranted && kmsToken && wrappedPkCertUid && clientOneUdkUid) {
         const kmsObject = await fetchPKI(kmsToken, wrappedPkCertUid);
         if (kmsObject.type === "Certificate") {
-          const uid = await uploadPemInPKI(kmsToken, uuidv4(), kmsObject.value.certificateValue);
+          const uid = await uploadDerInPKI(kmsToken, uuidv4(), kmsObject.value.certificateValue);
           setCertificateUid(uid);
           const wrappedKey = await fetchWrappedKey(kmsToken, clientOneUdkUid, uid);
           setWrappedUdk(wrappedKey);
