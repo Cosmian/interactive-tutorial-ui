@@ -35,15 +35,6 @@ const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => 
   setKmsToken: (token: string) => set(() => ({ kmsToken: token })),
 });
 
-interface BearState {
-  bears: number;
-  increase: (by: number) => void;
-}
-export const useBearStore = create<BearState>()((set) => ({
-  bears: 0,
-  increase: (by) => set((state) => ({ bears: state.bears + by })),
-}));
-
 // COVERCRYPT
 interface CovercryptState {
   clearEmployees: Employee[];
