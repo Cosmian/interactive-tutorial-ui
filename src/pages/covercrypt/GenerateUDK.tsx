@@ -1,8 +1,8 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
 import Code from "../../component/Code";
+import ContentSkuleton from "../../component/ContentSkuleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
@@ -34,7 +34,7 @@ const GenerateUDK = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>
@@ -62,8 +62,6 @@ const GenerateUDK = (): JSX.Element => {
                   java: JSON.stringify(decryptionKeyUid, undefined, 2),
                   javascript: JSON.stringify(decryptionKeyUid, undefined, 2),
                   python: JSON.stringify(decryptionKeyUid, undefined, 2),
-                  flutter: JSON.stringify(decryptionKeyUid, undefined, 2),
-                  cpp: JSON.stringify(decryptionKeyUid, undefined, 2),
                 }
               : undefined
           }

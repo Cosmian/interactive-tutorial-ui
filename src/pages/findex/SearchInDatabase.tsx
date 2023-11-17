@@ -1,5 +1,5 @@
 import { Input, message } from "antd";
-import { Button, Spinner } from "cosmian_ui";
+import { Button } from "cosmian_ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchWords } from "../../actions/javascript/searchWords";
@@ -12,6 +12,7 @@ import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
+import ContentSkuleton from "../../component/ContentSkuleton";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
@@ -41,7 +42,7 @@ const SearchInDatabase = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>

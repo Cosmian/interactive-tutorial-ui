@@ -1,9 +1,9 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { uploadDerInPKI } from "../../actions/javascript/uploadDerInPKI";
 import Code from "../../component/Code";
+import ContentSkuleton from "../../component/ContentSkuleton";
 import Split from "../../component/Split";
 import { ClientTwo } from "../../component/Tags";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -38,7 +38,7 @@ const SaveSK2 = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>

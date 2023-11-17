@@ -1,8 +1,8 @@
 import { message } from "antd";
 import { callbacksExamplesInMemory } from "cloudproof_js";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
+import ContentSkuleton from "../../component/ContentSkuleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
@@ -33,7 +33,7 @@ const DefineCallbacks = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>

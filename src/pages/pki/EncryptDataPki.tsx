@@ -1,6 +1,6 @@
 import { message } from "antd";
 import { PolicyKms } from "cloudproof_js";
-import { Button, Spinner } from "cosmian_ui";
+import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
@@ -8,6 +8,7 @@ import { createPolicy } from "../../actions/javascript/createPolicy";
 import { encryptDataInKms } from "../../actions/javascript/encryptDataInKms";
 import { wrapKeyInCertificate } from "../../actions/javascript/wrapKeyInCertificate";
 import Code from "../../component/Code";
+import ContentSkuleton from "../../component/ContentSkuleton";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
@@ -77,7 +78,7 @@ const EncryptDataPki = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>

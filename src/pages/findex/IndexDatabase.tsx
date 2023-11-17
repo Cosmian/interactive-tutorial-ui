@@ -1,9 +1,10 @@
 import { message } from "antd";
 import { IndexedEntry, Location } from "cloudproof_js";
-import { Button, Spinner } from "cosmian_ui";
+import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
+import ContentSkuleton from "../../component/ContentSkuleton";
 import Split from "../../component/Split";
 import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -48,7 +49,7 @@ const IndexDatabase = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkuleton />;
 
   return (
     <Split>
