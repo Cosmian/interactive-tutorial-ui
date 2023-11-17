@@ -80,7 +80,6 @@ const IndexDatabase = (): JSX.Element => {
             java: JSON.stringify(indexedEntries, undefined, 2),
             javascript: JSON.stringify(indexedEntries, undefined, 2),
             python: JSON.stringify(indexedEntries, undefined, 2),
-            flutter: JSON.stringify(indexedEntries, undefined, 2),
           }}
         />
       </Split.Code>

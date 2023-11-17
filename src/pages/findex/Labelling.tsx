@@ -58,7 +58,6 @@ const Labelling = (): JSX.Element => {
                   java: JSON.stringify(label, undefined, 2),
                   javascript: JSON.stringify(label, undefined, 2),
                   python: JSON.stringify(label, undefined, 2),
-                  flutter: JSON.stringify(label, undefined, 2),
                 }
               : undefined
           }

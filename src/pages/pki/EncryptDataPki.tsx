@@ -122,8 +122,6 @@ const EncryptDataPki = (): JSX.Element => {
                   java: JSON.stringify(encryptedEmployeesPki, undefined, 2),
                   javascript: JSON.stringify(encryptedEmployeesPki, undefined, 2),
                   python: JSON.stringify(encryptedEmployeesPki, undefined, 2),
-                  flutter: JSON.stringify(encryptedEmployeesPki, undefined, 2),
-                  cpp: JSON.stringify(encryptedEmployeesPki, undefined, 2),
                 }
               : undefined
           }

@@ -67,7 +67,6 @@ const SearchInDatabase = (): JSX.Element => {
                   java: JSON.stringify(resultEmployees, undefined, 2),
                   javascript: JSON.stringify(resultEmployees, undefined, 2),
                   python: JSON.stringify(resultEmployees, undefined, 2),
-                  flutter: JSON.stringify(resultEmployees, undefined, 2),
                 }
               : undefined
           }

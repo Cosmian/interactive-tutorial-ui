@@ -114,8 +114,6 @@ const EncryptData = (): JSX.Element => {
                   java: JSON.stringify(encryptedEmployees, undefined, 2),
                   javascript: JSON.stringify(encryptedEmployees, undefined, 2),
                   python: JSON.stringify(encryptedEmployees, undefined, 2),
-                  flutter: JSON.stringify(encryptedEmployees, undefined, 2),
-                  cpp: JSON.stringify(encryptedEmployees, undefined, 2),
                 }
               : undefined
           }

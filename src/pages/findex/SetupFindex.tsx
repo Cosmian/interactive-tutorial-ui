@@ -6,7 +6,7 @@ import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SetupFindex = (): JSX.Element => {
   const [serviceSetup, setServiceSetup] = useState(false);
@@ -72,7 +72,6 @@ const SetupFindex = (): JSX.Element => {
             java: JAVA_CODE,
             javascript: JS_CODE,
             python: PYTHON_CODE,
-            flutter: FLUTTER_CODE,
           }}
           codeOutputList={
             serviceSetup
@@ -80,7 +79,6 @@ const SetupFindex = (): JSX.Element => {
                   java: "# successfully installed",
                   javascript: "# successfully installed",
                   python: "# successfully installed",
-                  flutter: "# successfully installed",
                 }
               : undefined
           }
@@ -109,4 +107,3 @@ from cloudproof_py.findex import Findex, Keyword, Label, Location, MasterKey
 
 # needed if you use type checking
 from cloudproof_py.findex.typing import IndexedValuesAndKeywords, ProgressResults`;
-const FLUTTER_CODE = "flutter pub add cloudproof";

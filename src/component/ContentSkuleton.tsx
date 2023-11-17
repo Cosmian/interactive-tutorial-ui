@@ -16,8 +16,6 @@ const ContentSkuleton = (): JSX.Element => {
             java: "",
             javascript: "",
             python: "",
-            flutter: "",
-            cpp: "",
           }}
           runCode={undefined}
           codeOutputList={undefined}

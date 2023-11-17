@@ -54,7 +54,6 @@ const GenerateFindexKey = (): JSX.Element => {
                   java: JSON.stringify(findexKey, undefined, 2),
                   javascript: JSON.stringify(findexKey, undefined, 2),
                   python: JSON.stringify(findexKey, undefined, 2),
-                  flutter: JSON.stringify(findexKey, undefined, 2),
                 }
               : undefined
           }

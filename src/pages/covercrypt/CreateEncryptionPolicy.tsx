@@ -74,8 +74,6 @@ const CreateEncryptionPolicy = (): JSX.Element => {
                   java: JSON.stringify(covercryptState.policy, undefined, 2),
                   javascript: JSON.stringify(covercryptState.policy, undefined, 2),
                   python: JSON.stringify(covercryptState.policy, undefined, 2),
-                  flutter: JSON.stringify(covercryptState.policy, undefined, 2),
-                  cpp: JSON.stringify(covercryptState.policy, undefined, 2),
                 }
               : undefined
           }

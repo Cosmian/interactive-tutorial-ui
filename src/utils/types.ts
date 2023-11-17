@@ -1,13 +1,11 @@
 import { FetchChains, FetchEntries, InsertChains, UpsertEntries } from "cloudproof_js";
 
-export type Language = "cpp" | "flutter" | "java" | "javascript" | "python";
+export type Language = "java" | "javascript" | "python";
 
 export type CodeContent = {
   java?: string;
   javascript?: string;
   python?: string;
-  flutter?: string;
-  cpp?: string;
 };
 
 export type PolicyAxisItem = {

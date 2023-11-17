@@ -11,8 +11,6 @@ export const useFetchCodeContent = (
     java: undefined,
     javascript: undefined,
     python: undefined,
-    flutter: undefined,
-    cpp: undefined,
   });
 
   useEffect(() => {
