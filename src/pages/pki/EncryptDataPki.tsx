@@ -8,7 +8,7 @@ import { createPolicy } from "../../actions/javascript/createPolicy";
 import { encryptDataInKms } from "../../actions/javascript/encryptDataInKms";
 import { wrapKeyInCertificate } from "../../actions/javascript/wrapKeyInCertificate";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
@@ -78,7 +78,7 @@ const EncryptDataPki = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

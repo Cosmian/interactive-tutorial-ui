@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { encryptDataLocally } from "../../actions/javascript/encryptDataLocally";
 import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -66,7 +66,7 @@ const EncryptData = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

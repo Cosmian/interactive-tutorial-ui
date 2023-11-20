@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { createFindexKey } from "../../actions/javascript/createFindexKey";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
@@ -33,7 +33,7 @@ const GenerateFindexKey = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

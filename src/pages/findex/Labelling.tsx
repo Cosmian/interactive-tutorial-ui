@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { defineLabel } from "../../actions/javascript/defineLabel";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
@@ -34,7 +34,7 @@ const Labelling = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

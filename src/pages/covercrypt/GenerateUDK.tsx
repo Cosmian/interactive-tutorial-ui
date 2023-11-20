@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { createDecryptionKey } from "../../actions/javascript/createDecryptionKey";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
@@ -34,7 +34,7 @@ const GenerateUDK = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

@@ -12,7 +12,7 @@ import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
@@ -42,7 +42,7 @@ const SearchInDatabase = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

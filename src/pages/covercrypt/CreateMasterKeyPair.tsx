@@ -3,7 +3,7 @@ import { PolicyKms } from "cloudproof_js";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
@@ -34,7 +34,7 @@ const CreateMasterKeyPair = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

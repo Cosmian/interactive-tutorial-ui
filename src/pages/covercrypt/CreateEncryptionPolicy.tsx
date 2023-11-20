@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { createPolicy } from "../../actions/javascript/createPolicy";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -33,7 +33,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

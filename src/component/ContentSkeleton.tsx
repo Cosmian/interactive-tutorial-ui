@@ -2,7 +2,7 @@ import { Skeleton } from "antd";
 import Code from "./Code";
 import Split from "./Split";
 
-const ContentSkuleton = (): JSX.Element => {
+const ContentSkeleton = (): JSX.Element => {
   return (
     <Split>
       <Split.Content>
@@ -25,4 +25,4 @@ const ContentSkuleton = (): JSX.Element => {
   );
 };
 
-export default ContentSkuleton;
+export default ContentSkeleton;

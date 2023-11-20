@@ -4,7 +4,7 @@ import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { upsertData } from "../../actions/javascript/upsertData";
 import Code from "../../component/Code";
-import ContentSkuleton from "../../component/ContentSkuleton";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable, IndexedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -49,7 +49,7 @@ const IndexDatabase = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <ContentSkuleton />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
