@@ -6,8 +6,9 @@ export type NavigationItem = {
   done?: boolean;
 };
 export type NavigationConfig = Record<string, NavigationItem>;
+
 export const navigationConfig: NavigationConfig = {
-  "client-side-encryption": {
+  "cosmian-client-side-encryption": {
     key: 0,
     label: "Cosmian Client-side Encryption",
   },
@@ -170,5 +171,41 @@ export const navigationConfig: NavigationConfig = {
   "confidential-vm": {
     key: 4,
     label: "Use Cosmian VM",
+  },
+  "client-side-encryption": {
+    key: 4,
+    label: "Client-side Encryption",
+    children: {
+      "about-cse": {
+        key: 0,
+        label: "About Client-side Encryption",
+        footerNavigation: true,
+        done: false,
+      },
+      "set-up-service": {
+        key: 1,
+        label: "Set up service",
+        footerNavigation: true,
+        done: false,
+      },
+      "create-symmetric-key": {
+        key: 2,
+        label: "Create Symmetric key",
+        footerNavigation: true,
+        done: false,
+      },
+      "encrypt-send-document": {
+        key: 3,
+        label: "Encrypt and send document",
+        footerNavigation: true,
+        done: false,
+      },
+      "decrypt-document": {
+        key: 4,
+        label: "Decrypt document",
+        footerNavigation: true,
+        done: false,
+      },
+    },
   },
 };

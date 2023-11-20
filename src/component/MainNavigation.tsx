@@ -37,11 +37,10 @@ export const MainNavigation = (): JSX.Element => {
           } else {
             return (
               <React.Fragment key={"fragment_" + idx}>
-                <li>
+                <hr />
+                <li className="parent-item">
                   <Link to={origin + "/" + itemKey + "/" + Object.entries(itemValue.children)[0][0]}>{itemValue.label}</Link>
-                </li>
-                <li>
-                  <ul>
+                  <ul className={itemKey === paths[0] ? "active child-item" : "child-item"}>
                     {Object.entries(itemValue.children).map((childrenItem, subIdx) => {
                       const childrenItemKey = childrenItem[0];
                       const ChildrenItemValue = childrenItem[1];
