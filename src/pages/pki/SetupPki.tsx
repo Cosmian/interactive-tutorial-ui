@@ -60,8 +60,6 @@ const SetupPki = (): JSX.Element => {
             java: QUICK_START,
             javascript: QUICK_START,
             python: QUICK_START,
-            flutter: QUICK_START,
-            cpp: QUICK_START,
           }}
           codeOutputList={
             version
@@ -69,8 +67,6 @@ const SetupPki = (): JSX.Element => {
                   java: version,
                   javascript: version,
                   python: version,
-                  flutter: version,
-                  cpp: version,
                 }
               : undefined
           }

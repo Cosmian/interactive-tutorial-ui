@@ -1,6 +1,6 @@
 import { Language } from "./types";
 
-export const allLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
+export const allLanguageList: Language[] = ["java", "javascript", "python"];
 
 export const getLanguageExtension = (language: Language): string => {
   switch (language) {
@@ -10,10 +10,6 @@ export const getLanguageExtension = (language: Language): string => {
       return ".java";
     case "python":
       return ".py";
-    case "cpp":
-      return ".cpp";
-    case "flutter":
-      return ".dart";
     default:
       throw new Error("Not existing language");
   }

@@ -1,8 +1,8 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createPolicy } from "../../actions/javascript/createPolicy";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -33,7 +33,7 @@ const CreateEncryptionPolicy = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
@@ -74,8 +74,6 @@ const CreateEncryptionPolicy = (): JSX.Element => {
                   java: JSON.stringify(covercryptState.policy, undefined, 2),
                   javascript: JSON.stringify(covercryptState.policy, undefined, 2),
                   python: JSON.stringify(covercryptState.policy, undefined, 2),
-                  flutter: JSON.stringify(covercryptState.policy, undefined, 2),
-                  cpp: JSON.stringify(covercryptState.policy, undefined, 2),
                 }
               : undefined
           }

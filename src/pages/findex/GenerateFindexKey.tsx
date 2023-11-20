@@ -1,8 +1,8 @@
 import { message } from "antd";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createFindexKey } from "../../actions/javascript/createFindexKey";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
@@ -33,7 +33,7 @@ const GenerateFindexKey = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
@@ -54,7 +54,6 @@ const GenerateFindexKey = (): JSX.Element => {
                   java: JSON.stringify(findexKey, undefined, 2),
                   javascript: JSON.stringify(findexKey, undefined, 2),
                   python: JSON.stringify(findexKey, undefined, 2),
-                  flutter: JSON.stringify(findexKey, undefined, 2),
                 }
               : undefined
           }

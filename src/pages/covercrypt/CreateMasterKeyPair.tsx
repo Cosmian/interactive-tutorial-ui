@@ -1,9 +1,9 @@
 import { message } from "antd";
 import { PolicyKms } from "cloudproof_js";
-import { Spinner } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { createCovercryptKeyPair } from "../../actions/javascript/createCovercryptKeyPair";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
@@ -34,7 +34,7 @@ const CreateMasterKeyPair = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
@@ -62,8 +62,6 @@ const CreateMasterKeyPair = (): JSX.Element => {
                   java: JSON.stringify(keyPairUids, undefined, 2),
                   javascript: JSON.stringify(keyPairUids, undefined, 2),
                   python: JSON.stringify(keyPairUids, undefined, 2),
-                  flutter: JSON.stringify(keyPairUids, undefined, 2),
-                  cpp: JSON.stringify(keyPairUids, undefined, 2),
                 }
               : undefined
           }
