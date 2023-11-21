@@ -1,16 +1,11 @@
 import SetupFlow from "../../assets/confidential_vm_setup_flow.drawio.svg";
 import VerificationFlow from "../../assets/confidential_vm_verification_flow.drawio.svg";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
-import { useBoundStore } from "../../store/store";
-import { findCurrentNavigationItem } from "../../utils/navigationActions";
 
 const UseConfidentialVm = (): JSX.Element => {
-  const steps = useBoundStore((state) => state.steps);
-  const currentItem = findCurrentNavigationItem(steps);
-
   return (
     <SingleContent>
-      <h1>{currentItem?.label}</h1>
+      <h1>Use Cosmian VM</h1>
       <p className="introduction">
         Cosmian VM allows you to deploy an application on a cloud provider instance, running in a confidential context with verifiability at
         any time.
