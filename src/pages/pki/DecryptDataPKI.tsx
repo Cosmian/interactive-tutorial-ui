@@ -1,7 +1,8 @@
-import { Button, Spinner } from "cosmian_ui";
+import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { decryptDataInKms } from "../../actions/javascript/decryptDataInKms";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { ClientOne, ClientTwo } from "../../component/Tags";
@@ -57,7 +58,7 @@ const DecryptDataPKI = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>

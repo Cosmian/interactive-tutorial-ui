@@ -29,7 +29,7 @@ const LanguageTabs: React.FC<LanguageTabsProps> = ({ activeLanguageList }) => {
           const languageIsInList = activeLanguageList.includes(languageItem);
           if (!languageIsInList) classNames.push("disabled");
           if (language === languageItem) classNames.push("selected");
-          const prettyLangageItem = languageItem === "cpp" ? "C++" : languageItem.charAt(0).toUpperCase() + languageItem.slice(1);
+          const prettyLangageItem = languageItem.charAt(0).toUpperCase() + languageItem.slice(1);
           return (
             <li key={languageItem}>
               <a

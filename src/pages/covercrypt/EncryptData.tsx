@@ -1,9 +1,10 @@
 import { message } from "antd";
-import { Button, Spinner } from "cosmian_ui";
+import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { encryptDataLocally } from "../../actions/javascript/encryptDataLocally";
 import { retrieveKeyPair } from "../../actions/javascript/retrieveKeyPair";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
@@ -65,7 +66,7 @@ const EncryptData = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
@@ -113,8 +114,6 @@ const EncryptData = (): JSX.Element => {
                   java: JSON.stringify(encryptedEmployees, undefined, 2),
                   javascript: JSON.stringify(encryptedEmployees, undefined, 2),
                   python: JSON.stringify(encryptedEmployees, undefined, 2),
-                  flutter: JSON.stringify(encryptedEmployees, undefined, 2),
-                  cpp: JSON.stringify(encryptedEmployees, undefined, 2),
                 }
               : undefined
           }

@@ -6,7 +6,7 @@ import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python", "flutter", "cpp"];
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SetupCovercrypt = (): JSX.Element => {
   const [serviceSetup, setServiceSetup] = useState(false);
@@ -76,8 +76,6 @@ const SetupCovercrypt = (): JSX.Element => {
             java: JAVA_CODE,
             javascript: JS_CODE,
             python: PYTHON_CODE,
-            flutter: FLUTTER_CODE,
-            cpp: CPP_CODE,
           }}
           codeOutputList={
             serviceSetup
@@ -85,8 +83,6 @@ const SetupCovercrypt = (): JSX.Element => {
                   java: "# successfully installed",
                   javascript: "# successfully installed",
                   python: "# successfully installed",
-                  flutter: "# successfully installed",
-                  cpp: "# successfully installed",
                 }
               : undefined
           }
@@ -100,8 +96,8 @@ const SetupCovercrypt = (): JSX.Element => {
 
 export default SetupCovercrypt;
 
-const JS_CODE = `npm install covercrypt 
-# or yarn install covercrypt or pnpm install covercrypt`;
+const JS_CODE = `npm install cloudproof_js 
+# or yarn install cloudproof_js or pnpm install cloudproof_js`;
 const JAVA_CODE = `<dependency>
 <groupId>com.cosmian</groupId>
 <artifactId>cloudproof_java</artifactId>
@@ -109,17 +105,3 @@ const JAVA_CODE = `<dependency>
 <type>jar</type>
 </dependency>`;
 const PYTHON_CODE = "pip install cloudproof_py";
-const FLUTTER_CODE = "flutter pub add cloudproof";
-const CPP_CODE = `#include "cloudproof.h"
-
-# Compile and run on Linux
-g++ main.cpp -o main -I include/ -L lib/ -lcloudproof
-LD_LIBRARY_PATH=lib ./main
-
-# Compile and run on MacOS
-g++ main.cpp -o main -I include/ -L lib/ -lcloudproof
-DYLD_FALLBACK_LIBRARY_PATH=lib ./main
-
-#Compile and run on Windows
-cl main.cpp  /I "include" /link "lib/libcloudproof.dll.a" /OUT:main.exe
-main.exe`;

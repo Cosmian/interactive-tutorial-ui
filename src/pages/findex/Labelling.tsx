@@ -1,9 +1,9 @@
 import { Input, message } from "antd";
-import { Spinner } from "cosmian_ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { defineLabel } from "../../actions/javascript/defineLabel";
 import Code from "../../component/Code";
+import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
@@ -34,7 +34,7 @@ const Labelling = (): JSX.Element => {
     }
   };
 
-  if (loadingCode) return <Spinner fullcontent />;
+  if (loadingCode) return <ContentSkeleton />;
 
   return (
     <Split>
@@ -58,7 +58,6 @@ const Labelling = (): JSX.Element => {
                   java: JSON.stringify(label, undefined, 2),
                   javascript: JSON.stringify(label, undefined, 2),
                   python: JSON.stringify(label, undefined, 2),
-                  flutter: JSON.stringify(label, undefined, 2),
                 }
               : undefined
           }

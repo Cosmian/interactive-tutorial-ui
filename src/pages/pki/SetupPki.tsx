@@ -60,8 +60,6 @@ const SetupPki = (): JSX.Element => {
             java: QUICK_START,
             javascript: QUICK_START,
             python: QUICK_START,
-            flutter: QUICK_START,
-            cpp: QUICK_START,
           }}
           codeOutputList={
             version
@@ -69,8 +67,6 @@ const SetupPki = (): JSX.Element => {
                   java: version,
                   javascript: version,
                   python: version,
-                  flutter: version,
-                  cpp: version,
                 }
               : undefined
           }
@@ -85,7 +81,7 @@ const SetupPki = (): JSX.Element => {
 export default SetupPki;
 
 const QUICK_START = `# Quick start
-docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.8.0
+docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.9.1
 
 # Check the Cosmian KMS server version
 curl http://localhost:9998/version`;
