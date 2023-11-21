@@ -36,7 +36,7 @@ const componentsList: {
   [key: string]: JSX.Element;
 } = {
   // Overview
-  "cosmian-client-side-encryption": <OverView />,
+  overview: <OverView />,
   // Covercrypt
   "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
   "encrypt-with-access-policies/set-up-service": <SetupCovercrypt />,
@@ -79,7 +79,7 @@ const router = createBrowserRouter(
     <>
       {/* Pages with layout */}
       <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to={"client-side-encryption"} />} />
+        <Route index element={<Navigate to={"overview"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
       {Object.entries(navigationConfig).map((item) => {

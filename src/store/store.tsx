@@ -216,6 +216,46 @@ export const usePkiStore = create<PkiState>()((set) => ({
   setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => set(() => ({ clearEmployeesPki })),
 }));
 
+// CSE
+type Response = {
+  nonce: string;
+  encrypted_summary: string;
+};
+interface CseState {
+  symmetricKeyUid: string | undefined;
+  response: Response | undefined;
+  keyBytes: Uint8Array | undefined;
+  clearSummary: string | undefined;
+  setSymmetricKeyUid: (symmetricKeyUid?: string) => void;
+  setResponse: (response?: Response) => void;
+  setKeyBytes: (keyBytes?: Uint8Array) => void;
+  setClearSummary: (clearSummary?: string) => void;
+}
+export const useCseStore = create<CseState>()((set) => ({
+  symmetricKeyUid: undefined,
+  response: undefined,
+  keyBytes: undefined,
+  clearSummary: undefined,
+  setSymmetricKeyUid: (symmetricKeyUid?: string) =>
+    set((state) => {
+      state.setResponse(); // reset next steps
+      return { symmetricKeyUid };
+    }),
+  setResponse: (response?: Response) =>
+    set((state) => {
+      state.setClearSummary(); // reset next steps
+      return { response };
+    }),
+  setKeyBytes: (keyBytes?: Uint8Array) =>
+    set((_state) => {
+      return { keyBytes };
+    }),
+  setClearSummary: (clearSummary?: string) =>
+    set((_state) => {
+      return { clearSummary };
+    }),
+}));
+
 // BOUND STORE
 export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice>((...a) => ({
   ...createLanguageSlice(...a),

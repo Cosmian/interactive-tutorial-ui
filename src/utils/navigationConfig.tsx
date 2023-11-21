@@ -8,9 +8,9 @@ export type NavigationItem = {
 export type NavigationConfig = Record<string, NavigationItem>;
 
 export const navigationConfig: NavigationConfig = {
-  "cosmian-client-side-encryption": {
+  overview: {
     key: 0,
-    label: "Cosmian Client-side Encryption",
+    label: "Overview",
   },
   "encrypt-with-access-policies": {
     key: 1,
@@ -190,7 +190,7 @@ export const navigationConfig: NavigationConfig = {
       },
       "create-symmetric-key": {
         key: 2,
-        label: "Create Symmetric key",
+        label: "Create Symmetric Key",
         footerNavigation: true,
         done: false,
       },
