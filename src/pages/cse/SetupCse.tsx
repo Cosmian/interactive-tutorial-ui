@@ -4,9 +4,6 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
-
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SetupCse = (): JSX.Element => {
   const [serviceSetup, setServiceSetup] = useState(false);
@@ -25,64 +22,23 @@ const SetupCse = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>
-          Covercrypt is required. It is open-source and written in Rust. For the cryptographic documentation and implementation details,
-          please check its{" "}
-          <Link to={"https://github.com/Cosmian/cover_crypt"} target="_blank" rel="noopener noreferrer">
-            Github repository
-          </Link>
-          .
-        </p>
-        <p>Unless low-level programming in Rust, implementers should use Covercrypt through the various cloudproof_xxx user libraries:</p>
-        <ul>
-          <li>
-            <Link to="https://github.com/Cosmian/cloudproof_java" target="_blank" rel="noopener noreferrer">
-              cloudproof_java
-            </Link>
-            : the Cloudproof Java Library,
-          </li>
-          <li>
-            <Link to="https://github.com/Cosmian/cloudproof_js" target="_blank" rel="noopener noreferrer">
-              cloudproof_js
-            </Link>
-            : the Cloudproof Javascript Library,
-          </li>
-          <li>
-            <Link to="https://github.com/Cosmian/cloudproof_python" target="_blank" rel="noopener noreferrer">
-              cloudproof_python
-            </Link>
-            : the Cloudproof Python Library,
-          </li>
-          <li>
-            <Link to="https://github.com/Cosmian/cloudproof_flutter" target="_blank" rel="noopener noreferrer">
-              cloudproof_flutter
-            </Link>
-            : the Cloudproof Flutter Library.
-          </li>
-          <li>
-            <Link to="https://github.com/Cosmian/cloudproof_spark" target="_blank" rel="noopener noreferrer">
-              cloudproof_spark
-            </Link>
-            : the Cloudproof Spark Library.
-          </li>
-        </ul>
-        <p>
-          All these libraries are open-source and available on <Link to="https://github.com/Cosmian/">Github</Link>.
+          The <b>Cosmian KmsClient</b> is required in this demonstration. KmsClient is available in the{" "}
+          <Link to="https://github.com/Cosmian/cloudproof_kms_js" target="_blank" rel="noopener noreferrer">
+            cloudproof_kms_js
+          </Link>{" "}
+          open-source Javascript library.
         </p>
       </Split.Content>
       <Split.Code>
         <Code
-          activeLanguageList={activeLanguageList}
+          activeLanguageList={["javascript"]}
           codeInputList={{
-            java: JAVA_CODE,
             javascript: JS_CODE,
-            python: PYTHON_CODE,
           }}
           codeOutputList={
             serviceSetup
               ? {
-                  java: "# successfully installed",
                   javascript: "# successfully installed",
-                  python: "# successfully installed",
                 }
               : undefined
           }
@@ -96,12 +52,5 @@ const SetupCse = (): JSX.Element => {
 
 export default SetupCse;
 
-const JS_CODE = `npm install covercrypt 
-# or yarn install covercrypt or pnpm install covercrypt`;
-const JAVA_CODE = `<dependency>
-<groupId>com.cosmian</groupId>
-<artifactId>cloudproof_java</artifactId>
-<version>6.0.0</version>
-<type>jar</type>
-</dependency>`;
-const PYTHON_CODE = "pip install cloudproof_py";
+const JS_CODE = `npm install cloudproof_kms_js 
+# or yarn install cloudproof_kms_js or pnpm install cloudproof_kms_js`;

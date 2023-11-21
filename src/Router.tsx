@@ -10,8 +10,8 @@ import EncryptData from "./pages/covercrypt/EncryptData";
 import GenerateUDK from "./pages/covercrypt/GenerateUDK";
 import SetupCovercrypt from "./pages/covercrypt/SetupCovercrypt";
 import AboutCse from "./pages/cse/AboutCse";
-import CreateSymmKey from "./pages/cse/CreateSymmKey";
-import DecryptDocument from "./pages/cse/DecryptDocument";
+import CreateSymmetricKey from "./pages/cse/CreateSymmetricKey";
+import Decrypt from "./pages/cse/Decrypt";
 import EncryptAndSend from "./pages/cse/EncryptAndSend";
 import SetupCse from "./pages/cse/SetupCse";
 import AboutFindex from "./pages/findex/AboutFindex";
@@ -69,9 +69,9 @@ const componentsList: {
   // CSE
   "client-side-encryption/about-cse": <AboutCse />,
   "client-side-encryption/set-up-service": <SetupCse />,
-  "client-side-encryption/create-symmetric-key": <CreateSymmKey />,
+  "client-side-encryption/create-symmetric-key": <CreateSymmetricKey />,
   "client-side-encryption/encrypt-send-document": <EncryptAndSend />,
-  "client-side-encryption/decrypt-document": <DecryptDocument />,
+  "client-side-encryption/decrypt": <Decrypt />,
 };
 
 const router = createBrowserRouter(

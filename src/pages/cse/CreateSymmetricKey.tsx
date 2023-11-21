@@ -13,7 +13,7 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
 
-const CreateSymmKey = (): JSX.Element => {
+const CreateSymmetricKey = (): JSX.Element => {
   const { loadingCode, codeContent } = useFetchCodeContent("createSymmetricKey", activeLanguageList);
   const { steps, setSteps, kmsToken } = useBoundStore((state) => state);
   const { symmetricKeyUid, setSymmetricKeyUid } = useCseStore((state) => state);
@@ -64,4 +64,4 @@ const CreateSymmKey = (): JSX.Element => {
   );
 };
 
-export default CreateSymmKey;
+export default CreateSymmetricKey;

@@ -217,34 +217,34 @@ export const usePkiStore = create<PkiState>()((set) => ({
 }));
 
 // CSE
-type Response = {
+type SummarizeApiResponse = {
   nonce: string;
   encrypted_summary: string;
 };
 interface CseState {
   symmetricKeyUid: string | undefined;
-  response: Response | undefined;
+  summarizeApiResponse: SummarizeApiResponse | undefined;
   keyBytes: Uint8Array | undefined;
   clearSummary: string | undefined;
   setSymmetricKeyUid: (symmetricKeyUid?: string) => void;
-  setResponse: (response?: Response) => void;
+  setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) => void;
   setKeyBytes: (keyBytes?: Uint8Array) => void;
   setClearSummary: (clearSummary?: string) => void;
 }
 export const useCseStore = create<CseState>()((set) => ({
   symmetricKeyUid: undefined,
-  response: undefined,
+  summarizeApiResponse: undefined,
   keyBytes: undefined,
   clearSummary: undefined,
   setSymmetricKeyUid: (symmetricKeyUid?: string) =>
     set((state) => {
-      state.setResponse(); // reset next steps
+      state.setSummarizeApiResponse(); // reset next steps
       return { symmetricKeyUid };
     }),
-  setResponse: (response?: Response) =>
+  setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) =>
     set((state) => {
       state.setClearSummary(); // reset next steps
-      return { response };
+      return { summarizeApiResponse };
     }),
   setKeyBytes: (keyBytes?: Uint8Array) =>
     set((_state) => {

@@ -174,7 +174,7 @@ export const navigationConfig: NavigationConfig = {
   },
   "client-side-encryption": {
     key: 4,
-    label: "Client-side Encryption",
+    label: "Client-side Encryption example",
     children: {
       "about-cse": {
         key: 0,
@@ -200,9 +200,9 @@ export const navigationConfig: NavigationConfig = {
         footerNavigation: true,
         done: false,
       },
-      "decrypt-document": {
+      decrypt: {
         key: 4,
-        label: "Decrypt document",
+        label: "Decrypt",
         footerNavigation: true,
         done: false,
       },

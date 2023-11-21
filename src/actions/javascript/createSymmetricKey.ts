@@ -1,4 +1,4 @@
-import { KmsClient } from "cloudproof_js";
+import { KmsClient } from "cloudproof_kms_js";
 import { BACKEND_URL } from "./backendConfig";
 
 //

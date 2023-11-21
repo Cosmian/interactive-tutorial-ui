@@ -13,18 +13,18 @@ const { TextArea } = Input;
 
 const activeLanguageList: Language[] = ["javascript"];
 
-const DecryptDocument = (): JSX.Element => {
+const Decrypt = (): JSX.Element => {
   const { loadingCode, codeContent } = useFetchCodeContent("decryptWithAes", activeLanguageList);
 
   const { steps, setSteps } = useBoundStore((state) => state);
-  const { response, keyBytes, clearSummary, setClearSummary } = useCseStore((state) => state);
+  const { summarizeApiResponse, keyBytes, clearSummary, setClearSummary } = useCseStore((state) => state);
   const currentItem = findCurrentNavigationItem(steps);
   const navigate = useNavigate();
 
   const handleDecryptSummary = async (): Promise<void> => {
-    if (response && keyBytes) {
+    if (summarizeApiResponse && keyBytes) {
       try {
-        const clearText = await decryptWithAes(response.encrypted_summary, keyBytes, response.nonce);
+        const clearText = await decryptWithAes(summarizeApiResponse.encrypted_summary, keyBytes, summarizeApiResponse.nonce);
         setClearSummary(clearText);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -42,7 +42,7 @@ const DecryptDocument = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>
-          Document is encrypted using <b>aes</b> and sent to the microservice in order to summarize it (using flan-t5 model running on TEE).
+          Summary is decrypted using <b>aes</b> library.
         </p>
         {clearSummary ? (
           <TextArea value={clearSummary} rows={3} />
@@ -57,7 +57,7 @@ const DecryptDocument = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={response && keyBytes ? handleDecryptSummary : undefined}
+          runCode={summarizeApiResponse && keyBytes ? handleDecryptSummary : undefined}
           codeOutputList={
             clearSummary
               ? {
@@ -71,4 +71,4 @@ const DecryptDocument = (): JSX.Element => {
   );
 };
 
-export default DecryptDocument;
+export default Decrypt;

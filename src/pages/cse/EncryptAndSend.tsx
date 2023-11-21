@@ -25,7 +25,7 @@ const EncryptAndSend = (): JSX.Element => {
   const [textInput, setTextInput] = useState(INITIAL_TEXT);
   const [encryptedInput, setEncryptedInput] = useState("");
   const { steps, setSteps, kmsToken } = useBoundStore((state) => state);
-  const { symmetricKeyUid, response, setResponse, setKeyBytes } = useCseStore((state) => state);
+  const { symmetricKeyUid, summarizeApiResponse, setSummarizeApiResponse, setKeyBytes } = useCseStore((state) => state);
   const currentItem = findCurrentNavigationItem(steps);
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ const EncryptAndSend = (): JSX.Element => {
           const encText = await aes.encrypt(bytesInput, keyBytes, { name: "AES-GCM", iv });
           setEncryptedInput(btoa(String.fromCodePoint(...encText)));
           const res = await sendEncryptedDocument(bytesInput, keyBytes, symmetricKeyUid, iv);
-          setResponse(res);
+          setSummarizeApiResponse(res);
           message.success("Text sent successfully");
 
           updateNavigationSteps(steps, setSteps);
@@ -82,9 +82,9 @@ const EncryptAndSend = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={symmetricKeyUid ? handleSendEncryptedDocument : undefined}
           codeOutputList={
-            response?.encrypted_summary
+            summarizeApiResponse?.encrypted_summary
               ? {
-                  javascript: JSON.stringify(response.encrypted_summary, undefined, 2),
+                  javascript: JSON.stringify(summarizeApiResponse.encrypted_summary, undefined, 2),
                 }
               : undefined
           }
