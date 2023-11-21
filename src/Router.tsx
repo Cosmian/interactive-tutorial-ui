@@ -1,6 +1,7 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./component/Layout";
 import OverView from "./pages/OverView";
+import UseConfidentialVm from "./pages/confidentialVm/UseConfidentialVm";
 import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
 import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
@@ -53,6 +54,7 @@ const componentsList: {
   "distibute-keys/send-key-in-kms": <SendWrappedDecryptionKey />,
   "distibute-keys/unwrap-decryption-key": <ImportAndUnwrapUDK />,
   "distibute-keys/decrypt-data": <DecryptDataPKI />,
+  "confidential-vm": <UseConfidentialVm />,
 };
 
 const router = createBrowserRouter(

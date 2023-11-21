@@ -167,4 +167,8 @@ export const navigationConfig: NavigationConfig = {
       },
     },
   },
+  "confidential-vm": {
+    key: 4,
+    label: "Use Cosmian VM",
+  },
 };
