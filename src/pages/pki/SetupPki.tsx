@@ -81,7 +81,7 @@ const SetupPki = (): JSX.Element => {
 export default SetupPki;
 
 const QUICK_START = `# Quick start
-docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.8.0
+docker run -p 9998:9998 --name kms ghcr.io/cosmian/kms:4.9.1
 
 # Check the Cosmian KMS server version
 curl http://localhost:9998/version`;
