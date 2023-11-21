@@ -96,8 +96,8 @@ const SetupCovercrypt = (): JSX.Element => {
 
 export default SetupCovercrypt;
 
-const JS_CODE = `npm install covercrypt 
-# or yarn install covercrypt or pnpm install covercrypt`;
+const JS_CODE = `npm install cloudproof_js 
+# or yarn install cloudproof_js or pnpm install cloudproof_js`;
 const JAVA_CODE = `<dependency>
 <groupId>com.cosmian</groupId>
 <artifactId>cloudproof_java</artifactId>
