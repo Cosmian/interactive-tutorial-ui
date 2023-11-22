@@ -9,6 +9,11 @@ import DecryptData from "./pages/covercrypt/DecryptData";
 import EncryptData from "./pages/covercrypt/EncryptData";
 import GenerateUDK from "./pages/covercrypt/GenerateUDK";
 import SetupCovercrypt from "./pages/covercrypt/SetupCovercrypt";
+import AboutCse from "./pages/cse/AboutCse";
+import CreateSymmetricKey from "./pages/cse/CreateSymmetricKey";
+import Decrypt from "./pages/cse/Decrypt";
+import EncryptAndSend from "./pages/cse/EncryptAndSend";
+import SetupCse from "./pages/cse/SetupCse";
 import AboutFindex from "./pages/findex/AboutFindex";
 import DefineCallbacks from "./pages/findex/DefineCallbacks";
 import GenerateFindexKey from "./pages/findex/GenerateFindexKey";
@@ -30,7 +35,9 @@ import { navigationConfig } from "./utils/navigationConfig";
 const componentsList: {
   [key: string]: JSX.Element;
 } = {
-  "client-side-encryption": <OverView />,
+  // Overview
+  overview: <OverView />,
+  // Covercrypt
   "encrypt-with-access-policies/about-covercrypt": <AboutCovercrypt />,
   "encrypt-with-access-policies/set-up-service": <SetupCovercrypt />,
   "encrypt-with-access-policies/create-policy": <CreateEncryptionPolicy />,
@@ -38,6 +45,7 @@ const componentsList: {
   "encrypt-with-access-policies/encrypt-data": <EncryptData />,
   "encrypt-with-access-policies/user-decryption-key": <GenerateUDK />,
   "encrypt-with-access-policies/decrypt-data": <DecryptData />,
+  // Findex
   "build-encrypted-indexes/about-findex": <AboutFindex />,
   "build-encrypted-indexes/set-up-service": <SetupFindex />,
   "build-encrypted-indexes/generate-findex-key": <GenerateFindexKey />,
@@ -45,6 +53,7 @@ const componentsList: {
   "build-encrypted-indexes/callbacks": <DefineCallbacks />,
   "build-encrypted-indexes/index-database": <IndexDatabase />,
   "build-encrypted-indexes/search-in-database": <SearchInDatabase />,
+  // PKI
   "distibute-keys/about-pki": <AboutPKI />,
   "distibute-keys/set-up-service": <SetupPki />,
   "distibute-keys/encrypt-data": <EncryptDataPki />,
@@ -54,7 +63,15 @@ const componentsList: {
   "distibute-keys/send-key-in-kms": <SendWrappedDecryptionKey />,
   "distibute-keys/unwrap-decryption-key": <ImportAndUnwrapUDK />,
   "distibute-keys/decrypt-data": <DecryptDataPKI />,
+
+  // Confidential VM
   "confidential-vm": <UseConfidentialVm />,
+  // CSE
+  "client-side-encryption/about-cse": <AboutCse />,
+  "client-side-encryption/set-up-service": <SetupCse />,
+  "client-side-encryption/create-symmetric-key": <CreateSymmetricKey />,
+  "client-side-encryption/encrypt-send-document": <EncryptAndSend />,
+  "client-side-encryption/decrypt": <Decrypt />,
 };
 
 const router = createBrowserRouter(
@@ -62,7 +79,7 @@ const router = createBrowserRouter(
     <>
       {/* Pages with layout */}
       <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to={"client-side-encryption"} />} />
+        <Route index element={<Navigate to={"overview"} />} />
         <Route path="*" element={<>*</>} />
       </Route>
       {Object.entries(navigationConfig).map((item) => {

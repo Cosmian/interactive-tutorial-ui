@@ -6,7 +6,7 @@ services:
     ports:
       - 9998:9998
     environment:
-      - KMS_JWT_ISSUER_URI=https://${VITE_AUTH0_DOMAIN}
+      - KMS_JWT_ISSUER_URI=https://${VITE_AUTH0_DOMAIN}/
       - KMS_JWKS_URI=https://${VITE_AUTH0_DOMAIN}/.well-known/jwks.json
   frontend:
     build:
@@ -18,5 +18,6 @@ services:
         - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
         - VITE_BACKEND_URL=${VITE_BACKEND_URL}
         - VITE_CLIENT_2_TOKEN=${VITE_CLIENT_2_TOKEN}
+        - VITE_MSE_APP_URL=${VITE_MSE_APP_URL}
     ports:
       - 3000:3000

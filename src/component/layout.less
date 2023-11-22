@@ -198,7 +198,7 @@ ul {
     ul li {
       font-weight: 700;
       transition: all 0.2s ease-out;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
       &:hover {
         color: @primary;
       }
@@ -249,6 +249,21 @@ ul {
           }
         }
       }
+    }
+
+    ul.child-item {
+      display: none;
+    }
+    ul.child-item.active {
+      transform: translateY(30px);
+      display: block;
+      margin-bottom: 30px;
+    }
+
+    hr {
+      margin: 20px 0;
+      height: 1px;
+      border-color: @gray-300;
     }
   }
 
@@ -423,4 +438,9 @@ ul {
     outline-offset: 0;
     outline: none;
   }
+}
+
+textarea.ant-input {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  color: @accent-deep;
 }

@@ -216,6 +216,46 @@ export const usePkiStore = create<PkiState>()((set) => ({
   setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => set(() => ({ clearEmployeesPki })),
 }));
 
+// CSE
+type SummarizeApiResponse = {
+  nonce: string;
+  encrypted_summary: string;
+};
+interface CseState {
+  symmetricKeyUid: string | undefined;
+  summarizeApiResponse: SummarizeApiResponse | undefined;
+  keyBytes: Uint8Array | undefined;
+  clearSummary: string | undefined;
+  setSymmetricKeyUid: (symmetricKeyUid?: string) => void;
+  setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) => void;
+  setKeyBytes: (keyBytes?: Uint8Array) => void;
+  setClearSummary: (clearSummary?: string) => void;
+}
+export const useCseStore = create<CseState>()((set) => ({
+  symmetricKeyUid: undefined,
+  summarizeApiResponse: undefined,
+  keyBytes: undefined,
+  clearSummary: undefined,
+  setSymmetricKeyUid: (symmetricKeyUid?: string) =>
+    set((state) => {
+      state.setSummarizeApiResponse(); // reset next steps
+      return { symmetricKeyUid };
+    }),
+  setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) =>
+    set((state) => {
+      state.setClearSummary(); // reset next steps
+      return { summarizeApiResponse };
+    }),
+  setKeyBytes: (keyBytes?: Uint8Array) =>
+    set((_state) => {
+      return { keyBytes };
+    }),
+  setClearSummary: (clearSummary?: string) =>
+    set((_state) => {
+      return { clearSummary };
+    }),
+}));
+
 // BOUND STORE
 export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice>((...a) => ({
   ...createLanguageSlice(...a),
