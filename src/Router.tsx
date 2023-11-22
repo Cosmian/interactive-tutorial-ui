@@ -1,7 +1,12 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./component/Layout";
 import OverView from "./pages/OverView";
+import AuditSnapshot from "./pages/confidentialVm/AuditSnapshot";
+import DeployApplication from "./pages/confidentialVm/DeployApplication";
+import DetectMalware from "./pages/confidentialVm/DetectMalware";
+import SnapshotVm from "./pages/confidentialVm/SnapshotVm";
 import UseConfidentialVm from "./pages/confidentialVm/UseConfidentialVm";
+import VerifyIntegrity from "./pages/confidentialVm/VerifyIntegrity";
 import AboutCovercrypt from "./pages/covercrypt/AboutCovercrypt";
 import CreateEncryptionPolicy from "./pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "./pages/covercrypt/CreateMasterKeyPair";
@@ -65,7 +70,13 @@ const componentsList: {
   "distibute-keys/decrypt-data": <DecryptDataPKI />,
 
   // Confidential VM
-  "confidential-vm": <UseConfidentialVm />,
+  "confidential-vm/about-cosmian-vm": <UseConfidentialVm />,
+  "confidential-vm/deploy-application": <DeployApplication />,
+  "confidential-vm/snapshot-cosmian-vm": <SnapshotVm />,
+  "confidential-vm/audit-snapshot": <AuditSnapshot />,
+  "confidential-vm/verify-integrity": <VerifyIntegrity />,
+  "confidential-vm/detect-malicious-activities": <DetectMalware />,
+
   // CSE
   "client-side-encryption/about-cse": <AboutCse />,
   "client-side-encryption/set-up-service": <SetupCse />,

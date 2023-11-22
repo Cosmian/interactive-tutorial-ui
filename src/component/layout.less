@@ -96,6 +96,14 @@ ul {
       padding: 5px;
     }
   }
+  .code-block {
+    padding: 15px !important;
+    code {
+      color: rgb(151, 157, 180) !important;
+      background: none !important;
+      font-size: 1rem;
+    }
+  }
   .single-content .introduction,
   .content .introduction {
     font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -348,6 +356,43 @@ ul {
   }
 }
 
+.code-background {
+  background: rgb(32, 39, 70);
+  min-height: 100%;
+  padding: 15px;
+}
+
+.vm-code {
+  margin-bottom: 25px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .machine-tag {
+    display: inline-block;
+    padding: 5px;
+    color: white;
+    font-size: 12px;
+    line-height: 12px;
+  }
+  &.vm {
+    .code {
+      border: 2px #c22835 solid;
+    }
+    .machine-tag {
+      background-color: #c22835;
+    }
+  }
+  &.admin {
+    .code {
+      border: 2px #1b65e4 solid;
+    }
+    .machine-tag {
+      background-color: #1b65e4;
+    }
+  }
+}
+
 .code-demo {
   display: block;
   height: calc(100vh - 120px);
@@ -397,6 +442,24 @@ ul {
       border-color: #3e4e5f;
       background-color: unset;
     }
+  }
+}
+
+// YOUTUBE EMBED VIDEO
+.yt-video {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 0;
+  padding-bottom: 56.25%;
+  margin: 10px auto;
+  iframe {
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 

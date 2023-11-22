@@ -216,6 +216,42 @@ export const usePkiStore = create<PkiState>()((set) => ({
   setClearEmployeesPki: (clearEmployeesPki?: Employee[]) => set(() => ({ clearEmployeesPki })),
 }));
 
+// CONFIDENTIAL VM
+interface ConfidentialVmState {
+  helloWorld: boolean;
+  snapshot: boolean;
+  integrity: boolean;
+  malware: boolean;
+  setHelloWorld: (helloWorld?: boolean) => void;
+  setSnapshot: (snapshot?: boolean) => void;
+  setIntegrity: (integrity?: boolean) => void;
+  setMalware: (malware?: boolean) => void;
+}
+export const useConfidentialVmSore = create<ConfidentialVmState>()((set) => ({
+  helloWorld: false,
+  snapshot: false,
+  integrity: false,
+  malware: false,
+  setHelloWorld: (helloWorld?: boolean) =>
+    set((state) => {
+      state.setSnapshot(false); // reset next steps
+      return { helloWorld };
+    }),
+  setSnapshot: (snapshot?: boolean) =>
+    set((state) => {
+      state.setIntegrity(false); // reset next steps
+      return { snapshot };
+    }),
+  setIntegrity: (integrity?: boolean) =>
+    set((state) => {
+      state.setMalware(false); // reset next steps
+      return { integrity };
+    }),
+  setMalware: (malware?: boolean) =>
+    set(() => {
+      return { malware };
+    }),
+}));
 // CSE
 type SummarizeApiResponse = {
   nonce: string;
