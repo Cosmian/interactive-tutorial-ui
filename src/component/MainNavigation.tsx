@@ -28,11 +28,14 @@ export const MainNavigation = (): JSX.Element => {
 
           if (itemValue.children == null) {
             return (
-              <li key={idx}>
-                <Link to={origin + "/" + itemKey} className={itemKey === paths[0] ? "active" : ""}>
-                  {itemValue.label}
-                </Link>
-              </li>
+              <React.Fragment key={idx}>
+                <hr />
+                <li>
+                  <Link to={origin + "/" + itemKey} className={itemKey === paths[0] ? "active" : ""}>
+                    {itemValue.label}
+                  </Link>
+                </li>
+              </React.Fragment>
             );
           } else {
             return (
