@@ -100,3 +100,31 @@ const FlatButton: React.FC<FlatButtonProps> = ({ loading, disabled, onClick }) =
     </button>
   );
 };
+
+export const CodeBackground: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <div className="code-background">{children}</div>;
+};
+
+type VmCodeProps = {
+  machine?: "vm" | "admin";
+  code: string;
+  customStyle?: React.CSSProperties;
+};
+export const VmCode: React.FC<VmCodeProps> = ({ machine, code, customStyle }) => {
+  return (
+    <div className={machine ? machine + " vm-code" : "vm-code"}>
+      {machine && <div className="machine-tag">{machine === "vm" ? "Cosmian VM" : "Admin system machine"}</div>}
+
+      <SyntaxHighlighter
+        language={"shell"}
+        style={atelierSulphurpoolDark}
+        customStyle={{ textAlign: "left", padding: 20, ...customStyle }}
+        wrapLongLines={true}
+        showLineNumbers={false} // disable line numbers to wrap long lines
+        class="code"
+      >
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
+};

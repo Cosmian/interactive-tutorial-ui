@@ -50,7 +50,7 @@ const Layout = (): JSX.Element => {
         userMenu={
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
-            <ExternalLink link="https://github.com/Cosmian/saas-applications-examples">GitHub repository</ExternalLink>
+            <ExternalLink link="https://github.com/Cosmian/interactive-tutorial-ui">GitHub repository</ExternalLink>
             <KmsHealthTag healthOK={healthOK} />
             <Button rightIcon={<IoLogOutOutline size={18} style={{ marginBottom: -4 }} />} onClick={handleLogout}>
               Logout

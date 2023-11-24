@@ -170,7 +170,45 @@ export const navigationConfig: NavigationConfig = {
   },
   "confidential-vm": {
     key: 4,
-    label: "Use Cosmian VM",
+    label: "Cosmian VM",
+    children: {
+      "about-cosmian-vm": {
+        key: 0,
+        label: "About Cosmian VM",
+        footerNavigation: true,
+        done: false,
+      },
+      "deploy-application": {
+        key: 1,
+        label: "Deploy the application and configure Cosmian VM",
+        footerNavigation: true,
+        done: false,
+      },
+      "snapshot-cosmian-vm": {
+        key: 2,
+        label: "Snapshot the Cosmian VM",
+        footerNavigation: true,
+        done: false,
+      },
+      "audit-snapshot": {
+        key: 3,
+        label: "Audit the snapshot",
+        footerNavigation: true,
+        done: false,
+      },
+      "verify-integrity": {
+        key: 4,
+        label: "Verify Cosmian VM integrity",
+        footerNavigation: true,
+        done: false,
+      },
+      "detect-malicious-activities": {
+        key: 5,
+        label: "Detect malicious activities",
+        footerNavigation: true,
+        done: false,
+      },
+    },
   },
   "client-side-encryption": {
     key: 4,

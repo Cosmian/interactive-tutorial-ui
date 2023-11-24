@@ -1,11 +1,16 @@
 import SetupFlow from "../../assets/confidential_vm_setup_flow.drawio.svg";
 import VerificationFlow from "../../assets/confidential_vm_verification_flow.drawio.svg";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
+import { useBoundStore } from "../../store/store";
+import { findCurrentNavigationItem } from "../../utils/navigationActions";
 
 const UseConfidentialVm = (): JSX.Element => {
+  const { steps } = useBoundStore((state) => state);
+  const currentItem = findCurrentNavigationItem(steps);
+
   return (
     <SingleContent>
-      <h1>Use Cosmian VM</h1>
+      <h1>{currentItem?.label}</h1>
       <p className="introduction">
         Cosmian VM allows you to deploy an application on a cloud provider instance, running in a confidential context with verifiability at
         any time.
@@ -47,8 +52,21 @@ const UseConfidentialVm = (): JSX.Element => {
       <ImageWrapper>
         <img src={VerificationFlow} alt="Confidential VM verification flow" />
       </ImageWrapper>
+
+      <h2 style={{ marginTop: "1.5em" }}>Application example: confidential LLM chat</h2>
+      <p>In this example we put an LLM model inside a Cosmian VM: the model and users queries are fully protected.</p>
+      <div className="yt-video">
+        <iframe
+          src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Embedded youtube"
+        />
+      </div>
     </SingleContent>
   );
 };
 
 export default UseConfidentialVm;
+
+const YOUTUBE_VIDEO_ID = "EDEtiXIylxc";
