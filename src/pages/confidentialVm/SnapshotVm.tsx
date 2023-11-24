@@ -1,3 +1,4 @@
+import { CheckCircleOutlined } from "@ant-design/icons/lib/icons";
 import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import { CodeBackground, VmCode } from "../../component/Code";
@@ -27,7 +28,12 @@ const SnapshotVm = (): JSX.Element => {
           configured, a snapshot is computed.
         </p>
         <p>From now on, any modificiation on that VM is seen as malicious.</p>
-        <Button style={{ width: "100%" }} onClick={snapshotApplication}>
+        <Button
+          style={{ width: "100%" }}
+          onClick={snapshotApplication}
+          disabled={snapshot}
+          icon={snapshot ? <CheckCircleOutlined /> : <></>}
+        >
           Snapshot VM
         </Button>
       </Split.Content>

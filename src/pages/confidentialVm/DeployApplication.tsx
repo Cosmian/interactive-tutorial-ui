@@ -1,3 +1,4 @@
+import { CheckCircleOutlined } from "@ant-design/icons/lib/icons";
 import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -49,7 +50,12 @@ const DeployApplication = (): JSX.Element => {
           {SHA}
         </SyntaxHighlighter>
         <p>Once the VM instantiated, the administrator can start its application:</p>
-        <Button style={{ width: "100%" }} onClick={runApplication} disabled={helloWorld}>
+        <Button
+          style={{ width: "100%" }}
+          onClick={runApplication}
+          disabled={helloWorld}
+          icon={helloWorld ? <CheckCircleOutlined /> : <></>}
+        >
           {helloWorld ? "Application started" : "Start the application"}
         </Button>
       </Split.Content>
