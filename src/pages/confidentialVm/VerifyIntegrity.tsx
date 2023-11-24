@@ -44,7 +44,7 @@ const VerifyIntegrity = (): JSX.Element => {
 
 export default VerifyIntegrity;
 
-const INTEGRITY = `$ ./cosmian vm verify - -url https://cosmianvm2.cosmian.dev --snapshot cosmian_vm. snapshot
+const INTEGRITY = `$ ./cosmian_vm verify --url https://cosmianvm2.cosmian.dev --snapshot cosmian_vm.snapshot
 Fetching the collaterals...
 [ OK ] Verifying VM integrity
 [ OK ] Verifying TPM attestation

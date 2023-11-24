@@ -47,8 +47,8 @@ const SnapshotVm = (): JSX.Element => {
 
 export default SnapshotVm;
 
-const SNAPSHOT = `$ . /cosmian_ vm snapshot --url https://cosmianvm2.cosmian.dev
+const SNAPSHOT = `$ ./cosmian_vm snapshot --url https://cosmianvm2.cosmian.dev
 Proceeding the snapshot...
 
-The snapshot has been saved at ./cosmian vm.snapshot
+The snapshot has been saved at ./cosmian_vm.snapshot
 `;

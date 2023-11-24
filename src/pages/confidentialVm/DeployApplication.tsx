@@ -73,9 +73,9 @@ const DeployApplication = (): JSX.Element => {
 export default DeployApplication;
 
 const SHA = "SHA2 - 256 (target/release/helloworld)= 7891fddbb1419cd96dc4c787347fe3a45d805529ba3c446c016c3c2f74e8d";
-const HELLO_CODE_1 = "sh-5. 1$ . /helloworld";
-const HELLO_CODE_2 = `sh-5. 1# COSMIAN VM AGENT_ CERTIFICATE=/etc/letsencrypt/live/cosmianvm2.cosmian.dev/cert.pem ./cosmian vm agent
-2023-11 - 14T13:49:15.901683Z INFO cosmian vm agent: Starting server on 127.0.0.1:5355...
-2023-11-14T13:49:15.901966Z INFO actix server: :builder: starting 2 workers
+const HELLO_CODE_1 = "sh-5. 1$ ./helloworld";
+const HELLO_CODE_2 = `sh-5. 1# COSMIAN_VM_AGENT_CERTIFICATE=/etc/letsencrypt/live/cosmianvm2.cosmian.dev/cert.pem ./cosmian_vm_agent
+2023-11 - 14T13:49:15.901683Z INFO cosmian_vm_agent: Starting server on 127.0.0.1:5355...
+2023-11-14T13:49:15.901966Z INFO actix_server: :builder: starting 2 workers
 2023-11-14T13:49:15.902019Z INFO actix_server::server: Actix runtime found; starting in Actix runtime
 `;
