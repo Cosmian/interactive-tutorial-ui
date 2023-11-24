@@ -67,10 +67,11 @@ const EncryptAndSend = (): JSX.Element => {
         <p>
           Document is encrypted using <b>aes</b> and sent to the microservice in order to summarize it (using flan-t5 model running on TEE).
         </p>
+        <p style={{ marginTop: "2em" }}>Document:</p>
         <TextArea value={textInput} rows={7} onChange={(e) => setTextInput(e.target.value)} />
         {encryptedInput && (
           <>
-            <p style={{ marginTop: "2em" }}>Encrypted response:</p>
+            <p style={{ marginTop: "2em" }}>Encrypted document:</p>
             <TextArea value={encryptedInput} rows={10} />
           </>
         )}
