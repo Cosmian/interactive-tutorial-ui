@@ -41,7 +41,13 @@ const Decrypt = (): JSX.Element => {
     <Split>
       <Split.Content>
         <h1>{currentItem?.label}</h1>
-        <p>
+        {summarizeApiResponse && summarizeApiResponse.encrypted_summary && (
+          <>
+            <p style={{ marginTop: "2em" }}>Encrypted summary:</p>
+            <TextArea value={summarizeApiResponse.encrypted_summary} rows={4} />
+          </>
+        )}
+        <p style={{ marginTop: "2em" }}>
           Summary is decrypted using <b>aes</b> library.
         </p>
         {clearSummary ? (

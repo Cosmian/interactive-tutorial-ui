@@ -1,5 +1,7 @@
 # Interactive Demo - Frontend
 
+This repository provides instructions/code samples using Cosmian solutions. The relevant actions, for different languages, are documented in `/src/actions` folder.
+
 ## Setting up Environment Variables
 
 Create a file named `.env` with the following variables:
@@ -9,7 +11,8 @@ VITE_AUTH0_DOMAIN="<your-tenant>.<region>.auth0.com"
 VITE_AUTH0_CUSTOM_DOMAIN="AUTH0_DOMAIN_CUSTOM_DOMAIN"
 VITE_AUTH0_CLIENT_ID="AUTH0_CLIENT_ID"
 VITE_CLIENT_2_TOKEN="CLIENT_2_TOKEN_GOES_HERE"
-VITE_BACKEND_URL="YOUR_BACKEND_URL_GOES_HERE"
+VITE_KMS_URL="YOUR_KMS_URL_GOES_HERE"
+VITE_CONFIDENTIAL_SERVICE_URL="YOUR_CONFIDENTIAL_SERVICE_URL_GOES_HERE"
 ```
 
 ## Running the KMS and the User Interface
