@@ -1,8 +1,8 @@
-import { FindexKey, IndexedEntry, KmsObject, Label, Policy } from "cloudproof_js";
+import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
 import { Employee, employees } from "../utils/covercryptConfig";
 import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
-import { EncryptedResult, FindexCallbacks, KeysUid, Language } from "../utils/types";
+import { EncryptedResult, KeysUid, Language } from "../utils/types";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -81,37 +81,20 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 
 // FINDEX
 interface FindexState {
-  findexKey: FindexKey | undefined;
-  label: Label | undefined;
-  callbacks: FindexCallbacks | undefined;
+  findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: Employee[] | undefined;
-  setFindexKey: (findexKey: FindexKey) => void;
-  setLabel: (label?: Label) => void;
-  setCallbacks: (callbacks?: FindexCallbacks) => void;
+  setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
   setResultEmployees: (resultEmployees?: Employee[]) => void;
 }
 export const useFindexStore = create<FindexState>()((set) => ({
-  findexKey: undefined,
-  label: undefined,
-  callbacks: undefined,
+  findexInstance: undefined,
   indexedEntries: undefined,
   resultEmployees: undefined,
-  setFindexKey: (findexKey: FindexKey) =>
-    set((state) => {
-      state.setLabel(); // reset next steps
-      return { findexKey };
-    }),
-  setLabel: (label?: Label) =>
-    set((state) => {
-      state.setCallbacks();
-      return { label };
-    }),
-  setCallbacks: (callbacks?: FindexCallbacks) =>
-    set((state) => {
-      state.setIndexedEntries(); // reset next steps
-      return { callbacks };
+  setFindexInstance: (findexInstance?: Findex) =>
+    set(() => {
+      return { findexInstance };
     }),
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) =>
     set((state) => {

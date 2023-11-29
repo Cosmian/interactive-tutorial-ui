@@ -1,23 +1,23 @@
 version: "3"
 services:
   backend:
-    container_name: kms_4.9.1
-    image: ghcr.io/cosmian/kms:4.9.1
+    container_name: kms_4.10.0
+    image: ghcr.io/cosmian/kms:4.10.0
     ports:
       - 9998:9998
     environment:
       - KMS_JWT_ISSUER_URI=https://${VITE_AUTH0_DOMAIN}/
       - KMS_JWKS_URI=https://${VITE_AUTH0_DOMAIN}/.well-known/jwks.json
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
-        - VITE_AUTH0_CUSTOM_DOMAIN=${VITE_AUTH0_CUSTOM_DOMAIN}
-        - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
-        - VITE_KMS_URL=${VITE_KMS_URL}
-        - VITE_CLIENT_2_TOKEN=${VITE_CLIENT_2_TOKEN}
-        - VITE_CONFIDENTIAL_SERVICE_URL=${VITE_CONFIDENTIAL_SERVICE_URL}
-    ports:
-      - 3000:3000
+  # frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
+  #       - VITE_AUTH0_CUSTOM_DOMAIN=${VITE_AUTH0_CUSTOM_DOMAIN}
+  #       - VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}
+  #       - VITE_KMS_URL=${VITE_KMS_URL}
+  #       - VITE_CLIENT_2_TOKEN=${VITE_CLIENT_2_TOKEN}
+  #       - VITE_CONFIDENTIAL_SERVICE_URL=${VITE_CONFIDENTIAL_SERVICE_URL}
+  #   ports:
+  #     - 3000:3000

@@ -1,5 +1,3 @@
-import { FetchChains, FetchEntries, InsertChains, UpsertEntries } from "cloudproof_js";
-
 export type Language = "java" | "javascript" | "python";
 
 export type CodeContent = {
@@ -17,11 +15,4 @@ export type EncryptedResult = { key: number; marketing: Uint8Array; hr: Uint8Arr
 export type KeysUid = {
   masterPublicKeyUId: string;
   masterSecretKeyUId: string;
-};
-
-export type FindexCallbacks = {
-  fetchEntries: FetchEntries;
-  fetchChains: FetchChains;
-  upsertEntries: UpsertEntries;
-  insertChains: InsertChains;
 };

@@ -20,10 +20,8 @@ import Decrypt from "./pages/cse/Decrypt";
 import EncryptAndSend from "./pages/cse/EncryptAndSend";
 import SetupCse from "./pages/cse/SetupCse";
 import AboutFindex from "./pages/findex/AboutFindex";
-import DefineCallbacks from "./pages/findex/DefineCallbacks";
-import GenerateFindexKey from "./pages/findex/GenerateFindexKey";
 import IndexDatabase from "./pages/findex/IndexDatabase";
-import Labelling from "./pages/findex/Labelling";
+import InstantiateFindex from "./pages/findex/InstantiateFindex";
 import SearchInDatabase from "./pages/findex/SearchInDatabase";
 import SetupFindex from "./pages/findex/SetupFindex";
 import AboutPKI from "./pages/pki/AboutPKI";
@@ -53,9 +51,7 @@ const componentsList: {
   // Findex
   "build-encrypted-indexes/about-findex": <AboutFindex />,
   "build-encrypted-indexes/set-up-service": <SetupFindex />,
-  "build-encrypted-indexes/generate-findex-key": <GenerateFindexKey />,
-  "build-encrypted-indexes/labelling": <Labelling />,
-  "build-encrypted-indexes/callbacks": <DefineCallbacks />,
+  "build-encrypted-indexes/instantiate-findex": <InstantiateFindex />,
   "build-encrypted-indexes/index-database": <IndexDatabase />,
   "build-encrypted-indexes/search-in-database": <SearchInDatabase />,
   // PKI

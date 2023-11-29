@@ -1,18 +1,10 @@
-import { FetchChains, FetchEntries, Findex, FindexKey, Label, Location } from "cloudproof_js";
-
 //
 // Search a list of words
+
+import { Findex, SearchResults } from "cloudproof_js";
+
 //
-export const searchWords = async (
-  masterKey: FindexKey,
-  label: Label,
-  words: string[],
-  fetchEntries: FetchEntries,
-  fetchChains: FetchChains
-): Promise<Location[]> => {
-  const { search } = await Findex();
-
-  const results = await search(masterKey, label, words, fetchEntries, fetchChains);
-
-  return results.locations();
+export const searchWords = async (findex: Findex, words: string[]): Promise<number[]> => {
+  const results: SearchResults = await findex.search(words);
+  return results.toNumbers();
 };
