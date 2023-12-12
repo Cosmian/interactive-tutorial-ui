@@ -80,11 +80,15 @@ const IndexDatabase = (): JSX.Element => {
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
           runCode={findexInstance ? handleIndexDatabase : undefined}
-          codeOutputList={{
-            java: JSON.stringify(indexedEntries, undefined, 2),
-            javascript: JSON.stringify(indexedEntries, undefined, 2),
-            python: JSON.stringify(indexedEntries, undefined, 2),
-          }}
+          codeOutputList={
+            indexedEntries
+              ? {
+                  java: JSON.stringify(indexedEntries, undefined, 2),
+                  javascript: JSON.stringify(indexedEntries, undefined, 2),
+                  python: JSON.stringify(indexedEntries, undefined, 2),
+                }
+              : undefined
+          }
         />
       </Split.Code>
     </Split>

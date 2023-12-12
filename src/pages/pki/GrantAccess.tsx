@@ -16,7 +16,7 @@ const GrantAccess = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("grantGetKeyAccess", activeLanguageList);
   // states
-  const { accessGranted, wrappedPkCertUid, setAccessGranted } = usePkiStore((state) => state);
+  const { accessGranted, publishedCertUid, setAccessGranted } = usePkiStore((state) => state);
   const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ const GrantAccess = (): JSX.Element => {
 
   const grantAccess = async (): Promise<void> => {
     try {
-      if (kmsTwoToken && wrappedPkCertUid) {
-        grantGetKeyAccess(kmsTwoToken, wrappedPkCertUid, "*");
+      if (kmsTwoToken && publishedCertUid) {
+        grantGetKeyAccess(kmsTwoToken, publishedCertUid, "*");
         setAccessGranted(true);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -49,11 +49,11 @@ const GrantAccess = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={kmsTwoToken && wrappedPkCertUid ? grantAccess : undefined}
+          runCode={kmsTwoToken && publishedCertUid ? grantAccess : undefined}
           codeOutputList={
             accessGranted
               ? {
-                  javascript: "Access granted",
+                  javascript: "Access granted.",
                 }
               : undefined
           }

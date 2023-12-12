@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { fetchPKI } from "../../actions/javascript/fetchPKI";
 import { fetchWrappedKey } from "../../actions/javascript/fetchWrappedKey";
-import { uploadDerInPKI } from "../../actions/javascript/uploadDerInPKI";
+import { uploadCertInPKI } from "../../actions/javascript/uploadCertInPKI";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
@@ -19,17 +19,19 @@ const GetCertificate = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("fetchWrappedKey", activeLanguageList);
   // states
-  const { accessGranted, wrappedPkCertUid, clientOneUdkUid, wrappedUdk, setCertificateUid, setWrappedUdk } = usePkiStore((state) => state);
+  const { accessGranted, savedSk2, publishedCertUid, clientOneUdkUid, wrappedUdk, setCertificateUid, setWrappedUdk } = usePkiStore(
+    (state) => state
+  );
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
-  const getCertificateAndRetriveKey = async (): Promise<void> => {
+  const getCertificateAndRetrieveKey = async (): Promise<void> => {
     try {
-      if (accessGranted && kmsToken && wrappedPkCertUid && clientOneUdkUid) {
-        const kmsObject = await fetchPKI(kmsToken, wrappedPkCertUid);
+      if (accessGranted && kmsToken && publishedCertUid && clientOneUdkUid && savedSk2) {
+        const kmsObject = await fetchPKI(kmsToken, publishedCertUid);
         if (kmsObject.type === "Certificate") {
-          const uid = await uploadDerInPKI(kmsToken, uuidv4(), kmsObject.value.certificateValue);
+          const uid = await uploadCertInPKI(kmsToken, uuidv4(), kmsObject.value.certificateValue, savedSk2);
           setCertificateUid(uid);
           const wrappedKey = await fetchWrappedKey(kmsToken, clientOneUdkUid, uid);
           setWrappedUdk(wrappedKey);
@@ -64,7 +66,7 @@ const GetCertificate = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={accessGranted && kmsToken && wrappedPkCertUid && clientOneUdkUid ? getCertificateAndRetriveKey : undefined}
+          runCode={accessGranted && kmsToken && publishedCertUid && clientOneUdkUid ? getCertificateAndRetrieveKey : undefined}
           codeOutputList={
             wrappedUdk
               ? {

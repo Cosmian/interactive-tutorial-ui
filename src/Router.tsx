@@ -30,9 +30,9 @@ import EncryptDataPki from "./pages/pki/EncryptDataPki";
 import GetCertificate from "./pages/pki/GetCertificate";
 import GrantAccess from "./pages/pki/GrantAccess";
 import ImportAndUnwrapUDK from "./pages/pki/ImportAndUnwrapUDK";
-import SaveSK2 from "./pages/pki/SaveSK2";
 import SendWrappedDecryptionKey from "./pages/pki/SendWrappedDecryptionKey";
 import SetupPki from "./pages/pki/SetupPki";
+import UploadCert from "./pages/pki/UploadCert";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -58,7 +58,7 @@ const componentsList: {
   "distibute-keys/about-pki": <AboutPKI />,
   "distibute-keys/set-up-service": <SetupPki />,
   "distibute-keys/encrypt-data": <EncryptDataPki />,
-  "distibute-keys/save-sk-publish-certificate": <SaveSK2 />,
+  "distibute-keys/save-sk-publish-certificate": <UploadCert />,
   "distibute-keys/grant-access": <GrantAccess />,
   "distibute-keys/retrieve-wrapped-decryption-key": <GetCertificate />,
   "distibute-keys/send-key-in-kms": <SendWrappedDecryptionKey />,

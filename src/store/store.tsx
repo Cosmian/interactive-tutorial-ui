@@ -93,7 +93,9 @@ export const useFindexStore = create<FindexState>()((set) => ({
   indexedEntries: undefined,
   resultEmployees: undefined,
   setFindexInstance: (findexInstance?: Findex) =>
-    set(() => {
+    set((state) => {
+      state.setResultEmployees(); // reset next steps
+      state.setIndexedEntries();
       return { findexInstance };
     }),
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) =>
@@ -108,9 +110,9 @@ export const useFindexStore = create<FindexState>()((set) => ({
 interface PkiState {
   clientOneUdkUid: string | undefined;
   encryptedEmployeesPki: EncryptedResult[] | undefined;
-  wrappedPk2: WrappedKey | undefined;
+  certAndPrivateKey: CertAndPrivateKeyBytes | undefined;
   savedSk2: string | undefined;
-  wrappedPkCertUid: string | undefined;
+  publishedCertUid: string | undefined;
   accessGranted: boolean;
   certificateUid: string | undefined;
   wrappedUdk: KmsObject | undefined;
@@ -120,9 +122,9 @@ interface PkiState {
   clearEmployeesPki: Employee[] | undefined;
   setClientOneUdkUid: (uid: string) => void;
   setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
-  setWrappedPk2: (wrappedPk2?: WrappedKey) => void;
+  setCertAndPrivateKey: (certAndPrivateKey?: CertAndPrivateKeyBytes) => void;
   setSavedSk2: (savedSk2?: string) => void;
-  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) => void;
+  setPublishedCertUid: (publishedCertUid?: string) => void;
   setAccessGranted: (granted: boolean) => void;
   setCertificateUid: (certificateUid?: string) => void;
   setWrappedUdk: (wrappedUdk?: KmsObject) => void;
@@ -135,9 +137,9 @@ interface PkiState {
 export const usePkiStore = create<PkiState>()((set) => ({
   clientOneUdkUid: undefined,
   encryptedEmployeesPki: undefined,
-  wrappedPk2: undefined,
+  certAndPrivateKey: undefined,
   savedSk2: undefined,
-  wrappedPkCertUid: undefined,
+  publishedCertUid: undefined,
   accessGranted: false,
   certificateUid: undefined,
   wrappedUdk: undefined,
@@ -148,23 +150,23 @@ export const usePkiStore = create<PkiState>()((set) => ({
   setClientOneUdkUid: (clientOneUdkUid: string) => set(() => ({ clientOneUdkUid })),
   setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) =>
     set((store) => {
-      store.setWrappedPk2(); // reset next steps
+      store.setCertAndPrivateKey(); // reset next steps
       return { encryptedEmployeesPki };
     }),
-  setWrappedPk2: (wrappedPk2?: WrappedKey) =>
+  setCertAndPrivateKey: (certAndPrivateKey?: CertAndPrivateKeyBytes) =>
     set((state) => {
       state.setSavedSk2();
-      return { wrappedPk2 };
+      return { certAndPrivateKey };
     }),
   setSavedSk2: (savedSk2?: string) =>
     set((store) => {
-      store.setPublishedWrappedPkUid();
+      store.setPublishedCertUid();
       return { savedSk2 };
     }),
-  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) =>
+  setPublishedCertUid: (publishedCertUid?: string) =>
     set((state) => {
       state.setAccessGranted(false);
-      return { wrappedPkCertUid };
+      return { publishedCertUid };
     }),
   setAccessGranted: (granted: boolean) =>
     set((state) => {
@@ -283,4 +285,4 @@ export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice>((...
 }));
 
 // TYPES
-type WrappedKey = { certBytes: Uint8Array; privateKeyBytes: Uint8Array };
+type CertAndPrivateKeyBytes = { certBytes: Uint8Array; privateKeyBytes: Uint8Array };

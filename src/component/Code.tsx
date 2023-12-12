@@ -1,6 +1,6 @@
 import { SyncOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
+import { IoCheckmarkCircleOutline, IoCheckmarkSharp, IoPlayCircleOutline } from "react-icons/io5";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useBoundStore } from "../store/store";
@@ -37,7 +37,7 @@ const CodeDemo: React.FC<CodeHihlighterProps> = ({ codeInputList, codeOutputList
       {activeLanguageList.length !== 0 && <LanguageTabs activeLanguageList={activeLanguageList} />}
 
       <CodeHighlighter codeInput={codeInputList[language]} language={codeLanguage ? codeLanguage : language} />
-      <FlatButton onClick={onClickRun} loading={loadingButton} disabled={runCode == null} />
+      <FlatButton onClick={onClickRun} loading={loadingButton} disabled={runCode == null} done={codeOutputList !== undefined} />
 
       {codeOutputList && codeOutputList[language] && (
         <CodeHighlighter codeInput={codeOutputList[language]} language={codeLanguage ? codeLanguage : language} copyButton={false} />
@@ -91,12 +91,13 @@ export const CodeHighlighter: React.FC<{ codeInput: string | undefined; language
 type FlatButtonProps = {
   loading?: boolean;
   disabled?: boolean;
+  done?: boolean;
   onClick: () => void;
 };
-const FlatButton: React.FC<FlatButtonProps> = ({ loading, disabled, onClick }) => {
+const FlatButton: React.FC<FlatButtonProps> = ({ loading, disabled, onClick, done }) => {
   return (
     <button onClick={onClick} className="flat-btn primary" disabled={loading || disabled}>
-      Run code {loading ? <SyncOutlined spin /> : <IoPlayCircleOutline />}
+      Run code {loading ? <SyncOutlined spin /> : done ? <IoCheckmarkCircleOutline /> : <IoPlayCircleOutline />}
     </button>
   );
 };

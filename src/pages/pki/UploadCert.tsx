@@ -1,7 +1,8 @@
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { uploadDerInPKI } from "../../actions/javascript/uploadDerInPKI";
+import { uploadCertInPKI } from "../../actions/javascript/uploadCertInPKI";
+import { uploadPrivateKeyInPKI } from "../../actions/javascript/uploadPrivateKeyinPKI";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
@@ -13,11 +14,11 @@ import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["javascript"];
 
-const SaveSK2 = (): JSX.Element => {
+const UploadCert = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeContent } = useFetchCodeContent("uploadDerInPKI", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("uploadCertInPKI", activeLanguageList);
   // states
-  const { wrappedPk2, wrappedPkCertUid, savedSk2, setSavedSk2, setPublishedWrappedPkUid } = usePkiStore((state) => state);
+  const { certAndPrivateKey, publishedCertUid, savedSk2, setSavedSk2, setPublishedCertUid } = usePkiStore((state) => state);
   const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();
@@ -25,11 +26,12 @@ const SaveSK2 = (): JSX.Element => {
 
   const saveSecretKeyAndPublishCertificate = async (): Promise<void> => {
     try {
-      if (kmsTwoToken && wrappedPk2) {
-        const savedSk2Uid = await uploadDerInPKI(kmsTwoToken, uuidv4(), wrappedPk2.privateKeyBytes);
+      if (kmsTwoToken && certAndPrivateKey) {
+        const certUid = uuidv4();
+        const savedSk2Uid = await uploadPrivateKeyInPKI(kmsTwoToken, uuidv4(), certAndPrivateKey.privateKeyBytes, certUid);
         setSavedSk2(savedSk2Uid);
-        const wrappedPkCertUid = await uploadDerInPKI(kmsTwoToken, uuidv4(), wrappedPk2.certBytes);
-        setPublishedWrappedPkUid(wrappedPkCertUid);
+        const CertUid = await uploadCertInPKI(kmsTwoToken, certUid, certAndPrivateKey.certBytes, savedSk2Uid);
+        setPublishedCertUid(CertUid);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -57,12 +59,11 @@ const SaveSK2 = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={kmsTwoToken && wrappedPk2 ? saveSecretKeyAndPublishCertificate : undefined}
+          runCode={kmsTwoToken && certAndPrivateKey ? saveSecretKeyAndPublishCertificate : undefined}
           codeOutputList={
-            wrappedPkCertUid && savedSk2
+            publishedCertUid
               ? {
-                  javascript: `${JSON.stringify(savedSk2, undefined, 2)}  
-${JSON.stringify(wrappedPkCertUid, undefined, 2)}`,
+                  javascript: `${JSON.stringify(publishedCertUid, undefined, 2)}`,
                 }
               : undefined
           }
@@ -72,4 +73,4 @@ ${JSON.stringify(wrappedPkCertUid, undefined, 2)}`,
   );
 };
 
-export default SaveSK2;
+export default UploadCert;

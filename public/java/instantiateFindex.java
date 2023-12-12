@@ -1,5 +1,4 @@
 import com.cosmian.jna.findex.Findex;
-
 //
 // Instantiate Findex
 //
