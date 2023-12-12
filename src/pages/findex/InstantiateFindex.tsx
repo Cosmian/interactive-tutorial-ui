@@ -47,7 +47,7 @@ const InstantiateFindex = (): JSX.Element => {
           Findex uses a single symmetric 128 bit key to upsert and search. To generate 16 random bytes locally, use the randomBytes
           generator from 'crypto'.
         </p>
-        <p> These are used to encrypt the requests to the backends storing the actual index.</p>
+        <p> These are used to encrypt the requests to the interfaces storing the actual index.</p>
       </Split.Content>
 
       <Split.Code>

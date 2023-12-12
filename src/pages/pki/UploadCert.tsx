@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { uploadCertInPKI } from "../../actions/javascript/uploadCertInPKI";
-import { uploadPrivateKeyInPKI } from "../../actions/javascript/uploadPrivateKeyinPKI";
+import { uploadPrivateKeyInPKI } from "../../actions/javascript/uploadPrivateKeyInPKI";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
@@ -18,7 +18,7 @@ const UploadCert = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("uploadCertInPKI", activeLanguageList);
   // states
-  const { certAndPrivateKey, publishedCertUid, savedSk2, setSavedSk2, setPublishedCertUid } = usePkiStore((state) => state);
+  const { certAndPrivateKey, publishedCertUid, setSavedSk2, setPublishedCertUid } = usePkiStore((state) => state);
   const { kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();

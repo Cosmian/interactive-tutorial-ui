@@ -23,11 +23,7 @@ const AboutFindex = (): JSX.Element => {
       <h2>Implementation</h2>
       <p>
         The Findex cryptographic library is open-source and written in Rust. The Cloudproof Rust Findex implementation allows instantiating
-        Findex with chosen backends. The indication of which backend to use is specified when instantiating the object.
-      </p>
-      <p>
-        The following snippet of code describes how to instantiate Findex using the REST backend (this backend relies on a server
-        implementing the Findex REST API to store the index).
+        Findex with chosen interface. The indication of which interface to use is specified when instantiating the object.
       </p>
     </SingleContent>
   );
