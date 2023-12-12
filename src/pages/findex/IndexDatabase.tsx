@@ -59,10 +59,7 @@ const IndexDatabase = (): JSX.Element => {
           Populating the index is done using the add API. It takes as argument a list of associations that maps values to sets of keywords.
           Each value passed as input can then be retrieved using any associated keyword.
         </p>
-        <p>
-          This API returns the keywords that have been added to the index (meaning that no value where associated to these before). In the
-          following example, the data 1337 (typically a DB UID) is indexed for the keywords “John” and “Doe”.
-        </p>
+        <p>This API returns the keywords that have been added to the index (meaning that no value where associated to these before).</p>
         <p>In this example we will index employees’ database:</p>
         <EmployeeTable data={clearEmployees} />
         <Button

@@ -38,7 +38,7 @@ const InstantiateFindex = (): JSX.Element => {
     <Split>
       <Split.Content>
         <h1>{currentItem?.label}</h1>
-        <p>Findex relies on the user to provide him with:</p>
+        <p>Findex relies on the user to provide him:</p>
         <ul>
           <li>the index key</li>
           <li>the public label</li>
