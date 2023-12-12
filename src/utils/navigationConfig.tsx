@@ -76,33 +76,21 @@ export const navigationConfig: NavigationConfig = {
         footerNavigation: true,
         done: false,
       },
-      "generate-findex-key": {
+      "instantiate-findex": {
         key: 2,
-        label: "Generate Findex key",
-        footerNavigation: true,
-        done: false,
-      },
-      labelling: {
-        key: 3,
-        label: "Labeling: salting the encryption",
-        footerNavigation: true,
-        done: false,
-      },
-      callbacks: {
-        key: 4,
-        label: "Define callbacks",
+        label: "Instantiate Findex",
         footerNavigation: true,
         done: false,
       },
       "index-database": {
-        key: 5,
+        key: 3,
         label: "Index database",
         footerNavigation: true,
         done: false,
       },
       "search-in-database": {
-        key: 6,
-        label: "Search words in database",
+        key: 4,
+        label: "Search words",
         footerNavigation: true,
         done: false,
       },

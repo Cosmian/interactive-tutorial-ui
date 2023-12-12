@@ -1,8 +1,8 @@
 import { message } from "antd";
-import { IndexedEntry, Location } from "cloudproof_js";
+import { Data, IndexedEntry } from "cloudproof_js";
 import { Button } from "cosmian_ui";
 import { useNavigate } from "react-router-dom";
-import { upsertData } from "../../actions/javascript/upsertData";
+import { addToIndex } from "../../actions/javascript/addToIndex";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
@@ -16,9 +16,9 @@ const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const IndexDatabase = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeContent } = useFetchCodeContent("upsertData", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("addToIndex", activeLanguageList);
   // states
-  const { findexKey, label, indexedEntries, setIndexedEntries, callbacks } = useFindexStore((state) => state);
+  const { findexInstance, indexedEntries, setIndexedEntries } = useFindexStore((state) => state);
   const { clearEmployees } = useCovercryptStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
@@ -26,9 +26,9 @@ const IndexDatabase = (): JSX.Element => {
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
-      if (findexKey && label && callbacks) {
-        const indexedEntries = clearEmployees.map((employee) => ({
-          indexedValue: Location.fromNumber(employee.uuid),
+      if (findexInstance) {
+        const indexedEntries: IndexedEntry[] = clearEmployees.map((employee) => ({
+          indexedValue: Data.fromNumber(employee.uuid),
           keywords: [
             (employee.first as string).toLowerCase(),
             (employee.last as string).toLowerCase(),
@@ -37,8 +37,8 @@ const IndexDatabase = (): JSX.Element => {
             (employee.salary as string).toString(),
           ],
         }));
-        setIndexedEntries(indexedEntries as IndexedEntry[]);
-        await upsertData(findexKey, label, indexedEntries, callbacks.fetchEntries, callbacks.upsertEntries, callbacks.insertChains);
+        setIndexedEntries(indexedEntries);
+        await addToIndex(findexInstance, indexedEntries);
         message.success("Employees table has been indexed.");
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -56,14 +56,15 @@ const IndexDatabase = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>
-          To perform insertions or updates (a.k.a upserts), supply an array of IndexedEntry. This structure maps an IndexedValue to a list
-          of Keywords.
+          Populating the index is done using the add API. It takes as argument a list of associations that maps values to sets of keywords.
+          Each value passed as input can then be retrieved using any associated keyword.
         </p>
+        <p>This API returns the keywords that have been added to the index (meaning that no value where associated to these before).</p>
         <p>In this example we will index employees’ database:</p>
         <EmployeeTable data={clearEmployees} />
         <Button
-          disabled={findexKey == null}
-          onClick={findexKey && label && callbacks ? () => handleIndexDatabase() : undefined}
+          disabled={findexInstance == null}
+          onClick={findexInstance ? () => handleIndexDatabase() : undefined}
           style={{ width: "100%", margin: "20px 0" }}
         >
           Index database
@@ -75,12 +76,16 @@ const IndexDatabase = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={findexKey && label && callbacks ? handleIndexDatabase : undefined}
-          codeOutputList={{
-            java: JSON.stringify(indexedEntries, undefined, 2),
-            javascript: JSON.stringify(indexedEntries, undefined, 2),
-            python: JSON.stringify(indexedEntries, undefined, 2),
-          }}
+          runCode={findexInstance ? handleIndexDatabase : undefined}
+          codeOutputList={
+            indexedEntries
+              ? {
+                  java: JSON.stringify(indexedEntries, undefined, 2),
+                  javascript: JSON.stringify(indexedEntries, undefined, 2),
+                  python: JSON.stringify(indexedEntries, undefined, 2),
+                }
+              : undefined
+          }
         />
       </Split.Code>
     </Split>

@@ -20,10 +20,8 @@ import Decrypt from "./pages/cse/Decrypt";
 import EncryptAndSend from "./pages/cse/EncryptAndSend";
 import SetupCse from "./pages/cse/SetupCse";
 import AboutFindex from "./pages/findex/AboutFindex";
-import DefineCallbacks from "./pages/findex/DefineCallbacks";
-import GenerateFindexKey from "./pages/findex/GenerateFindexKey";
 import IndexDatabase from "./pages/findex/IndexDatabase";
-import Labelling from "./pages/findex/Labelling";
+import InstantiateFindex from "./pages/findex/InstantiateFindex";
 import SearchInDatabase from "./pages/findex/SearchInDatabase";
 import SetupFindex from "./pages/findex/SetupFindex";
 import AboutPKI from "./pages/pki/AboutPKI";
@@ -32,9 +30,9 @@ import EncryptDataPki from "./pages/pki/EncryptDataPki";
 import GetCertificate from "./pages/pki/GetCertificate";
 import GrantAccess from "./pages/pki/GrantAccess";
 import ImportAndUnwrapUDK from "./pages/pki/ImportAndUnwrapUDK";
-import SaveSK2 from "./pages/pki/SaveSK2";
 import SendWrappedDecryptionKey from "./pages/pki/SendWrappedDecryptionKey";
 import SetupPki from "./pages/pki/SetupPki";
+import UploadCert from "./pages/pki/UploadCert";
 import { navigationConfig } from "./utils/navigationConfig";
 
 const componentsList: {
@@ -53,16 +51,14 @@ const componentsList: {
   // Findex
   "build-encrypted-indexes/about-findex": <AboutFindex />,
   "build-encrypted-indexes/set-up-service": <SetupFindex />,
-  "build-encrypted-indexes/generate-findex-key": <GenerateFindexKey />,
-  "build-encrypted-indexes/labelling": <Labelling />,
-  "build-encrypted-indexes/callbacks": <DefineCallbacks />,
+  "build-encrypted-indexes/instantiate-findex": <InstantiateFindex />,
   "build-encrypted-indexes/index-database": <IndexDatabase />,
   "build-encrypted-indexes/search-in-database": <SearchInDatabase />,
   // PKI
   "distibute-keys/about-pki": <AboutPKI />,
   "distibute-keys/set-up-service": <SetupPki />,
   "distibute-keys/encrypt-data": <EncryptDataPki />,
-  "distibute-keys/save-sk-publish-certificate": <SaveSK2 />,
+  "distibute-keys/save-sk-publish-certificate": <UploadCert />,
   "distibute-keys/grant-access": <GrantAccess />,
   "distibute-keys/retrieve-wrapped-decryption-key": <GetCertificate />,
   "distibute-keys/send-key-in-kms": <SendWrappedDecryptionKey />,

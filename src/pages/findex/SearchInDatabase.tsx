@@ -8,11 +8,11 @@ import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
-import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 import ContentSkeleton from "../../component/ContentSkeleton";
+import { Employee } from "../../utils/covercryptConfig";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
@@ -20,7 +20,7 @@ const SearchInDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("searchWords", activeLanguageList);
   // states
-  const { findexKey, label, indexedEntries, resultEmployees, setResultEmployees, callbacks } = useFindexStore((state) => state);
+  const { findexInstance, indexedEntries, resultEmployees, setResultEmployees } = useFindexStore((state) => state);
   const { clearEmployees } = useCovercryptStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
@@ -28,10 +28,10 @@ const SearchInDatabase = (): JSX.Element => {
 
   const handleSearchInDatabase = async (): Promise<void> => {
     try {
-      if (findexKey && label && callbacks && keyWords) {
-        const kewordsList = keyWords.replace(/ /g, "").toLowerCase().split(",");
-        const res = await searchWords(findexKey, label, kewordsList, callbacks.fetchEntries, callbacks.fetchChains);
-        const resEmployees = res.map((result) => clearEmployees.find((employee) => result.toNumber() === employee.uuid));
+      if (findexInstance && keyWords) {
+        const keywordsList = keyWords.replace(/ /g, "").toLowerCase().split(",");
+        const res = await searchWords(findexInstance, keywordsList);
+        const resEmployees = res.map((result) => clearEmployees.find((employee) => result === employee.uuid));
         setResultEmployees(resEmployees as Employee[]);
       }
       updateNavigationSteps(steps, setSteps);
@@ -49,6 +49,7 @@ const SearchInDatabase = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>Querying the index is performed using the search function.</p>
+        <p>The result of the search is a map of the searched keywords to the set of associated data found during the search.</p>
         <Input defaultValue={keyWords} onChange={(e) => setKeyWords(e.target.value)} />
         <Button onClick={handleSearchInDatabase} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%" }}>
           Search in database

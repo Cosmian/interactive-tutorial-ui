@@ -132,6 +132,7 @@ export const EncryptedTable: React.FC<EncryptedTablePros> = ({ data, ...rest }) 
 };
 
 export const IndexedTable: React.FC<IndexedTableProps> = ({ data, ...rest }) => {
+  const textDecoder = new TextDecoder("utf-8");
   const columns: ColumnsType<IndexedEntry> = [
     {
       title: "Indexed value",
@@ -151,5 +152,14 @@ export const IndexedTable: React.FC<IndexedTableProps> = ({ data, ...rest }) => 
       ),
     },
   ];
-  return <Table dataSource={data} pagination={false} {...rest} scroll={{ x: 550 }} columns={columns} />;
+  return (
+    <Table
+      dataSource={data}
+      pagination={false}
+      {...rest}
+      scroll={{ x: 550 }}
+      columns={columns}
+      rowKey={(row) => textDecoder.decode(row.indexedValue.bytes)}
+    />
+  );
 };

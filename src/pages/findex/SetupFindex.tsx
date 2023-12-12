@@ -16,7 +16,6 @@ const SetupFindex = (): JSX.Element => {
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = (): void => {
-    console.log("# successfully installed");
     setServiceSetup(true);
     updateNavigationSteps(steps, setSteps);
     navigate("#");
@@ -50,7 +49,7 @@ const SetupFindex = (): JSX.Element => {
           </li>
           <li>
             <Link to="https://github.com/Cosmian/cloudproof_python" target="_blank" rel="noopener noreferrer">
-              cloudproof_python
+              cloudproof_py
             </Link>
             : the Cloudproof Python Library,
           </li>
@@ -92,7 +91,7 @@ const SetupFindex = (): JSX.Element => {
 
 export default SetupFindex;
 
-const JS_CODE = `npm install cloudproof_js 
+const JS_CODE = `npm install cloudproof_js
 # or yarn install cloudproof_js or pnpm install cloudproof_js`;
 const JAVA_CODE = `<dependency>
 <groupId>com.cosmian</groupId>
@@ -100,10 +99,4 @@ const JAVA_CODE = `<dependency>
 <version>6.0.0</version>
 <type>jar</type>
 </dependency>`;
-const PYTHON_CODE = `pip install cloudproof_python
-
-# import library in your python file
-from cloudproof_py.findex import Findex, Keyword, Label, Location, MasterKey
-
-# needed if you use type checking
-from cloudproof_py.findex.typing import IndexedValuesAndKeywords, ProgressResults`;
+const PYTHON_CODE = "pip install cloudproof_py";

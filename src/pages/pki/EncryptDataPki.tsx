@@ -24,7 +24,7 @@ const EncryptDataPki = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("encryptDataLocally", activeLanguageList);
   // states
-  const { encryptedEmployeesPki, setClientOneUdkUid, setEncryptedEmployeesPki, setWrappedPk2 } = usePkiStore((state) => state);
+  const { encryptedEmployeesPki, setClientOneUdkUid, setEncryptedEmployeesPki, setCertAndPrivateKey } = usePkiStore((state) => state);
   const { clearEmployees } = useCovercryptStore((state) => state);
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const EncryptDataPki = (): JSX.Element => {
         const { certBytes, privateKeyBytes } = wrapKeyInCertificate();
 
         setEncryptedEmployeesPki(encryptedEmployees);
-        setWrappedPk2({ certBytes, privateKeyBytes });
+        setCertAndPrivateKey({ certBytes, privateKeyBytes });
 
         updateNavigationSteps(steps, setSteps);
         navigate("#");

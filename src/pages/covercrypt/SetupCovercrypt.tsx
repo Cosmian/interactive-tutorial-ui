@@ -48,7 +48,7 @@ const SetupCovercrypt = (): JSX.Element => {
           </li>
           <li>
             <Link to="https://github.com/Cosmian/cloudproof_python" target="_blank" rel="noopener noreferrer">
-              cloudproof_python
+              cloudproof_py
             </Link>
             : the Cloudproof Python Library,
           </li>
@@ -96,7 +96,7 @@ const SetupCovercrypt = (): JSX.Element => {
 
 export default SetupCovercrypt;
 
-const JS_CODE = `npm install cloudproof_js 
+const JS_CODE = `npm install cloudproof_js
 # or yarn install cloudproof_js or pnpm install cloudproof_js`;
 const JAVA_CODE = `<dependency>
 <groupId>com.cosmian</groupId>

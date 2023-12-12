@@ -17,7 +17,7 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("uploadKeyInPKI", activeLanguageList);
   // states
-  const { unwrappedUdkUid, wrappedPkCertUid, wrappedUdk2, setUnwrappedUdkUid } = usePkiStore((state) => state);
+  const { unwrappedUdkUid, wrappedUdk2, setUnwrappedUdkUid, savedSk2 } = usePkiStore((state) => state);
   const { kmsToken, kmsTwoToken, steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
 
   const importAndUnwrapUDK = async (): Promise<void> => {
     try {
-      if (kmsToken && wrappedUdk2 && wrappedPkCertUid) {
-        const uid = await uploadKeyInPKI(kmsTwoToken, uuidv4(), wrappedUdk2, true, wrappedPkCertUid);
+      if (kmsToken && wrappedUdk2 && savedSk2) {
+        const uid = await uploadKeyInPKI(kmsTwoToken, uuidv4(), wrappedUdk2, true, savedSk2);
         setUnwrappedUdkUid(uid);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -50,7 +50,7 @@ const ImportAndUnwrapUDK = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={kmsToken && wrappedUdk2 && wrappedPkCertUid ? importAndUnwrapUDK : undefined}
+          runCode={kmsToken && wrappedUdk2 ? importAndUnwrapUDK : undefined}
           codeOutputList={
             unwrappedUdkUid
               ? {

@@ -1,8 +1,8 @@
-import { FindexKey, IndexedEntry, KmsObject, Label, Policy } from "cloudproof_js";
+import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
 import { Employee, employees } from "../utils/covercryptConfig";
 import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
-import { EncryptedResult, FindexCallbacks, KeysUid, Language } from "../utils/types";
+import { EncryptedResult, KeysUid, Language } from "../utils/types";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -81,37 +81,22 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 
 // FINDEX
 interface FindexState {
-  findexKey: FindexKey | undefined;
-  label: Label | undefined;
-  callbacks: FindexCallbacks | undefined;
+  findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: Employee[] | undefined;
-  setFindexKey: (findexKey: FindexKey) => void;
-  setLabel: (label?: Label) => void;
-  setCallbacks: (callbacks?: FindexCallbacks) => void;
+  setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
   setResultEmployees: (resultEmployees?: Employee[]) => void;
 }
 export const useFindexStore = create<FindexState>()((set) => ({
-  findexKey: undefined,
-  label: undefined,
-  callbacks: undefined,
+  findexInstance: undefined,
   indexedEntries: undefined,
   resultEmployees: undefined,
-  setFindexKey: (findexKey: FindexKey) =>
+  setFindexInstance: (findexInstance?: Findex) =>
     set((state) => {
-      state.setLabel(); // reset next steps
-      return { findexKey };
-    }),
-  setLabel: (label?: Label) =>
-    set((state) => {
-      state.setCallbacks();
-      return { label };
-    }),
-  setCallbacks: (callbacks?: FindexCallbacks) =>
-    set((state) => {
-      state.setIndexedEntries(); // reset next steps
-      return { callbacks };
+      state.setResultEmployees(); // reset next steps
+      state.setIndexedEntries();
+      return { findexInstance };
     }),
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) =>
     set((state) => {
@@ -125,9 +110,9 @@ export const useFindexStore = create<FindexState>()((set) => ({
 interface PkiState {
   clientOneUdkUid: string | undefined;
   encryptedEmployeesPki: EncryptedResult[] | undefined;
-  wrappedPk2: WrappedKey | undefined;
+  certAndPrivateKey: CertAndPrivateKeyBytes | undefined;
   savedSk2: string | undefined;
-  wrappedPkCertUid: string | undefined;
+  publishedCertUid: string | undefined;
   accessGranted: boolean;
   certificateUid: string | undefined;
   wrappedUdk: KmsObject | undefined;
@@ -137,9 +122,9 @@ interface PkiState {
   clearEmployeesPki: Employee[] | undefined;
   setClientOneUdkUid: (uid: string) => void;
   setEncryptedEmployeesPki: (encryptedEmployees: EncryptedResult[]) => void;
-  setWrappedPk2: (wrappedPk2?: WrappedKey) => void;
+  setCertAndPrivateKey: (certAndPrivateKey?: CertAndPrivateKeyBytes) => void;
   setSavedSk2: (savedSk2?: string) => void;
-  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) => void;
+  setPublishedCertUid: (publishedCertUid?: string) => void;
   setAccessGranted: (granted: boolean) => void;
   setCertificateUid: (certificateUid?: string) => void;
   setWrappedUdk: (wrappedUdk?: KmsObject) => void;
@@ -152,9 +137,9 @@ interface PkiState {
 export const usePkiStore = create<PkiState>()((set) => ({
   clientOneUdkUid: undefined,
   encryptedEmployeesPki: undefined,
-  wrappedPk2: undefined,
+  certAndPrivateKey: undefined,
   savedSk2: undefined,
-  wrappedPkCertUid: undefined,
+  publishedCertUid: undefined,
   accessGranted: false,
   certificateUid: undefined,
   wrappedUdk: undefined,
@@ -165,23 +150,23 @@ export const usePkiStore = create<PkiState>()((set) => ({
   setClientOneUdkUid: (clientOneUdkUid: string) => set(() => ({ clientOneUdkUid })),
   setEncryptedEmployeesPki: (encryptedEmployeesPki: EncryptedResult[]) =>
     set((store) => {
-      store.setWrappedPk2(); // reset next steps
+      store.setCertAndPrivateKey(); // reset next steps
       return { encryptedEmployeesPki };
     }),
-  setWrappedPk2: (wrappedPk2?: WrappedKey) =>
+  setCertAndPrivateKey: (certAndPrivateKey?: CertAndPrivateKeyBytes) =>
     set((state) => {
       state.setSavedSk2();
-      return { wrappedPk2 };
+      return { certAndPrivateKey };
     }),
   setSavedSk2: (savedSk2?: string) =>
     set((store) => {
-      store.setPublishedWrappedPkUid();
+      store.setPublishedCertUid();
       return { savedSk2 };
     }),
-  setPublishedWrappedPkUid: (wrappedPkCertUid?: string) =>
+  setPublishedCertUid: (publishedCertUid?: string) =>
     set((state) => {
       state.setAccessGranted(false);
-      return { wrappedPkCertUid };
+      return { publishedCertUid };
     }),
   setAccessGranted: (granted: boolean) =>
     set((state) => {
@@ -300,4 +285,4 @@ export const useBoundStore = create<LanguageSlice & StepSlice & TokenSlice>((...
 }));
 
 // TYPES
-type WrappedKey = { certBytes: Uint8Array; privateKeyBytes: Uint8Array };
+type CertAndPrivateKeyBytes = { certBytes: Uint8Array; privateKeyBytes: Uint8Array };
