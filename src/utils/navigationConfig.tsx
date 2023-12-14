@@ -62,7 +62,7 @@ export const navigationConfig: NavigationConfig = {
   },
   "build-encrypted-indexes": {
     key: 2,
-    label: "Build Encrypted Indexes",
+    label: "Search Encrypted Data",
     children: {
       "about-findex": {
         key: 0,
@@ -98,7 +98,7 @@ export const navigationConfig: NavigationConfig = {
   },
   "distibute-keys": {
     key: 3,
-    label: "Distribute keys between clients",
+    label: "Distribute keys",
     children: {
       "about-pki": {
         key: 0,
@@ -158,7 +158,7 @@ export const navigationConfig: NavigationConfig = {
   },
   "confidential-vm": {
     key: 4,
-    label: "Cosmian VM",
+    label: "Compute using Encrypted Code and Data",
     children: {
       "about-cosmian-vm": {
         key: 0,
@@ -200,7 +200,7 @@ export const navigationConfig: NavigationConfig = {
   },
   "client-side-encryption": {
     key: 4,
-    label: "Client-side Encryption example",
+    label: "Encrypt Client-Side",
     children: {
       "about-cse": {
         key: 0,

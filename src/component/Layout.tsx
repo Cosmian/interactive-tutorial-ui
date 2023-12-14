@@ -46,7 +46,7 @@ const Layout = (): JSX.Element => {
             <CosmianLogo />
           </Link>
         }
-        title="Client-side Encryption – Interactive tutorial"
+        title="Interactive tutorial"
         userMenu={
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
             <ExternalLink link="https://docs.cosmian.com">Documentation</ExternalLink>
