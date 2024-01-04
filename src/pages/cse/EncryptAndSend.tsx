@@ -45,13 +45,15 @@ const EncryptAndSend = (): JSX.Element => {
           const encText = await aes.encrypt(bytesInput, keyBytes, { name: "AES-GCM", iv });
           setEncryptedInput(btoa(String.fromCodePoint(...encText)));
           const res = await sendEncryptedDocument(bytesInput, keyBytes, symmetricKeyUid, iv);
-          setSummarizeApiResponse(res);
-          message.success("Text sent successfully");
-
+          if (!(res instanceof Error)) {
+            setSummarizeApiResponse(res);
+            message.success("Text sent successfully");
+          }
           updateNavigationSteps(steps, setSteps);
           navigate("#");
         }
       } catch (error) {
+        setSummarizeApiResponse({ nonce: undefined, encrypted_summary: undefined });
         message.error(typeof error === "string" ? error : (error as Error).message);
         console.error(error);
       }
@@ -83,7 +85,7 @@ const EncryptAndSend = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={symmetricKeyUid ? handleSendEncryptedDocument : undefined}
           codeOutputList={
-            summarizeApiResponse?.encrypted_summary
+            summarizeApiResponse
               ? {
                   javascript: JSON.stringify(summarizeApiResponse.encrypted_summary, undefined, 2),
                 }

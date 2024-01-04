@@ -6,7 +6,7 @@ export const sendEncryptedDocument = async (
   keyBytes: Uint8Array,
   keyUid: string,
   iv: Uint8Array
-): Promise<{ nonce: string; encrypted_summary: string }> => {
+): Promise<{ nonce: string; encrypted_summary: string } | Error> => {
   const encryptedText = await aes.encrypt(textInput, keyBytes, { name: "AES-GCM", iv });
 
   const formData = new FormData();
@@ -17,5 +17,10 @@ export const sendEncryptedDocument = async (
     method: "POST",
     body: formData,
   });
-  return await response.json();
+  if (!response.ok) {
+    const content = await response.text();
+    throw new Error(content);
+  } else {
+    return await response.json();
+  }
 };
