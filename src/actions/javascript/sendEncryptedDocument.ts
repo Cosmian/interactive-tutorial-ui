@@ -6,25 +6,21 @@ export const sendEncryptedDocument = async (
   keyBytes: Uint8Array,
   keyUid: string,
   iv: Uint8Array
-): Promise<{ nonce: string; encrypted_summary: string } | undefined> => {
+): Promise<{ nonce: string; encrypted_summary: string } | Error> => {
   const encryptedText = await aes.encrypt(textInput, keyBytes, { name: "AES-GCM", iv });
 
   const formData = new FormData();
   formData.append("key_id", keyUid);
   formData.append("nonce", btoa(String.fromCodePoint(...iv)));
   formData.append("encrypted_doc", new Blob([encryptedText]), "text.doc");
-  try {
-    const response = await fetch(`${MSE_APP_URL}/kms_summarize`, {
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) {
-      const content = await response.text();
-      throw new Error(content);
-    } else {
-      return await response.json();
-    }
-  } catch (error: unknown) {
-    console.error(error);
+  const response = await fetch(`${MSE_APP_URL}/kms_summarize`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok) {
+    const content = await response.text();
+    throw new Error(content);
+  } else {
+    return await response.json();
   }
 };

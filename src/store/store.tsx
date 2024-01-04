@@ -239,8 +239,8 @@ export const useConfidentialVmSore = create<ConfidentialVmState>()((set) => ({
 }));
 // CSE
 type SummarizeApiResponse = {
-  nonce: string;
-  encrypted_summary: string;
+  nonce: string | undefined;
+  encrypted_summary: string | undefined;
 };
 interface CseState {
   symmetricKeyUid: string | undefined;

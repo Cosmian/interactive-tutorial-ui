@@ -22,7 +22,7 @@ const Decrypt = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleDecryptSummary = async (): Promise<void> => {
-    if (summarizeApiResponse && keyBytes) {
+    if (summarizeApiResponse && summarizeApiResponse.encrypted_summary && summarizeApiResponse.nonce && keyBytes) {
       try {
         const clearText = await decryptWithAes(summarizeApiResponse.encrypted_summary, keyBytes, summarizeApiResponse.nonce);
         setClearSummary(clearText);
@@ -63,7 +63,7 @@ const Decrypt = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={summarizeApiResponse && keyBytes ? handleDecryptSummary : undefined}
+          runCode={summarizeApiResponse && summarizeApiResponse.encrypted_summary && keyBytes ? handleDecryptSummary : undefined}
           codeOutputList={
             clearSummary
               ? {
