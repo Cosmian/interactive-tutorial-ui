@@ -239,41 +239,25 @@ export const useConfidentialVmSore = create<ConfidentialVmState>()((set) => ({
 }));
 // CSE
 type SummarizeApiResponse = {
-  nonce: string | undefined;
-  encrypted_summary: string | undefined;
+  summary: string | undefined;
 };
 interface CseState {
-  symmetricKeyUid: string | undefined;
+  integrity: boolean;
   summarizeApiResponse: SummarizeApiResponse | undefined;
-  keyBytes: Uint8Array | undefined;
-  clearSummary: string | undefined;
-  setSymmetricKeyUid: (symmetricKeyUid?: string) => void;
+  setIntegrity: (integrity?: boolean) => void;
   setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) => void;
-  setKeyBytes: (keyBytes?: Uint8Array) => void;
-  setClearSummary: (clearSummary?: string) => void;
 }
 export const useCseStore = create<CseState>()((set) => ({
-  symmetricKeyUid: undefined,
+  integrity: false,
   summarizeApiResponse: undefined,
-  keyBytes: undefined,
-  clearSummary: undefined,
-  setSymmetricKeyUid: (symmetricKeyUid?: string) =>
+  setIntegrity: (integrity?: boolean) =>
     set((state) => {
-      state.setSummarizeApiResponse(); // reset next steps
-      return { symmetricKeyUid };
+      state.setSummarizeApiResponse(undefined);
+      return { integrity };
     }),
   setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) =>
-    set((state) => {
-      state.setClearSummary(); // reset next steps
+    set(() => {
       return { summarizeApiResponse };
-    }),
-  setKeyBytes: (keyBytes?: Uint8Array) =>
-    set((_state) => {
-      return { keyBytes };
-    }),
-  setClearSummary: (clearSummary?: string) =>
-    set((_state) => {
-      return { clearSummary };
     }),
 }));
 
