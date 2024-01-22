@@ -53,9 +53,9 @@ const CreateEncryptionPolicy = (): JSX.Element => {
           points to a valid partition under the above policy.
         </p>
         <p>An access policy is defined by a set of partitions. It can be written as a boolean expression of axis attributes:</p>
-        <pre>(Department::Marketing || Department::Sales) && Country::France</pre>
+        <pre>(Department::Marketing || Department::HR) && Country::France</pre>
         <EmployeeTable data={covercryptState.clearEmployees} covercrypt />
-
+        <br />
         <p>
           In the following demo, we will create a policy that combines two axes, a security level, and a department. A user will be able to
           decrypt data only if it possesses a key with a sufficient security level and the correct department.

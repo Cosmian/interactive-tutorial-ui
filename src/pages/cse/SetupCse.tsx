@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Code from "../../component/Code";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { Button } from "cosmian_ui";
+import { useNavigate } from "react-router-dom";
+import { CodeBackground, VmCode } from "../../component/Code";
 import Split from "../../component/Split";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCseStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 
 const SetupCse = (): JSX.Element => {
-  const [serviceSetup, setServiceSetup] = useState(false);
+  const { integrity, setIntegrity } = useCseStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
-  const handleSetupService = (): void => {
-    setServiceSetup(true);
+  const verifyIntegrity = (): void => {
+    setIntegrity(true);
+
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };
@@ -22,29 +24,20 @@ const SetupCse = (): JSX.Element => {
       <Split.Content>
         <h1>{currentItem?.label}</h1>
         <p>
-          The <b>Cosmian KmsClient</b> is required in this demonstration. KmsClient is available in the{" "}
-          <Link to="https://github.com/Cosmian/cloudproof_kms_js" target="_blank" rel="noopener noreferrer">
-            cloudproof_kms_js
-          </Link>{" "}
-          open-source Javascript library.
+          Once the runner AI has been deployed on a Cosmian VM, the administrator can proceed with a verification of the <b>Cosmian VM</b>{" "}
+          using the CLI and the previous computed snapshot. The integrity of the VM content is verified.
         </p>
+        <p>
+          Also, the CLI checks that the VM is still a SEV AMD VM and checks the TPM used to attest the verification of the VM integrity.
+        </p>
+        <Button style={{ width: "100%" }} onClick={verifyIntegrity} disabled={integrity} icon={integrity ? <CheckCircleOutlined /> : <></>}>
+          {integrity ? "Integrity verified" : "Verify the integrity of the VM"}
+        </Button>
       </Split.Content>
       <Split.Code>
-        <Code
-          activeLanguageList={["javascript"]}
-          codeInputList={{
-            javascript: JS_CODE,
-          }}
-          codeOutputList={
-            serviceSetup
-              ? {
-                  javascript: "# successfully installed",
-                }
-              : undefined
-          }
-          codeLanguage="bash"
-          runCode={handleSetupService}
-        />
+        <CodeBackground>
+          <CodeBackground>{integrity && <VmCode code={INTEGRITY} machine="admin" />}</CodeBackground>
+        </CodeBackground>
       </Split.Code>
     </Split>
   );
@@ -52,5 +45,9 @@ const SetupCse = (): JSX.Element => {
 
 export default SetupCse;
 
-const JS_CODE = `npm install cloudproof_kms_js 
-# or yarn install cloudproof_kms_js or pnpm install cloudproof_kms_js`;
+const INTEGRITY = `$ ./cosmian_vm verify --url https://runner-ai.cosmian.dev --snapshot cosmian_vm.snapshot
+Fetching the collaterals...
+[ OK ] Verifying VM integrity
+[ OK ] Verifying TPM attestation
+[ OK ] Verifying TEE attestation
+`;

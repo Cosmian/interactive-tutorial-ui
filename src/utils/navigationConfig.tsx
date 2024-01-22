@@ -210,25 +210,13 @@ export const navigationConfig: NavigationConfig = {
       },
       "set-up-service": {
         key: 1,
-        label: "Set up service",
+        label: "Verify AI service",
         footerNavigation: true,
         done: false,
       },
-      "create-symmetric-key": {
+      "get-summary": {
         key: 2,
-        label: "Create Symmetric Key",
-        footerNavigation: true,
-        done: false,
-      },
-      "encrypt-send-document": {
-        key: 3,
-        label: "Encrypt and send document",
-        footerNavigation: true,
-        done: false,
-      },
-      decrypt: {
-        key: 4,
-        label: "Decrypt",
+        label: "Get summary",
         footerNavigation: true,
         done: false,
       },
