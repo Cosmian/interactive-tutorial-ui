@@ -1,7 +1,7 @@
 import { Input, message } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { sendDocumentContent } from "../../actions/javascript/sendDocumentContent";
+import { summarizeDocumentContent } from "../../actions/javascript/summarizeDocumentContent";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
@@ -16,8 +16,8 @@ const activeLanguageList: Language[] = ["javascript"];
 const INITIAL_TEXT =
   "Client-side encryption is the cryptographic technique of encrypting data on the sender's side, before it is transmitted to a server such as a cloud storage service. Client-side encryption features an encryption key that is not available to the service provider, making it difficult or impossible for service providers to decrypt hosted data. Client-side encryption allows for the creation of applications whose providers cannot access the data its users have stored, thus offering a high level of privacy. Those applications are sometimes marketed under the misleading term 'zero-knowledge'.";
 
-const EncryptAndSend = (): JSX.Element => {
-  const { loadingCode, codeContent } = useFetchCodeContent("sendDocumentContent", activeLanguageList);
+const SummarizeDocument = (): JSX.Element => {
+  const { loadingCode, codeContent } = useFetchCodeContent("summarizeDocumentContent", activeLanguageList);
 
   const [textInput, setTextInput] = useState(INITIAL_TEXT);
   const { steps, setSteps } = useBoundStore((state) => state);
@@ -27,7 +27,7 @@ const EncryptAndSend = (): JSX.Element => {
 
   const handleSendDocument = async (): Promise<void> => {
     try {
-      const res = await sendDocumentContent(textInput);
+      const res = await summarizeDocumentContent(textInput);
       if (!(res instanceof Error)) {
         setSummarizeApiResponse(res);
         message.success("Text sent successfully");
@@ -67,7 +67,7 @@ const EncryptAndSend = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={textInput ? handleSendDocument : undefined}
           codeOutputList={
-            summarizeApiResponse
+            summarizeApiResponse && summarizeApiResponse.summary
               ? {
                   javascript: JSON.stringify(summarizeApiResponse.summary, undefined, 2),
                 }
@@ -79,4 +79,4 @@ const EncryptAndSend = (): JSX.Element => {
   );
 };
 
-export default EncryptAndSend;
+export default SummarizeDocument;

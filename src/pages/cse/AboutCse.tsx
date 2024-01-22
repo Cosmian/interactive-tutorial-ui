@@ -16,7 +16,7 @@ const AboutCse = (): JSX.Element => {
         <Link to="https://support.google.com/a/answer/10741897" target="_blank" rel="noopener noreferrer">
           client-side encryption
         </Link>
-        , we show how to summarize or translate an encrypted document, using Cosmian AI..
+        , we show how to summarize or translate an encrypted document, using Cosmian AI.
       </p>
       <p>
         Text content is parsed in the browser (using Cosmian AI dedicated Chrome extension) and sent to the runner AI, which is in a Cosmian
