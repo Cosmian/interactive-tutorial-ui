@@ -45,7 +45,7 @@ const SetupCse = (): JSX.Element => {
 
 export default SetupCse;
 
-const INTEGRITY = `$ ./cosmian_vm verify --url https://runner-ai.cosmian.dev --snapshot cosmian_vm.snapshot
+const INTEGRITY = `$ ./cosmian_vm verify --url MSE_APP_URL --snapshot cosmian_vm.snapshot
 Fetching the collaterals...
 [ OK ] Verifying VM integrity
 [ OK ] Verifying TPM attestation
