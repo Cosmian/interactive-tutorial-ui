@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GoogleCse from "../../assets/new_cse_google_architecture.drawio.svg";
+import GoogleCse from "../../assets/google_cse_architecture.drawio.svg";
 import { ImageWrapper, SingleContent } from "../../component/Layout";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem } from "../../utils/navigationActions";
