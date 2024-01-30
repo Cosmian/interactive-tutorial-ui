@@ -28,7 +28,8 @@ const SetupCse = (): JSX.Element => {
           using the CLI and the previous computed snapshot. The integrity of the VM content is verified.
         </p>
         <p>
-          Also, the CLI checks that the VM is still a SEV AMD VM and checks the TPM used to attest the verification of the VM integrity.
+          Also, the CLI checks that the VM is still a AMD SEV-SNP or Intel TDX VM and checks the TPM used to attest the verification of the
+          VM integrity.
         </p>
         <Button style={{ width: "100%" }} onClick={verifyIntegrity} disabled={integrity} icon={integrity ? <CheckCircleOutlined /> : <></>}>
           {integrity ? "Integrity verified" : "Verify the integrity of the VM"}
