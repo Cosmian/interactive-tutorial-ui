@@ -14,7 +14,6 @@ const SetupCse = (): JSX.Element => {
 
   const verifyIntegrity = (): void => {
     setIntegrity(true);
-
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };

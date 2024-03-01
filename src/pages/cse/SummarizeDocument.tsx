@@ -20,20 +20,22 @@ const SummarizeDocument = (): JSX.Element => {
   const { loadingCode, codeContent } = useFetchCodeContent("summarizeDocumentContent", activeLanguageList);
 
   const [textInput, setTextInput] = useState(INITIAL_TEXT);
-  const { steps, setSteps } = useBoundStore((state) => state);
+  const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
   const { summarizeApiResponse, setSummarizeApiResponse } = useCseStore((state) => state);
   const currentItem = findCurrentNavigationItem(steps);
   const navigate = useNavigate();
 
   const handleSendDocument = async (): Promise<void> => {
     try {
-      const res = await summarizeDocumentContent(textInput);
-      if (!(res instanceof Error)) {
-        setSummarizeApiResponse(res);
-        message.success("Text sent successfully");
+      if (kmsToken) {
+        const res = await summarizeDocumentContent(textInput, kmsToken);
+        if (!(res instanceof Error)) {
+          setSummarizeApiResponse(res);
+          message.success("Text sent successfully");
+        }
+        updateNavigationSteps(steps, setSteps);
+        navigate("#");
       }
-      updateNavigationSteps(steps, setSteps);
-      navigate("#");
     } catch (error) {
       setSummarizeApiResponse({ summary: undefined });
       message.error(typeof error === "string" ? error : (error as Error).message);
