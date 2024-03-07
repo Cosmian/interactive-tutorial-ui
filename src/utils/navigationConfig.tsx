@@ -38,6 +38,20 @@ const generateNaviationConfig = (pagesConfig: Pages): NavigationConfig => {
   return menuWithCategories;
 };
 
+export const generateComponentsList = (pagesConfig: Pages): Record<string, JSX.Element> => {
+  const componentsList: Record<string, JSX.Element> = {};
+  for (const [key, value] of Object.entries(pagesConfig)) {
+    if (pagesConfig[key].length === 1) {
+      componentsList[key] = value[0].component;
+      continue;
+    }
+    for (let i = 0; i < value.length; i++) {
+      componentsList[key + "/" + value[i].path] = value[i].component;
+    }
+  }
+  return componentsList;
+};
+
 function getLabelFromPageName(key: string) {
   /**
    * Exp : encrypt-with-access-policies becomes : Encrypt with Access Policies
