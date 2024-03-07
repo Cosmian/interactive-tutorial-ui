@@ -1,10 +1,13 @@
 import { MSE_APP_URL } from "./backendConfig";
 
-export const summarizeDocumentContent = async (textInput: string): Promise<{ summary: string } | Error> => {
+export const summarizeDocumentContent = async (textInput: string, userToken: string): Promise<{ summary: string } | Error> => {
   const formData = new FormData();
   formData.append("doc", textInput);
   const response = await fetch(`${MSE_APP_URL}/summarize`, {
     method: "POST",
+    headers: {
+      Authorization: "Bearer " + userToken,
+    },
     body: formData,
   });
   if (!response.ok) {
