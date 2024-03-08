@@ -32,7 +32,7 @@ import UploadCert from "../pages/pki/UploadCert";
 
 export interface routePath {
   path: string;
-  title?: string;
+  label?: string;
   component?: JSX.Element;
 }
 export interface routePaths {
@@ -44,177 +44,177 @@ export const routePathsConfig: routePaths = {
    * To add a new page, you need to add a new entry in the object below.
    * The key is the path of the page, the value is an object with the following properties:
    * - path: the path of the page
-   * - title: the title of the page
+   * - label: the label of the page
    * - component: the component to render
    *
-   * Note that the title of the top level pages will be automatically generated from the path to avoid more complexity.
+   * Note that the label of the top level pages will be automatically generated from the path to avoid more complexity.
    * If you want to avoid this behavior, add a special case in the function getLabelFromPageName in src/utils/navigationConfig.tsx
    */
 
   overview: [
     {
       path: "overview",
-      title: "Overview",
+      label: "Overview",
       component: <OverView />,
     },
   ],
   "encrypt-with-access-policies": [
     {
       path: "about-covercrypt",
-      title: "About Covercrypt",
+      label: "About Covercrypt",
       component: <AboutCovercrypt />,
     },
     {
       path: "set-up-service",
-      title: "Set up the service",
+      label: "Set up the service",
       component: <SetupCovercrypt />,
     },
     {
       path: "create-policy",
-      title: "Create an encryption policy",
+      label: "Create an encryption policy",
       component: <CreateEncryptionPolicy />,
     },
     {
       path: "generate-master-key-pair",
-      title: "Generate a master key pair",
+      label: "Generate a master key pair",
       component: <CreateMasterKeyPair />,
     },
     {
       path: "encrypt-data",
-      title: "Encrypt data",
+      label: "Encrypt data",
       component: <EncryptData />,
     },
     {
       path: "user-decryption-key",
-      title: "Generate a user decryption key",
+      label: "Generate a user decryption key",
       component: <GenerateUDK />,
     },
     {
       path: "decrypt-data",
-      title: "Decrypt data",
+      label: "Decrypt data",
       component: <DecryptData />,
     },
   ],
   "build-encrypted-indexes": [
     {
       path: "about-findex",
-      title: "About Findex",
+      label: "About Findex",
       component: <AboutFindex />,
     },
     {
       path: "set-up-service",
-      title: "Set up the service",
+      label: "Set up the service",
       component: <SetupFindex />,
     },
     {
       path: "instantiate-findex",
-      title: "Instantiate Findex",
+      label: "Instantiate Findex",
       component: <InstantiateFindex />,
     },
     {
       path: "index-database",
-      title: "Index the database",
+      label: "Index the database",
       component: <IndexDatabase />,
     },
     {
       path: "search-in-database",
-      title: "Search in the database",
+      label: "Search in the database",
       component: <SearchInDatabase />,
     },
   ],
   "distibute-keys": [
     {
       path: "about-pki",
-      title: "About PKI",
+      label: "About PKI",
       component: <AboutPKI />,
     },
     {
       path: "set-up-service",
-      title: "Set up the service",
+      label: "Set up the service",
       component: <SetupPki />,
     },
     {
       path: "encrypt-data",
-      title: "Encrypt data",
+      label: "Encrypt data",
       component: <EncryptDataPki />,
     },
     {
       path: "save-sk-publish-certificate",
-      title: "Save the secret key and publish the certificate",
+      label: "Save the secret key and publish the certificate",
       component: <UploadCert />,
     },
     {
       path: "grant-access",
-      title: "Grant access",
+      label: "Grant access",
       component: <GrantAccess />,
     },
     {
       path: "retrieve-wrapped-decryption-key",
-      title: "Retrieve the wrapped decryption key",
+      label: "Retrieve the wrapped decryption key",
       component: <GetCertificate />,
     },
     {
       path: "send-key-in-kms",
-      title: "Send the key in KMS",
+      label: "Send the key in KMS",
       component: <SendWrappedDecryptionKey />,
     },
     {
       path: "unwrap-decryption-key",
-      title: "Import and unwrap the decryption key",
+      label: "Import and unwrap the decryption key",
       component: <ImportAndUnwrapUDK />,
     },
     {
       path: "decrypt-data",
-      title: "Decrypt data",
+      label: "Decrypt data",
       component: <DecryptDataPKI />,
     },
   ],
   "confidential-vm": [
     {
       path: "about-cosmian-vm",
-      title: "About Cosmian VM",
+      label: "About Cosmian VM",
       component: <UseConfidentialVm />,
     },
     {
       path: "deploy-application",
-      title: "Deploy an application",
+      label: "Deploy an application",
       component: <DeployApplication />,
     },
     {
       path: "snapshot-cosmian-vm",
-      title: "Snapshot Cosmian VM",
+      label: "Snapshot Cosmian VM",
       component: <SnapshotVm />,
     },
     {
       path: "audit-snapshot",
-      title: "Audit the snapshot",
+      label: "Audit the snapshot",
       component: <AuditSnapshot />,
     },
     {
       path: "verify-integrity",
-      title: "Verify the integrity",
+      label: "Verify the integrity",
       component: <VerifyIntegrity />,
     },
     {
       path: "detect-malicious-activities",
-      title: "Detect malicious activities",
+      label: "Detect malicious activities",
       component: <DetectMalware />,
     },
   ],
   "client-side-encryption": [
     {
       path: "about-cse",
-      title: "About CSE",
+      label: "About CSE",
       component: <AboutCse />,
     },
     {
       path: "set-up-service",
-      title: "Set up the service",
+      label: "Set up the service",
       component: <SetupCse />,
     },
     {
       path: "get-summary",
-      title: "Get a summary",
+      label: "Get a summary",
       component: <SummarizeDocument />,
     },
   ],

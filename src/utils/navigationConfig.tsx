@@ -19,12 +19,11 @@ const generateNaviationConfig = (routePathsConfig: routePaths): NavigationConfig
   const menuWithCategories: NavigationConfig = {};
   let topIndex = 0; //
   for (const [keyString, valueArr] of Object.entries(routePathsConfig)) {
-    // the title of the top level pages will be automatically generated from the path to avoid more complexity.
+    // the label of the top level pages will be automatically generated from the path to avoid more complexity.
     // If you want to avoid this behavior, add a special case in the function getLabelFromPageName in src/utils/navigationConfig.tsx
-    const autogenPageTitle: string = getLabelFromPageName(keyString);
     menuWithCategories[keyString] = {
       key: topIndex++,
-      label: autogenPageTitle,
+      label: routePathsConfig[keyString][0].label || getLabelFromPageName(keyString),
     };
     if (valueArr.length > 1) {
       for (const [btmIndex, page] of valueArr.entries()) {
@@ -32,7 +31,7 @@ const generateNaviationConfig = (routePathsConfig: routePaths): NavigationConfig
           ...menuWithCategories[keyString],
           [page.path]: {
             key: btmIndex,
-            label: page.title,
+            label: page.label,
             footerNavigation: true,
             done: false,
           },
@@ -57,7 +56,7 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
   return componentsList;
 };
 
-function getLabelFromPageName(key: string) {
+function getLabelFromPageName(key: string): string {
   /**
    * Exp : encrypt-with-access-policies becomes : Encrypt with Access Policies
    */
