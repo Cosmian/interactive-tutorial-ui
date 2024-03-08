@@ -10,11 +10,10 @@ export type NavigationItem = {
   done?: boolean;
 };
 
-const generateNaviationConfig = (routePathsConfig: routePaths): NavigationConfig => {
+const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfig => {
   /**
    * Produces the legacy navigationConfig object from the routePathsConfig centralised object.
    * routePathsConfig is defined in src/utils/routePathsConfig.tsx
-   * The navigationConfig object is used in src/Router.tsx to generate the navigation routes.
    */
   const menuWithCategories: NavigationConfig = {};
   let topIndex = 0; //
@@ -43,14 +42,20 @@ const generateNaviationConfig = (routePathsConfig: routePaths): NavigationConfig
 };
 
 export const generateComponentsList = (routePathsConfig: routePaths): Record<string, JSX.Element> => {
+  /**
+   * Produces the componentsList object from the routePathsConfig centralised object.
+   * routePathsConfig is defined in src/utils/routePathsConfig.tsx
+   * The componentsList object is used in src/Router.tsx to generate the navigation routes.
+   * It simply maps the path to the component to render.
+   */
   const componentsList: Record<string, JSX.Element> = {};
   for (const [key, value] of Object.entries(routePathsConfig)) {
     if (routePathsConfig[key].length === 1) {
-      componentsList[key] = value[0].component || <></>;
+      componentsList[key] = value[0].component || <>No component Provided</>;
       continue;
     }
     for (let i = 0; i < value.length; i++) {
-      componentsList[key + "/" + value[i].path] = value[i].component || <></>;
+      componentsList[key + "/" + value[i].path] = value[i].component || <>No component Provided</>;
     }
   }
   return componentsList;
@@ -58,7 +63,7 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
 
 function getLabelFromPageName(key: string): string {
   /**
-   * Exp : encrypt-with-access-policies becomes : Encrypt with Access Policies
+   * fallback utility function if a label is not provided in the routePathsConfig
    */
   const specialCases: Record<string, string> = {
     "client-side-encryption": "Encrypt Client-Side",
@@ -71,4 +76,4 @@ function getLabelFromPageName(key: string): string {
     .replace(/cosmian/g, "Cosmian");
 }
 
-export const navigationConfig: NavigationConfig = generateNaviationConfig(routePathsConfig);
+export const navigationConfig: NavigationConfig = generateNavigationConfig(routePathsConfig);
