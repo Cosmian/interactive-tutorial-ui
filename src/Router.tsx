@@ -1,11 +1,11 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./component/Layout";
 import { generateComponentsList, navigationConfig } from "./utils/navigationConfig";
-import { pagesConfig } from "./utils/pageConfig";
+import { routePathsConfig } from "./utils/routePathsConfig";
 
 const componentsList: {
   [key: string]: JSX.Element;
-} = generateComponentsList(pagesConfig);
+} = generateComponentsList(routePathsConfig);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,8 +40,8 @@ const router = createBrowserRouter(
         <Route path="404" element={<>404</>} />
         <Route path="*" element={<Navigate to={"404"} />} />
       </Route>
-    </>,
-  ),
+    </>
+  )
 );
 
 const AppRouter = (): JSX.Element => {

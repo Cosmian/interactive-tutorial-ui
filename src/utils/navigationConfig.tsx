@@ -1,4 +1,4 @@
-import { Pages, pagesConfig } from "./pageConfig";
+import { routePaths, routePathsConfig } from "./routePathsConfig";
 
 export type NavigationConfig = Record<string, NavigationItem>;
 
@@ -10,21 +10,26 @@ export type NavigationItem = {
   done?: boolean;
 };
 
-const generateNaviationConfig = (pagesConfig: Pages): NavigationConfig => {
+const generateNaviationConfig = (routePathsConfig: routePaths): NavigationConfig => {
+  /**
+   * Produces the legacy navigationConfig object from the routePathsConfig centralised object.
+   * routePathsConfig is defined in src/utils/routePathsConfig.tsx
+   * The navigationConfig object is used in src/Router.tsx to generate the navigation routes.
+   */
   const menuWithCategories: NavigationConfig = {};
-  let topIndex = 0;
-  for (const [key, value] of Object.entries(pagesConfig)) {
+  let topIndex = 0; //
+  for (const [keyString, valueArr] of Object.entries(routePathsConfig)) {
     // the title of the top level pages will be automatically generated from the path to avoid more complexity.
     // If you want to avoid this behavior, add a special case in the function getLabelFromPageName in src/utils/navigationConfig.tsx
-    const autogenPageTitle: string = getLabelFromPageName(key);
-    menuWithCategories[key] = {
+    const autogenPageTitle: string = getLabelFromPageName(keyString);
+    menuWithCategories[keyString] = {
       key: topIndex++,
       label: autogenPageTitle,
     };
-    if (value.length > 1) {
-      for (const [btmIndex, page] of value.entries()) {
-        menuWithCategories[key].children = {
-          ...menuWithCategories[key].children,
+    if (valueArr.length > 1) {
+      for (const [btmIndex, page] of valueArr.entries()) {
+        menuWithCategories[keyString] = {
+          ...menuWithCategories[keyString],
           [page.path]: {
             key: btmIndex,
             label: page.title,
@@ -38,15 +43,15 @@ const generateNaviationConfig = (pagesConfig: Pages): NavigationConfig => {
   return menuWithCategories;
 };
 
-export const generateComponentsList = (pagesConfig: Pages): Record<string, JSX.Element> => {
+export const generateComponentsList = (routePathsConfig: routePaths): Record<string, JSX.Element> => {
   const componentsList: Record<string, JSX.Element> = {};
-  for (const [key, value] of Object.entries(pagesConfig)) {
-    if (pagesConfig[key].length === 1) {
-      componentsList[key] = value[0].component;
+  for (const [key, value] of Object.entries(routePathsConfig)) {
+    if (routePathsConfig[key].length === 1) {
+      componentsList[key] = value[0].component || <></>;
       continue;
     }
     for (let i = 0; i < value.length; i++) {
-      componentsList[key + "/" + value[i].path] = value[i].component;
+      componentsList[key + "/" + value[i].path] = value[i].component || <></>;
     }
   }
   return componentsList;
@@ -67,4 +72,4 @@ function getLabelFromPageName(key: string) {
     .replace(/cosmian/g, "Cosmian");
 }
 
-export const navigationConfig: NavigationConfig = generateNaviationConfig(pagesConfig);
+export const navigationConfig: NavigationConfig = generateNaviationConfig(routePathsConfig);

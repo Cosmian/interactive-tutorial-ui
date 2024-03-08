@@ -30,17 +30,16 @@ import SendWrappedDecryptionKey from "../pages/pki/SendWrappedDecryptionKey";
 import SetupPki from "../pages/pki/SetupPki";
 import UploadCert from "../pages/pki/UploadCert";
 
-export type pageSetupRecord = Record<string, string[]>;
-export interface Page {
+export interface routePath {
   path: string;
-  title: string;
-  component: JSX.Element;
+  title?: string;
+  component?: JSX.Element;
 }
-export interface Pages {
-  [key: string]: Page[];
+export interface routePaths {
+  [key: string]: routePath[];
 }
 
-export const pagesConfig: Pages = {
+export const routePathsConfig: routePaths = {
   /**
    * To add a new page, you need to add a new entry in the object below.
    * The key is the path of the page, the value is an object with the following properties:
