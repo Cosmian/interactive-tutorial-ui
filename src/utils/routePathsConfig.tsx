@@ -11,6 +11,7 @@ import CreateMasterKeyPair from "../pages/covercrypt/CreateMasterKeyPair";
 import DecryptData from "../pages/covercrypt/DecryptData";
 import EncryptData from "../pages/covercrypt/EncryptData";
 import GenerateUDK from "../pages/covercrypt/GenerateUDK";
+import RefreshKeys from "../pages/covercrypt/RefreshKeys";
 import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt";
 import AboutCse from "../pages/cse/AboutCse";
 import SetupCse from "../pages/cse/SetupCse";
@@ -93,6 +94,11 @@ export const routePathsConfig: routePaths = {
       path: "decrypt-data",
       label: "Decrypt data",
       component: <DecryptData />,
+    },
+    {
+      path: "refresh-keys-for-a-policy",
+      label: "Refresh keys for a given policy",
+      component: <RefreshKeys />,
     },
   ],
   "build-encrypted-indexes": [
