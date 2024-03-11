@@ -18,28 +18,29 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
   const menuWithCategories: NavigationConfig = {};
   let topIndex = 0; //
   for (const [keyString, valueArr] of Object.entries(routePathsConfig)) {
-    // the label of the top level pages will be automatically generated from the path to avoid more complexity.
-    // If you want to avoid this behavior, add a special case in the function getLabelFromPageName in src/utils/navigationConfig.tsx
     menuWithCategories[keyString] = {
       key: topIndex++,
-      label: routePathsConfig[keyString][0].label || getLabelFromPageName(keyString),
+      // the title of the top level pages will be automatically generated if ever a label is not provided in the routePathsConfig
+      label: valueArr[0].label || getLabelFromPageName(keyString),
     };
     if (valueArr.length > 1) {
-      for (const [btmIndex, page] of valueArr.entries()) {
-        menuWithCategories[keyString] = {
-          ...menuWithCategories[keyString],
-          [page.path]: {
-            key: btmIndex,
-            label: page.label,
+      // length > 1 means that the page has at least one child
+      menuWithCategories[keyString].children = {};
+      for (const [arrIndex, page] of valueArr.entries()) {
+          // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it 
+          menuWithCategories[keyString].children[page.path] = {
+            key: arrIndex,
+            label: page.label|| getLabelFromPageName(keyString),
             footerNavigation: true,
             done: false,
-          },
-        };
+          };
+        
       }
     }
   }
   return menuWithCategories;
 };
+
 
 export const generateComponentsList = (routePathsConfig: routePaths): Record<string, JSX.Element> => {
   /**
@@ -50,12 +51,12 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
    */
   const componentsList: Record<string, JSX.Element> = {};
   for (const [key, value] of Object.entries(routePathsConfig)) {
-    if (routePathsConfig[key].length === 1) {
-      componentsList[key] = value[0].component || <>No component Provided</>;
-      continue;
-    }
     for (let i = 0; i < value.length; i++) {
-      componentsList[key + "/" + value[i].path] = value[i].component || <>No component Provided</>;
+      if (i === 0) {
+        componentsList[key] = value[0].component || <></>;
+        continue;
+      }
+      componentsList[key + "/" + value[i].path] = value[i].component || <></>;
     }
   }
   return componentsList;
