@@ -86,7 +86,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "user-decryption-key",
-      label: "Generate a user decryption key",
+      label: "Generate an user decryption key",
       component: <GenerateUDK />,
     },
     {
