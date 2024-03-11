@@ -50,13 +50,15 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
    * It simply maps the path to the component to render.
    */
   const componentsList: Record<string, JSX.Element> = {};
-  for (const [key, value] of Object.entries(routePathsConfig)) {
-    for (let i = 0; i < value.length; i++) {
-      if (i === 0) {
-        componentsList[key] = value[0].component || <></>;
-        continue;
-      }
-      componentsList[key + "/" + value[i].path] = value[i].component || <></>;
+  for (const [key, valuesArr] of Object.entries(routePathsConfig)) {
+    // if we have no children
+    if (valuesArr.length === 1) {
+      componentsList[key] = valuesArr[0].component || <>Placeholder</>;
+      continue;
+    }
+    // if we have children
+    for (let i = 0; i < valuesArr.length; i++) {
+      componentsList[key + "/" + valuesArr[i].path] = valuesArr[i].component || <>Another placeho</>;
     }
   }
   return componentsList;
