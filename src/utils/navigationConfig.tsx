@@ -21,7 +21,7 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
     menuWithCategories[keyString] = {
       key: topIndex++,
       // the title of the top level pages will be automatically generated if ever a label is not provided in the routePathsConfig
-      label: valueArr[0].label || getLabelFromPagePath(keyString),
+      label: valueArr[0].label,
     };
     if (valueArr.length > 1) {
       // length > 1 means that the page has at least one child
@@ -30,7 +30,7 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
         // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it
         menuWithCategories[keyString].children[page.path] = {
           key: arrIndex,
-          label: page.label || getLabelFromPagePath(keyString),
+          label: page.label,
           footerNavigation: true,
           done: false,
         };
@@ -61,20 +61,5 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
   }
   return componentsList;
 };
-
-function getLabelFromPagePath(key: string): string {
-  /**
-   * fallback utility function if a label is not provided in the routePathsConfig
-   */
-  const specialCases: Record<string, string> = {
-    "client-side-encryption": "Encrypt Client-Side",
-  };
-  if (specialCases[key]) return specialCases[key];
-  return key
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase())
-    .replace(/vm/g, "VM")
-    .replace(/cosmian/g, "Cosmian");
-}
 
 export const navigationConfig: NavigationConfig = generateNavigationConfig(routePathsConfig);

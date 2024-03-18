@@ -32,7 +32,7 @@ import UploadCert from "../pages/pki/UploadCert";
 
 export interface routePath {
   path: string;
-  label?: string;
+  label: string;
   component?: JSX.Element;
 }
 export interface routePaths {
