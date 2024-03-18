@@ -10,7 +10,7 @@ import CreateEncryptionPolicy from "../pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "../pages/covercrypt/CreateMasterKeyPair";
 import DecryptData from "../pages/covercrypt/DecryptData";
 import EncryptData from "../pages/covercrypt/EncryptData";
-import GenerateUDK from "../pages/covercrypt/GenerateUDK";
+import GenerateUserDecryptionKeys from "../pages/covercrypt/GenerateUserDecryptionKeys";
 import RefreshKeys from "../pages/covercrypt/RefreshKeys";
 import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt";
 import AboutCse from "../pages/cse/AboutCse";
@@ -48,8 +48,6 @@ export const routePathsConfig: routePaths = {
    * - label: the label of the page
    * - component: the component to render
    *
-   * Note that the label of the top level pages will be automatically generated from the path to avoid more complexity.
-   * If you want to avoid this behavior, add a special case in the function getLabelFromPageName in src/utils/navigationConfig.tsx
    */
 
   overview: [
@@ -88,7 +86,7 @@ export const routePathsConfig: routePaths = {
     {
       path: "user-decryption-key",
       label: "Generate an user decryption key",
-      component: <GenerateUDK />,
+      component: <GenerateUserDecryptionKeys />,
     },
     {
       path: "decrypt-data",

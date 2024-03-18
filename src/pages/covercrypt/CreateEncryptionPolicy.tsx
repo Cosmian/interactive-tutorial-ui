@@ -9,9 +9,8 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { POLICY_AXIS } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
+import { activeLanguageList } from "./activeLanguages";
 
 const CreateEncryptionPolicy = (): JSX.Element => {
   // custom hooks

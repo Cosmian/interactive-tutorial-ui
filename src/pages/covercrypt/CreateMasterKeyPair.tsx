@@ -8,9 +8,8 @@ import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
+import { activeLanguageList } from "./activeLanguages";
 
 const CreateMasterKeyPair = (): JSX.Element => {
   // custom hooks

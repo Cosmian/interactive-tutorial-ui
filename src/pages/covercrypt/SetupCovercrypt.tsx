@@ -4,9 +4,8 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { useBoundStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
+import { activeLanguageList } from "./activeLanguages";
 
 const SetupCovercrypt = (): JSX.Element => {
   const [serviceSetup, setServiceSetup] = useState(false);

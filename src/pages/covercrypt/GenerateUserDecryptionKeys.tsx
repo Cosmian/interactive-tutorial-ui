@@ -8,10 +8,9 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { ACCESS_POLICY } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
-import { Language } from "../../utils/types";
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
+import { activeLanguageList } from "./activeLanguages";
 
-const GenerateUDK = (): JSX.Element => {
+const GenerateUserDecryptionKeys = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createDecryptionKey", activeLanguageList);
   // states
@@ -20,7 +19,7 @@ const GenerateUDK = (): JSX.Element => {
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
-  const handleGenerateUDK = async (): Promise<void> => {
+  const handleGenerateUserDecryptionKeys = async (): Promise<void> => {
     try {
       if (kmsToken && policy && keyPairUids) {
         const decryptionAccessPolicy = ACCESS_POLICY;
@@ -55,7 +54,7 @@ const GenerateUDK = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={encryptedEmployees ? () => handleGenerateUDK() : undefined}
+          runCode={encryptedEmployees ? () => handleGenerateUserDecryptionKeys() : undefined}
           codeOutputList={
             decryptionKeyUid
               ? {
@@ -71,4 +70,4 @@ const GenerateUDK = (): JSX.Element => {
   );
 };
 
-export default GenerateUDK;
+export default GenerateUserDecryptionKeys;
