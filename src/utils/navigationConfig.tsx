@@ -27,20 +27,18 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
       // length > 1 means that the page has at least one child
       menuWithCategories[keyString].children = {};
       for (const [arrIndex, page] of valueArr.entries()) {
-          // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it 
-          menuWithCategories[keyString].children[page.path] = {
-            key: arrIndex,
-            label: page.label|| getLabelFromPagePath(keyString),
-            footerNavigation: true,
-            done: false,
-          };
-        
+        // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it
+        menuWithCategories[keyString].children[page.path] = {
+          key: arrIndex,
+          label: page.label || getLabelFromPagePath(keyString),
+          footerNavigation: true,
+          done: false,
+        };
       }
     }
   }
   return menuWithCategories;
 };
-
 
 export const generateComponentsList = (routePathsConfig: routePaths): Record<string, JSX.Element> => {
   /**
@@ -53,12 +51,12 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
   for (const [key, valuesArr] of Object.entries(routePathsConfig)) {
     // if we have no children
     if (valuesArr.length === 1) {
-      componentsList[key] = valuesArr[0].component || <>Placeholder</>;
+      componentsList[key] = valuesArr[0].component || <>Missing component</>;
       continue;
     }
     // if we have children
     for (let i = 0; i < valuesArr.length; i++) {
-      componentsList[key + "/" + valuesArr[i].path] = valuesArr[i].component || <>Another placeho</>;
+      componentsList[key + "/" + valuesArr[i].path] = valuesArr[i].component || <>Missing component</>;
     }
   }
   return componentsList;
