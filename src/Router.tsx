@@ -7,9 +7,6 @@ const componentsList: {
   [key: string]: JSX.Element;
 } = generateComponentsList(routePathsConfig);
 
-// console.log(componentsList);
-// console.log(navigationConfig);
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
