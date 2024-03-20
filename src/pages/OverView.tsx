@@ -5,8 +5,6 @@ import TableReduced from "../assets/table-reduced-attackers.drawio.svg";
 import { ImageWrapper, SingleContent } from "../component/Layout";
 
 const OverView = (): JSX.Element => {
-  // const origin = window.location.origin;
-
   return (
     <SingleContent>
       <h1>Architecture - Attackers, Threats and Solutions</h1>
@@ -29,7 +27,7 @@ const OverView = (): JSX.Element => {
         data protection provides the highest assurance of data privacy and security. We providecode blocks, libraries and tools that make
         using its technologies to implement client-side encryption easy.
         <div style={{ marginTop: 20 }}>
-          <Link to={origin + "/client-side-encryption/about-cse"}>→ Client-side encryption example</Link>
+          <Link to={"/client-side-encryption/about-cse"}>→ Client-side encryption example</Link>
         </div>
       </div>
       <h2 style={{ marginTop: 50 }}>Protection against a reduced list of attackers</h2>
