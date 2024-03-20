@@ -7,27 +7,25 @@ import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { updateNavigationSteps } from "../../utils/navigationActions";
 import { KeysUid } from "../../utils/types";
 import { activeLanguageList } from "./activeLanguages";
-import { Button } from "cosmian_ui";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { rekeyAccessPolicy } from "../../actions/javascript/rekeyAction";
 
 const RefreshKeys = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("rekeyAction", activeLanguageList);
 
   // states
-  const [rekeyPerformed, setRekeyPerformed] = useState(false);
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
-  const { decryptionKeyUid, keyPairUids } = useCovercryptStore((state) => state);
+  const { rekeyPerformed, setRekeyPerformed, decryptionKeyUid, keyPairUids, setKeyPairUids } = useCovercryptStore((state) => state);
   const navigate = useNavigate();
 
-  const handleDecryptData = async (): Promise<void> => {
+  const handleRekeyOperation = async (): Promise<void> => {
     try {
       if (kmsToken) {
-        /**
-         * TODO: implement me when the update is done
-         */
-        message.info("This feature is not yet implemented");
+        const newKeys: string[] = await rekeyAccessPolicy(kmsToken, keyPairUids?.masterSecretKeyUId ?? "");
+        console.log(newKeys);
+        setKeyPairUids({ masterSecretKeyUId: newKeys[0], masterPublicKeyUId: newKeys[1] });
+        setRekeyPerformed(true);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
       }
@@ -43,7 +41,7 @@ const RefreshKeys = (): JSX.Element => {
      * This function is used to stringify the keyPairUids object
      * @returns {string} - the stringified keyPairUids object
      */
-    return JSON.stringify(keyPairUids, undefined, 2) || "";
+    return JSON.stringify(Object.values(keyPairUids), undefined, 2) || "";
   };
 
   return (
@@ -62,24 +60,14 @@ const RefreshKeys = (): JSX.Element => {
           in the KMS (a.k.a not revoked), it will also be automatically re-keyed.
         </p>
         <p>
-          In our case, when perform the rekey on Germany, the partial access policy <code>Country::Germany</code> is actually extended to{" "}
-          <code>(Department::Marketing || Department::HR) && Country::France</code>. It is of course to perform a rekey with a more granular
-          access policy like <code>Country::germany && Department::HR</code>.
+          In our case, when we perfortm a rekey operation on the partial access policy <code>country::Germany</code>, it is actually
+          extended to <code>(Department::Marketing || Department::HR) && country::Germany</code>. It is of course possible to perform a
+          rekey with a more granular access policy like <code>country::Germany && Department::HR</code>.
         </p>
         <p>
-          The master keys before the rekey operation are: <br></br>
-          <br></br>
-          <code> {111} </code>
+          Upon the successful rekey, the KMS will return the master key pair UIDs that should have been generated in the{" "}
+          <Link to={"/encrypt-with-access-policies/generate-master-key-pair"}>Generate a master key pair</Link> step.
         </p>
-        <Button
-          disabled={keyPairUids == null}
-          onClick={() => {
-            setRekeyPerformed(true);
-          }}
-          style={{ width: "100%", margin: "20px 0" }}
-        >
-          Refresh keys
-        </Button>
       </Split.Content>
       <Split.Code>
         <Code
@@ -88,19 +76,13 @@ const RefreshKeys = (): JSX.Element => {
           codeOutputList={
             keyPairUids && rekeyPerformed
               ? {
-                  java: "New master keys UIDs after performing a rekey operation : \n" + stringifyKeyPairUids(keyPairUids),
-                  javascript: "New master keys UIDs after performing a rekey operation : \n" + stringifyKeyPairUids(keyPairUids),
-                  python: "New master keys UIDs after performing a rekey operation : \n" + stringifyKeyPairUids(keyPairUids),
-                }
-              : keyPairUids
-              ? {
-                  java: "Current master keys UIDs : \n" + stringifyKeyPairUids(keyPairUids),
-                  javascript: "Current master keys UIDs : \n" + stringifyKeyPairUids(keyPairUids),
-                  python: "Current master keys UIDs : \n" + stringifyKeyPairUids(keyPairUids),
+                  java: stringifyKeyPairUids(keyPairUids),
+                  javascript: stringifyKeyPairUids(keyPairUids),
+                  python: stringifyKeyPairUids(keyPairUids),
                 }
               : undefined
           }
-          runCode={decryptionKeyUid ? handleDecryptData : undefined}
+          runCode={decryptionKeyUid ? handleRekeyOperation : undefined}
         />
       </Split.Code>
     </Split>

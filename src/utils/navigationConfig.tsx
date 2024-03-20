@@ -1,4 +1,4 @@
-import { routePaths, routePathsConfig } from "./routePathsConfig";
+import { routePaths, routePathsConfig, topSectionTitles } from "./routePathsConfig";
 
 export type NavigationConfig = Record<string, NavigationItem>;
 
@@ -19,9 +19,8 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
   let topIndex = 0; //
   for (const [keyString, valueArr] of Object.entries(routePathsConfig)) {
     menuWithCategories[keyString] = {
-      key: topIndex++,
-      // the title of the top level pages will be automatically generated if ever a label is not provided in the routePathsConfig
-      label: valueArr[0].label,
+      label: topSectionTitles[topIndex],
+      key: topIndex++, // increment the index for the next top section
     };
     if (valueArr.length > 1) {
       // length > 1 means that the page has at least one child
@@ -55,8 +54,8 @@ export const generateComponentsList = (routePathsConfig: routePaths): Record<str
       continue;
     }
     // if we have children
-    for (let i = 0; i < valuesArr.length; i++) {
-      componentsList[key + "/" + valuesArr[i].path] = valuesArr[i].component || <>Missing component</>;
+    for (const element of valuesArr) {
+      componentsList[key + "/" + element.path] = element.component || <>Missing component</>;
     }
   }
   return componentsList;

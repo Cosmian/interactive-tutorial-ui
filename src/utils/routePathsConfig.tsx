@@ -40,6 +40,15 @@ export interface routePaths {
   [key: string]: routePath[];
 }
 
+export const topSectionTitles = [
+  "Overview",
+  "Encrypt with Access Policies",
+  "Search Encrypted Data",
+  "Distribute keys",
+  "Compute using Encrypted Code and Data",
+  "Encrypt Client-Side",
+];
+
 export const routePathsConfig: routePaths = {
   /**
    * To add a new page, you need to add a new entry in the object below.
@@ -60,7 +69,7 @@ export const routePathsConfig: routePaths = {
   "encrypt-with-access-policies": [
     {
       path: "about-covercrypt",
-      label: "About Covercrypt",
+      label: "About Cosmian Covercrypt",
       component: <AboutCovercrypt />,
     },
     {
@@ -75,7 +84,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "generate-master-key-pair",
-      label: "Generate a master key pair",
+      label: "Generate public and secret master key pair",
       component: <CreateMasterKeyPair />,
     },
     {
@@ -85,7 +94,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "user-decryption-key",
-      label: "Generate an user decryption key",
+      label: "Generate user decryption key",
       component: <GenerateUserDecryptionKeys />,
     },
     {
@@ -102,12 +111,12 @@ export const routePathsConfig: routePaths = {
   "build-encrypted-indexes": [
     {
       path: "about-findex",
-      label: "About Findex",
+      label: "About Cosmian Findex",
       component: <AboutFindex />,
     },
     {
       path: "set-up-service",
-      label: "Set up the service",
+      label: "Set up service",
       component: <SetupFindex />,
     },
     {
@@ -122,19 +131,19 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "search-in-database",
-      label: "Search in the database",
+      label: "Search words",
       component: <SearchInDatabase />,
     },
   ],
   "distibute-keys": [
     {
       path: "about-pki",
-      label: "About PKI",
+      label: "About Cosmian PKI",
       component: <AboutPKI />,
     },
     {
       path: "set-up-service",
-      label: "Set up the service",
+      label: "Set up service",
       component: <SetupPki />,
     },
     {
@@ -144,7 +153,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "save-sk-publish-certificate",
-      label: "Save the secret key and publish the certificate",
+      label: "Save the secret key and publish certificate",
       component: <UploadCert />,
     },
     {
@@ -154,17 +163,17 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "retrieve-wrapped-decryption-key",
-      label: "Retrieve the wrapped decryption key",
+      label: "Get certificate and retrieve wrapped Decryption Key",
       component: <GetCertificate />,
     },
     {
       path: "send-key-in-kms",
-      label: "Send the key in KMS",
+      label: "Send wrapped Decryption Key in Cosmian KMS",
       component: <SendWrappedDecryptionKey />,
     },
     {
       path: "unwrap-decryption-key",
-      label: "Import and unwrap the decryption key",
+      label: "Import and unwrap Decryption Key",
       component: <ImportAndUnwrapUDK />,
     },
     {
@@ -181,12 +190,12 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "deploy-application",
-      label: "Deploy an application",
+      label: "Deploy the application and configure Cosmian VM",
       component: <DeployApplication />,
     },
     {
       path: "snapshot-cosmian-vm",
-      label: "Snapshot Cosmian VM",
+      label: "Snapshot the Cosmian VM",
       component: <SnapshotVm />,
     },
     {
@@ -196,7 +205,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "verify-integrity",
-      label: "Verify the integrity",
+      label: "Verify Cosmian VM integrity",
       component: <VerifyIntegrity />,
     },
     {
@@ -208,7 +217,7 @@ export const routePathsConfig: routePaths = {
   "client-side-encryption": [
     {
       path: "about-cse",
-      label: "About CSE",
+      label: "About Client-side Encryption",
       component: <AboutCse />,
     },
     {
@@ -218,7 +227,7 @@ export const routePathsConfig: routePaths = {
     },
     {
       path: "get-summary",
-      label: "Get a summary",
+      label: "Get summary",
       component: <SummarizeDocument />,
     },
   ],

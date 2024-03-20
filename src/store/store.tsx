@@ -43,11 +43,13 @@ interface CovercryptState {
   encryptedEmployees: EncryptedResult[] | undefined;
   decryptionKeyUid: string | undefined;
   decryptedEmployees: Employee[] | undefined;
+  rekeyPerformed: boolean;
   setPolicy: (policy: Policy) => void;
   setKeyPairUids: (keyPairUids?: KeysUid) => void;
   setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) => void;
   setDecryptionKeyUid: (decryptionKeyUid?: string) => void;
   setDecryptedEmployees: (decryptedEmployees?: Employee[]) => void;
+  setRekeyPerformed: (rekeyPerformed: boolean) => void;
 }
 export const useCovercryptStore = create<CovercryptState>()((set) => ({
   clearEmployees: employees,
@@ -56,6 +58,7 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
   encryptedEmployees: undefined,
   decryptionKeyUid: undefined,
   decryptedEmployees: undefined,
+  rekeyPerformed: false,
   setPolicy: (policy: Policy) =>
     set((state) => {
       state.setKeyPairUids(); // reset next steps
@@ -77,6 +80,7 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
       return { decryptionKeyUid };
     }),
   setDecryptedEmployees: (decryptedEmployees?: Employee[]) => set(() => ({ decryptedEmployees })),
+  setRekeyPerformed: (rekeyPerformed: boolean) => set(() => ({ rekeyPerformed })),
 }));
 
 // FINDEX
