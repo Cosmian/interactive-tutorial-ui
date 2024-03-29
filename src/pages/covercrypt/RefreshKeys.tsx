@@ -5,10 +5,11 @@ import Split from "../../component/Split";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { updateNavigationSteps } from "../../utils/navigationActions";
-import { KeysUid } from "../../utils/types";
-import { activeLanguageList } from "./activeLanguages";
-import { Link, useNavigate } from "react-router-dom";
+import { KeysUid, Language } from "../../utils/types";
+import { useNavigate } from "react-router-dom";
 import { rekeyAccessPolicy } from "../../actions/javascript/rekeyAction";
+
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const RefreshKeys = (): JSX.Element => {
   // custom hooks
@@ -16,15 +17,16 @@ const RefreshKeys = (): JSX.Element => {
 
   // states
   const { kmsToken, steps, setSteps } = useBoundStore((state) => state);
-  const { rekeyPerformed, setRekeyPerformed, decryptionKeyUid, keyPairUids, setKeyPairUids } = useCovercryptStore((state) => state);
+  const { rekeyPerformed, setRekeyPerformed, keyPairUids, decryptedEmployees } = useCovercryptStore((state) => state);
   const navigate = useNavigate();
 
   const handleRekeyOperation = async (): Promise<void> => {
     try {
-      if (kmsToken) {
-        const newKeys: string[] = await rekeyAccessPolicy(kmsToken, keyPairUids?.masterSecretKeyUId ?? "");
-        console.log(newKeys);
-        setKeyPairUids({ masterSecretKeyUId: newKeys[0], masterPublicKeyUId: newKeys[1] });
+      if (kmsToken && decryptedEmployees) {
+        const outputKeys: string[] = await rekeyAccessPolicy(kmsToken, keyPairUids?.masterSecretKeyUId ?? ""); // as long as decryptedEmployees is not null, keyPairUids is not null
+        if (outputKeys[0] !== keyPairUids?.masterSecretKeyUId && outputKeys[1] !== keyPairUids?.masterPublicKeyUId) {
+          message.error("The rekey operation provided UIDs that do not correspond to the old UIDs.");
+        }
         setRekeyPerformed(true);
         updateNavigationSteps(steps, setSteps);
         navigate("#");
@@ -56,17 +58,13 @@ const RefreshKeys = (): JSX.Element => {
           <br></br>
         </p>
         <p>
-          It is best to perform rekeying using the KMS: the master keys will be automatically re-keyed and as long as a user key is active
-          in the KMS (a.k.a not revoked), it will also be automatically re-keyed.
+          The rekey operation is performed by using the KMS. Once the master keys are rekeyed, the KMS will also automatically rekey all
+          user keys that are active (a.k.a not revoked) in the KMS.
         </p>
         <p>
-          In our case, when we perfortm a rekey operation on the partial access policy <code>country::Germany</code>, it is actually
-          extended to <code>(Department::Marketing || Department::HR) && country::Germany</code>. It is of course possible to perform a
-          rekey with a more granular access policy like <code>country::Germany && Department::HR</code>.
-        </p>
-        <p>
-          Upon the successful rekey, the KMS will return the master key pair UIDs that should have been generated in the{" "}
-          <Link to={"/encrypt-with-access-policies/generate-master-key-pair"}>Generate a master key pair</Link> step.
+          In our case, when we perform a rekey operation on the partial access policy <code>country::Germany</code>, it is actually extended
+          to <code>(Department::Marketing || Department::HR) && country::Germany</code>. It is of course possible to perform a rekey with a
+          more granular access policy like <code>country::Germany && Department::HR</code>.
         </p>
       </Split.Content>
       <Split.Code>
@@ -82,7 +80,7 @@ const RefreshKeys = (): JSX.Element => {
                 }
               : undefined
           }
-          runCode={decryptionKeyUid ? handleRekeyOperation : undefined}
+          runCode={decryptedEmployees ? handleRekeyOperation : undefined}
         />
       </Split.Code>
     </Split>

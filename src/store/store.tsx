@@ -79,7 +79,11 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
       state.setDecryptedEmployees(); // reset next steps
       return { decryptionKeyUid };
     }),
-  setDecryptedEmployees: (decryptedEmployees?: Employee[]) => set(() => ({ decryptedEmployees })),
+  setDecryptedEmployees: (decryptedEmployees?: Employee[]) =>
+    set((state) => {
+      state.setRekeyPerformed(false); // reset next steps
+      return { decryptedEmployees };
+    }),
   setRekeyPerformed: (rekeyPerformed: boolean) => set(() => ({ rekeyPerformed })),
 }));
 

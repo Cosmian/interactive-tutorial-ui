@@ -38,11 +38,7 @@ const App = (): JSX.Element => {
     return <LoginPage loginWithRedirect={() => loginWithRedirect()} />;
   }
 
-  return (
-    <>
-      <AppRouter />
-    </>
-  );
+  return <AppRouter />;
 };
 
 export default App;

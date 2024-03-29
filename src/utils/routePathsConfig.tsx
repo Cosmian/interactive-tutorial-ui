@@ -10,7 +10,7 @@ import CreateEncryptionPolicy from "../pages/covercrypt/CreateEncryptionPolicy";
 import CreateMasterKeyPair from "../pages/covercrypt/CreateMasterKeyPair";
 import DecryptData from "../pages/covercrypt/DecryptData";
 import EncryptData from "../pages/covercrypt/EncryptData";
-import GenerateUserDecryptionKeys from "../pages/covercrypt/GenerateUserDecryptionKeys";
+import GenerateUserDecryptionKey from "../pages/covercrypt/GenerateUserDecryptionKey";
 import RefreshKeys from "../pages/covercrypt/RefreshKeys";
 import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt";
 import AboutCse from "../pages/cse/AboutCse";
@@ -31,13 +31,13 @@ import SendWrappedDecryptionKey from "../pages/pki/SendWrappedDecryptionKey";
 import SetupPki from "../pages/pki/SetupPki";
 import UploadCert from "../pages/pki/UploadCert";
 
-export interface routePath {
+export interface RoutePath {
   path: string;
   label: string;
   component?: JSX.Element;
 }
-export interface routePaths {
-  [key: string]: routePath[];
+export interface RoutePaths {
+  [key: string]: RoutePath[];
 }
 
 export const topSectionTitles = [
@@ -49,7 +49,7 @@ export const topSectionTitles = [
   "Encrypt Client-Side",
 ];
 
-export const routePathsConfig: routePaths = {
+export const routePathsConfig: RoutePaths = {
   /**
    * To add a new page, you need to add a new entry in the object below.
    * The key is the path of the page, the value is an object with the following properties:
@@ -95,7 +95,7 @@ export const routePathsConfig: routePaths = {
     {
       path: "user-decryption-key",
       label: "Generate user decryption key",
-      component: <GenerateUserDecryptionKeys />,
+      component: <GenerateUserDecryptionKey />,
     },
     {
       path: "decrypt-data",

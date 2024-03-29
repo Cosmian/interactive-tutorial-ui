@@ -1,4 +1,4 @@
-import { routePaths, routePathsConfig, topSectionTitles } from "./routePathsConfig";
+import { RoutePaths, routePathsConfig, topSectionTitles } from "./routePathsConfig";
 
 export type NavigationConfig = Record<string, NavigationItem>;
 
@@ -10,7 +10,7 @@ export type NavigationItem = {
   done?: boolean;
 };
 
-const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfig => {
+const generateNavigationConfig = (routePathsConfig: RoutePaths): NavigationConfig => {
   /**
    * Produces the legacy navigationConfig object from the routePathsConfig centralised object.
    * routePathsConfig is defined in src/utils/routePathsConfig.tsx
@@ -39,7 +39,7 @@ const generateNavigationConfig = (routePathsConfig: routePaths): NavigationConfi
   return menuWithCategories;
 };
 
-export const generateComponentsList = (routePathsConfig: routePaths): Record<string, JSX.Element> => {
+export const generateComponentsList = (routePathsConfig: RoutePaths): Record<string, JSX.Element> => {
   /**
    * Produces the componentsList object from the routePathsConfig centralised object.
    * routePathsConfig is defined in src/utils/routePathsConfig.tsx

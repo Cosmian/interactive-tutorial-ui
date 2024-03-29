@@ -10,8 +10,9 @@ import { EmployeeTable, EncryptedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
+import { Language } from "../../utils/types";
 
-import { activeLanguageList } from "./activeLanguages";
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const EncryptData = (): JSX.Element => {
   // custom hooks

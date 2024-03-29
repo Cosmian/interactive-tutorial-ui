@@ -11,8 +11,9 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { Employee } from "../../utils/covercryptConfig";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
+import { Language } from "../../utils/types";
 
-import { activeLanguageList } from "./activeLanguages";
+const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const DecryptData = (): JSX.Element => {
   // custom hooks
