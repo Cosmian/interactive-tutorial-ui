@@ -1,7 +1,7 @@
 {
   "name": "interactive-demo",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "npm run copy && vite",
@@ -14,8 +14,8 @@
     "@ant-design/icons": "^5.2.6",
     "@auth0/auth0-react": "^2.2.1",
     "antd": "^5.10.1",
-    "cloudproof_js": "^9.7.0",
-    "cloudproof_kms_js": "^3.1.2",
+    "cloudproof_js": "^10.0.0",
+    "cloudproof_kms_js": "^4.0.0",
     "cosmian_ui": "^0.0.50",
     "js-crypto-aes": "^1.0.6",
     "react": "^18.2.0",

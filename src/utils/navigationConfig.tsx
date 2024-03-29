@@ -1,3 +1,7 @@
+import { RoutePaths, routePathsConfig, topSectionTitles } from "./routePathsConfig";
+
+export type NavigationConfig = Record<string, NavigationItem>;
+
 export type NavigationItem = {
   key: number;
   label: string;
@@ -5,221 +9,56 @@ export type NavigationItem = {
   footerNavigation?: boolean;
   done?: boolean;
 };
-export type NavigationConfig = Record<string, NavigationItem>;
 
-export const navigationConfig: NavigationConfig = {
-  overview: {
-    key: 0,
-    label: "Overview",
-  },
-  "encrypt-with-access-policies": {
-    key: 1,
-    label: "Encrypt with Access Policies",
-    children: {
-      "about-covercrypt": {
-        key: 0,
-        label: "About Cosmian Covercrypt",
-        footerNavigation: true,
-        done: false,
-      },
-      "set-up-service": {
-        key: 1,
-        label: "Set up service",
-        footerNavigation: true,
-        done: false,
-      },
-      "create-policy": {
-        key: 2,
-        label: "Create encryption policy",
-        footerNavigation: true,
-        done: false,
-      },
-      "generate-master-key-pair": {
-        key: 3,
-        label: "Generate public and secret master key pair",
-        footerNavigation: true,
-        done: false,
-      },
-      "encrypt-data": {
-        key: 4,
-        label: "Encrypt data",
-        footerNavigation: true,
-        done: false,
-      },
-      "user-decryption-key": {
-        key: 5,
-        label: "Generate user decryption key",
-        footerNavigation: true,
-        done: false,
-      },
-      "decrypt-data": {
-        key: 6,
-        label: "Decrypt data",
-        footerNavigation: true,
-        done: false,
-      },
-    },
-  },
-  "build-encrypted-indexes": {
-    key: 2,
-    label: "Search Encrypted Data",
-    children: {
-      "about-findex": {
-        key: 0,
-        label: "About Cosmian Findex",
-        footerNavigation: true,
-        done: false,
-      },
-      "set-up-service": {
-        key: 1,
-        label: "Set up service",
-        footerNavigation: true,
-        done: false,
-      },
-      "instantiate-findex": {
-        key: 2,
-        label: "Instantiate Findex",
-        footerNavigation: true,
-        done: false,
-      },
-      "index-database": {
-        key: 3,
-        label: "Index database",
-        footerNavigation: true,
-        done: false,
-      },
-      "search-in-database": {
-        key: 4,
-        label: "Search words",
-        footerNavigation: true,
-        done: false,
-      },
-    },
-  },
-  "distibute-keys": {
-    key: 3,
-    label: "Distribute keys",
-    children: {
-      "about-pki": {
-        key: 0,
-        label: "About Cosmian PKI",
-        footerNavigation: true,
-        done: false,
-      },
-      "set-up-service": {
-        key: 1,
-        label: "Set up service",
-        footerNavigation: true,
-        done: false,
-      },
-      "encrypt-data": {
-        key: 2,
-        label: "Encrypt data",
-        footerNavigation: true,
-        done: false,
-      },
-      "save-sk-publish-certificate": {
-        key: 3,
-        label: "Save the Secret Key and publish certificate",
-        footerNavigation: true,
-        done: false,
-      },
-      "grant-access": {
-        key: 4,
-        label: "Grant access",
-        footerNavigation: true,
-        done: false,
-      },
-      "retrieve-wrapped-decryption-key": {
-        key: 5,
-        label: "Get certificate and retrieve wrapped Decryption Key",
-        footerNavigation: true,
-        done: false,
-      },
-      "send-key-in-kms": {
-        key: 6,
-        label: "Send wrapped Decryption Key in Cosmian KMS",
-        footerNavigation: true,
-        done: false,
-      },
-      "unwrap-decryption-key": {
-        key: 7,
-        label: "Import and unwrap Decryption Key",
-        footerNavigation: true,
-        done: false,
-      },
-      "decrypt-data": {
-        key: 8,
-        label: "Decrypt data",
-        footerNavigation: true,
-        done: false,
-      },
-    },
-  },
-  "confidential-vm": {
-    key: 4,
-    label: "Compute using Encrypted Code and Data",
-    children: {
-      "about-cosmian-vm": {
-        key: 0,
-        label: "About Cosmian VM",
-        footerNavigation: true,
-        done: false,
-      },
-      "deploy-application": {
-        key: 1,
-        label: "Deploy the application and configure Cosmian VM",
-        footerNavigation: true,
-        done: false,
-      },
-      "snapshot-cosmian-vm": {
-        key: 2,
-        label: "Snapshot the Cosmian VM",
-        footerNavigation: true,
-        done: false,
-      },
-      "audit-snapshot": {
-        key: 3,
-        label: "Audit the snapshot",
-        footerNavigation: true,
-        done: false,
-      },
-      "verify-integrity": {
-        key: 4,
-        label: "Verify Cosmian VM integrity",
-        footerNavigation: true,
-        done: false,
-      },
-      "detect-malicious-activities": {
-        key: 5,
-        label: "Detect malicious activities",
-        footerNavigation: true,
-        done: false,
-      },
-    },
-  },
-  "client-side-encryption": {
-    key: 4,
-    label: "Encrypt Client-Side",
-    children: {
-      "about-cse": {
-        key: 0,
-        label: "About Client-side Encryption",
-        footerNavigation: true,
-        done: false,
-      },
-      "set-up-service": {
-        key: 1,
-        label: "Verify AI service",
-        footerNavigation: true,
-        done: false,
-      },
-      "get-summary": {
-        key: 2,
-        label: "Get summary",
-        footerNavigation: true,
-        done: false,
-      },
-    },
-  },
+const generateNavigationConfig = (routePathsConfig: RoutePaths): NavigationConfig => {
+  /**
+   * Produces the legacy navigationConfig object from the routePathsConfig centralised object.
+   * routePathsConfig is defined in src/utils/routePathsConfig.tsx
+   */
+  const menuWithCategories: NavigationConfig = {};
+  let topIndex = 0; //
+  for (const [keyString, valueArr] of Object.entries(routePathsConfig)) {
+    menuWithCategories[keyString] = {
+      label: topSectionTitles[topIndex],
+      key: topIndex++, // increment the index for the next top section
+    };
+    if (valueArr.length > 1) {
+      // length > 1 means that the page has at least one child
+      menuWithCategories[keyString].children = {};
+      for (const [arrIndex, page] of valueArr.entries()) {
+        // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it
+        menuWithCategories[keyString].children[page.path] = {
+          key: arrIndex,
+          label: page.label,
+          footerNavigation: true,
+          done: false,
+        };
+      }
+    }
+  }
+  return menuWithCategories;
 };
+
+export const generateComponentsList = (routePathsConfig: RoutePaths): Record<string, JSX.Element> => {
+  /**
+   * Produces the componentsList object from the routePathsConfig centralised object.
+   * routePathsConfig is defined in src/utils/routePathsConfig.tsx
+   * The componentsList object is used in src/Router.tsx to generate the navigation routes.
+   * It simply maps the path to the component to render.
+   */
+  const componentsList: Record<string, JSX.Element> = {};
+  for (const [key, valuesArr] of Object.entries(routePathsConfig)) {
+    // if we have no children
+    if (valuesArr.length === 1) {
+      componentsList[key] = valuesArr[0].component || <>Missing component</>;
+      continue;
+    }
+    // if we have children
+    for (const element of valuesArr) {
+      componentsList[key + "/" + element.path] = element.component || <>Missing component</>;
+    }
+  }
+  return componentsList;
+};
+
+export const navigationConfig: NavigationConfig = generateNavigationConfig(routePathsConfig);

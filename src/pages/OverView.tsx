@@ -5,8 +5,6 @@ import TableReduced from "../assets/table-reduced-attackers.drawio.svg";
 import { ImageWrapper, SingleContent } from "../component/Layout";
 
 const OverView = (): JSX.Element => {
-  // const origin = window.location.origin;
-
   return (
     <SingleContent>
       <h1>Architecture - Attackers, Threats and Solutions</h1>
@@ -14,7 +12,7 @@ const OverView = (): JSX.Element => {
         The first step in understanding how to secure data and applications in a zero-trust environment is to look at potential attackers
         and their threat model. We assume the application code is safe and that we do not need to protect against the software developer.
       </div>
-      <ImageWrapper maxWidth={1000}>
+      <ImageWrapper maxWidth={1000} style={{ marginTop: 30 }}>
         <img src={TableAll} alt="All attackers table" width="70%" />
       </ImageWrapper>
       <h2 style={{ marginTop: 50 }}>Protection against all attackers</h2>
@@ -29,7 +27,7 @@ const OverView = (): JSX.Element => {
         data protection provides the highest assurance of data privacy and security. We providecode blocks, libraries and tools that make
         using its technologies to implement client-side encryption easy.
         <div style={{ marginTop: 20 }}>
-          <Link to={origin + "/client-side-encryption/about-cse"}>→ Client-side encryption example</Link>
+          <Link to={"/client-side-encryption/about-cse"}>→ Client-side encryption example</Link>
         </div>
       </div>
       <h2 style={{ marginTop: 50 }}>Protection against a reduced list of attackers</h2>
@@ -37,7 +35,7 @@ const OverView = (): JSX.Element => {
         When the threat model is limited to a reduced list of attackers, other solutions may be used. The following table summarizes the
         solutions that Cosmian provides to protect against each attacker.
       </div>
-      <ImageWrapper maxWidth={1000}>
+      <ImageWrapper maxWidth={1000} style={{ marginTop: 30 }}>
         <img src={TableReduced} alt="Reduced attackers table" width="70%" />
       </ImageWrapper>
     </SingleContent>
