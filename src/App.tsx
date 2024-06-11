@@ -35,7 +35,19 @@ const App = (): JSX.Element => {
   }
 
   if (!isAuthenticated) {
-    return <LoginPage loginWithRedirect={() => loginWithRedirect()} />;
+    return (
+      <LoginPage
+        loginWithRedirect={() => loginWithRedirect()}
+        signUpWithRedirect={() =>
+          // https://github.com/auth0/auth0-react/issues/571#issuecomment-1718878155
+          loginWithRedirect({
+            authorizationParams: {
+              screen_hint: "signup",
+            },
+          })
+        }
+      />
+    );
   }
 
   return <AppRouter />;

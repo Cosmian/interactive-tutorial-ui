@@ -1,5 +1,17 @@
 @import "../../node_modules/cosmian_ui/dist/less/variables.less";
 
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/Poppins-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/Poppins-SemiBold.ttf");
+  font-weight: 600;
+}
+
 h1,
 h2,
 h3,
@@ -16,54 +28,129 @@ ul {
 .login-page {
   width: 100%;
   height: 100vh;
+  padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom right, #220c54, #300193);
-  .background {
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: url("../assets/login_page_background_image.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  &::before {
+    // content: "";
+    // height: 100%;
+    // width: 100%;
+    transform: rotate(-90deg);
+  }
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2.5vh 0px;
+    width: 100%;
+    height: 10vh;
+
+    background: #ffffff10;
+    -webkit-backdrop-filter: blur(8.5px);
+    backdrop-filter: blur(8.5px);
+
+    // Bypass the default header style
+    position: unset;
+    border: unset;
+    img {
+      height: 75%;
+    }
+  }
+  .text-content {
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    .responsive(@lg, {
-      background-image: url("../assets/endtoend-encryption-img.webp");
-      background-repeat: no-repeat;
-      background-position: bottom -50% right -10%;
-      background-size: 70%;
-    });
-    .text-content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0px;
-      padding: 30px;
-      .responsive(@lg, {
-        width: 50%;
-        padding: 50px;
-      });
-    }
+    justify-content: center;
+    gap: 5%;
+    // TODO : handle this
+    // .responsive(@lg, {
+    //     width: 50%;
+    //     padding: 50px;
+    //   });
     p {
-      font-size: 2em;
-      font-family: @montserrat;
-      font-weight: 600;
-      line-height: 1.1em;
+      text-align: center;
       color: white;
+      line-height: 1.25;
     }
     p.title {
-      background-image: linear-gradient(to right, #ff8c4a, @primary-deep);
-      background-size: 100%;
-      background-repeat: repeat;
+      font-family: "Poppins", Arial, Helvetica, sans-serif;
       font-weight: 700;
-      font-size: 3em;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      -moz-background-clip: text;
-      -moz-text-fill-color: transparent;
+      font-size: 6rem;
+      @media (max-width: @sm) {
+        font-size: 3rem;
+      }
+      margin-bottom: unset;
+      text-align: center;
     }
-    button {
-      font-size: 1.2em;
+    p.subtitle {
+      font-family: "Poppins", Arial, Helvetica, sans-serif;
+      font-weight: 600;
+      font-size: 3rem;
+      @media (max-width: @sm) {
+        font-size: 1.5rem;
+      }
+      margin: 0 5%;
+      opacity: 80%;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 5%;
+      width: 100%;
+      button {
+        // Display settings
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        --border-radius: 44px;
+        border-radius: var(--border-radius);
+
+        padding: 20px;
+        width: 8%;
+        min-width: fit-content;
+
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+
+        background-color: #ffffff4a;
+        border: unset;
+
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        font-size: 1.7rem;
+        @media (max-width: @sm) {
+          font-size: 1.2rem;
+        }
+        color: white;
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border: 2px solid transparent;
+          border-radius: var(--border-radius);
+          background: linear-gradient(to left, white, rgba(0, 0, 0, 0)) border-box;
+          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+        }
+        .arrow {
+          margin-left: 10px;
+          width: 19px;
+          height: 17.94px;
+        }
+      }
     }
   }
 }
