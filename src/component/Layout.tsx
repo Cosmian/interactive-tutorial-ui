@@ -12,6 +12,7 @@ import { findCurrentNavigationItem } from "../utils/navigationActions";
 import { FooterNavigation } from "./Footer";
 import { MainNavigation } from "./MainNavigation";
 import "./layout.less";
+import logo from "../assets/Cosmian_Logo_black.svg";
 
 const Layout = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);
@@ -43,7 +44,7 @@ const Layout = (): JSX.Element => {
       <Header
         mainLogo={
           <Link to={window.location.origin}>
-            <CosmianLogo />
+            <img loading="lazy" decoding="async" src={logo} alt="Cosmian logo white" title="Cosmian Logo" />
           </Link>
         }
         title="Interactive tutorial"

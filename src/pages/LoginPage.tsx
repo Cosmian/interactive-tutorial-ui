@@ -1,4 +1,3 @@
-import { Row, Col } from "antd";
 import logo from "../assets/cosmian_logo.svg";
 
 type LoginPageProps = {
@@ -21,18 +20,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
           Interactive tutorial and
           <br /> developer code examples
         </p>
-        <Row className="buttons" align={"middle"} justify={"center"}>
-          <Col>
-            <button onClick={signUpWithRedirect}>
-              SIGN UP <ButtonsIcon className="arrow" />
-            </button>
-          </Col>
-          <Col offset={1}>
-            <button onClick={loginWithRedirect}>
-              LOG IN <ButtonsIcon className="arrow" />
-            </button>
-          </Col>
-        </Row>
+        <div className="buttons">
+          <button onClick={signUpWithRedirect}>
+            SIGN UP <ButtonsIcon className="arrow" />
+          </button>
+
+          <button onClick={loginWithRedirect}>
+            LOG IN <ButtonsIcon className="arrow" />
+          </button>
+        </div>
       </div>
     </main>
   );
