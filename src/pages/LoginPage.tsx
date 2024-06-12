@@ -1,4 +1,5 @@
-import logo from "../assets/Cosmian-Logo-1-1.svg";
+import { Row, Col } from "antd";
+import logo from "../assets/cosmian_logo.svg";
 
 type LoginPageProps = {
   loginWithRedirect: () => void;
@@ -20,14 +21,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
           Interactive tutorial and
           <br /> developer code examples
         </p>
-        <div className="buttons">
-          <button onClick={signUpWithRedirect}>
-            SIGN UP <ButtonsIcon className="arrow" />
-          </button>
-          <button className="" onClick={loginWithRedirect}>
-            LOG IN <ButtonsIcon className="arrow" />
-          </button>
-        </div>
+        <Row className="buttons" align={"middle"} justify={"center"}>
+          <Col>
+            <button onClick={signUpWithRedirect}>
+              SIGN UP <ButtonsIcon className="arrow" />
+            </button>
+          </Col>
+          <Col offset={1}>
+            <button onClick={loginWithRedirect}>
+              LOG IN <ButtonsIcon className="arrow" />
+            </button>
+          </Col>
+        </Row>
       </div>
     </main>
   );
@@ -35,7 +40,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
 
 import { memo, SVGProps } from "react";
 
-// auto generated according to the design
 const ButtonsIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg preserveAspectRatio="none" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path

@@ -25,6 +25,8 @@ ul {
 }
 
 // LOGIN PAGE
+@Poppins: "Poppins", Arial, Helvetica, sans-serif;
+
 .login-page {
   width: 100%;
   height: 100vh;
@@ -36,31 +38,24 @@ ul {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  &::before {
-    // content: "";
-    // height: 100%;
-    // width: 100%;
-    transform: rotate(-90deg);
-  }
+
   header {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     padding: 2.5vh 0px;
     width: 100%;
     height: 10vh;
 
     background: #ffffff10;
-    -webkit-backdrop-filter: blur(8.5px);
-    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
 
-    // Bypass the default header style
-    position: unset;
+    position: unset; // Bypass the default header style
     border: unset;
     img {
-      height: 75%;
+      height: 66%;
     }
   }
   .text-content {
@@ -71,43 +66,36 @@ ul {
     align-items: center;
     justify-content: center;
     gap: 5%;
-    // TODO : handle this
-    // .responsive(@lg, {
-    //     width: 50%;
-    //     padding: 50px;
-    //   });
     p {
       text-align: center;
       color: white;
       line-height: 1.25;
     }
     p.title {
-      font-family: "Poppins", Arial, Helvetica, sans-serif;
+      font-family: @Poppins;
       font-weight: 700;
-      font-size: 6rem;
-      @media (max-width: @sm) {
-        font-size: 3rem;
-      }
-      margin-bottom: unset;
+      font-size: 11vh;
       text-align: center;
+      margin-bottom: unset; // bypass default margin
+      @media only screen and (max-width: @sm) {
+        font-size: 6vh;
+      }
     }
     p.subtitle {
-      font-family: "Poppins", Arial, Helvetica, sans-serif;
+      font-family: @Poppins;
       font-weight: 600;
       font-size: 3rem;
-      @media (max-width: @sm) {
-        font-size: 1.5rem;
-      }
       margin: 0 5%;
       opacity: 80%;
+      @media only screen and (max-width: @sm) {
+        font-size: 1.5rem;
+      }
     }
     .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 5%;
       width: 100%;
+
       button {
-        // Display settings
+        cursor: pointer;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -116,9 +104,9 @@ ul {
         --border-radius: 44px;
         border-radius: var(--border-radius);
 
-        padding: 20px;
-        width: 8%;
+        width: 218px;
         min-width: fit-content;
+        padding: 22px 0px;
 
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
@@ -126,14 +114,16 @@ ul {
         background-color: #ffffff4a;
         border: unset;
 
-        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        font-family: @Poppins;
         font-weight: 600;
-        font-size: 1.7rem;
-        @media (max-width: @sm) {
-          font-size: 1.2rem;
+        font-size: 1.5rem;
+        @media only screen and (max-width: @sm) {
+          font-size: 0.9rem;
+          width: 120px;
         }
         color: white;
         &::before {
+          //  adapted from https://benfrain.com/how-to-create-rounded-gradient-borders-with-any-background-in-css/
           content: "";
           position: absolute;
           inset: 0;
@@ -149,6 +139,10 @@ ul {
           margin-left: 10px;
           width: 19px;
           height: 17.94px;
+          @media only screen and (max-width: @sm) {
+            width: 15px;
+            height: 13px;
+          }
         }
       }
     }
