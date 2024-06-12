@@ -40,17 +40,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
 
 import { memo, SVGProps } from "react";
 
-const ButtonsIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg preserveAspectRatio="none" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+const ButtonsIcon = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+  <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
-      d="M10.5716 0.029705L19.5419 9L10.5716 17.9703"
+      d="M12.5713 2.0293L21.5416 10.9996L12.5713 19.9699"
       stroke="white"
-      strokeWidth={3.58812}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-width="3.58812"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
-    <path d="M19.5417 9.00032L0.458008 9.00032Z" fill="white" />
-    <path d="M19.5417 9.00032L0.458008 9.00032" stroke="white" strokeWidth={3.58812} strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M21.5417 11L2.45801 11L21.5417 11Z" fill="white" />
+    <path d="M21.5417 11L2.45801 11" stroke="white" stroke-width="3.58812" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 );
 

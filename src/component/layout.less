@@ -50,7 +50,7 @@ ul {
     -webkit-backdrop-filter: blur(50px);
     backdrop-filter: blur(50px);
     position: unset; // Bypass the default header style
-    border: unset;
+    border-bottom: 0.1px solid #ffffff40;
     img {
       height: 66%;
     }
@@ -60,7 +60,6 @@ ul {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 5%;
     p {
@@ -71,7 +70,7 @@ ul {
     p.title {
       font-family: @Poppins;
       font-weight: 700;
-      font-size: 11vh;
+      font-size: 10vh;
       text-align: center;
       margin-bottom: unset; // bypass default margin
       @media only screen and (max-width: @sm) {
@@ -98,7 +97,8 @@ ul {
         align-items: center;
         --border-radius: 44px;
         border-radius: var(--border-radius);
-        width: 218px;
+        width: 200px;
+        height: 78px;
         min-width: fit-content;
         padding: 22px 0px;
         -webkit-backdrop-filter: blur(10px);
@@ -107,10 +107,11 @@ ul {
         border: unset;
         font-family: @Poppins;
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: x-large;
         @media only screen and (max-width: @sm) {
           font-size: 0.9rem;
           width: 120px;
+          height: 46.8px;
         }
         color: white;
         &::before {
