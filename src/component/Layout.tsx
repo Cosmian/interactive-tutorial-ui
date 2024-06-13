@@ -1,7 +1,7 @@
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons/lib/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Tag } from "antd";
-import { Button, CosmianLogo, Header } from "cosmian_ui";
+import { Button, Header } from "cosmian_ui";
 import React, { useEffect, useState } from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
