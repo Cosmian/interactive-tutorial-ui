@@ -8,7 +8,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
   return (
     <main className="login-page">
       <header>
-        <img loading="lazy" decoding="async" src={logo} alt="Cosmian logo white" title="Cosmian Logo" />
+        <a href="https://cosmian.com" target="_blank">
+          <img loading="lazy" decoding="async" src={logo} alt="Cosmian logo white" title="Cosmian Logo" />
+        </a>
       </header>
       <div className="text-content">
         <p className="title">
