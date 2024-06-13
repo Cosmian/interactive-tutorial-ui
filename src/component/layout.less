@@ -1,5 +1,17 @@
 @import "../../node_modules/cosmian_ui/dist/less/variables.less";
 
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-SemiBold.ttf");
+  font-weight: 600;
+}
+
 h1,
 h2,
 h3,
@@ -13,57 +25,122 @@ ul {
 }
 
 // LOGIN PAGE
+@Poppins: "Poppins", Arial, Helvetica, sans-serif;
+
 .login-page {
   width: 100%;
   height: 100vh;
+  padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom right, #220c54, #300193);
-  .background {
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: url("../assets/login_page_background_image.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5vh 0px;
+    width: 100%;
+    height: 10vh;
+    background: #ffffff10;
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+    position: unset; // Bypass the default header style
+    border-bottom: 0.1px solid #ffffff40;
+    img {
+      height: 66%;
+    }
+  }
+  .text-content {
     width: 100%;
     height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .responsive(@lg, {
-      background-image: url("../assets/endtoend-encryption-img.webp");
-      background-repeat: no-repeat;
-      background-position: bottom -50% right -10%;
-      background-size: 70%;
-    });
-    .text-content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0px;
-      padding: 30px;
-      .responsive(@lg, {
-        width: 50%;
-        padding: 50px;
-      });
-    }
+    flex-direction: column;
+    justify-content: center;
+    gap: 5%;
     p {
-      font-size: 2em;
-      font-family: @montserrat;
-      font-weight: 600;
-      line-height: 1.1em;
+      text-align: center;
       color: white;
+      line-height: 1.25;
     }
     p.title {
-      background-image: linear-gradient(to right, #ff8c4a, @primary-deep);
-      background-size: 100%;
-      background-repeat: repeat;
+      font-family: @Poppins;
       font-weight: 700;
-      font-size: 3em;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      -moz-background-clip: text;
-      -moz-text-fill-color: transparent;
+      font-size: 90px;
+      text-align: center;
+      margin-bottom: unset; // bypass default margin
+      @media only screen and (max-width: @sm) {
+        font-size: 6vh;
+      }
     }
-    button {
-      font-size: 1.2em;
+    p.subtitle {
+      font-family: @Poppins;
+      font-weight: 600;
+      font-size: 50px;
+      margin: 0 5%;
+      opacity: 80%;
+      @media only screen and (max-width: @sm) {
+        font-size: 1.5rem;
+      }
+    }
+    .buttons {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 3%;
+      button {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        --border-radius: 44px;
+        border-radius: var(--border-radius);
+        width: 170px;
+        height: 66px;
+        min-width: fit-content;
+        padding: 22px 0px;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: #ffffff4a;
+        border: unset;
+        font-family: @Poppins;
+        font-weight: 600;
+        font-size: 21px;
+        @media only screen and (max-width: @sm) {
+          font-size: 0.9rem;
+          width: 120px;
+          height: 46.8px;
+        }
+        color: white;
+        &::before {
+          //  adapted from https://benfrain.com/how-to-create-rounded-gradient-borders-with-any-background-in-css/
+          content: "";
+          position: absolute;
+          inset: 0;
+          border: 2px solid transparent;
+          border-radius: var(--border-radius);
+          background: linear-gradient(to left, white, rgba(0, 0, 0, 0)) border-box;
+          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+        }
+        .arrow {
+          margin-left: 10px;
+          width: 19px;
+          height: 17.94px;
+          @media only screen and (max-width: @sm) {
+            width: 15px;
+            height: 13px;
+          }
+        }
+      }
     }
   }
 }
