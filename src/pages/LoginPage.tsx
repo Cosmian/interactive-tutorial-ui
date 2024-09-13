@@ -13,15 +13,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedi
         </a>
       </header>
       <div className="text-content">
-        <p className="title">
-          Cosmian
-          <br />
-          client-side encryption
-        </p>
-        <p className="subtitle">
-          Interactive tutorial and
-          <br /> developer code examples
-        </p>
+        <p className="title">Interactive tutorial and developer code examples</p>
         <div className="buttons">
           <button onClick={signUpWithRedirect}>
             SIGN UP <ButtonsIcon className="arrow" />
