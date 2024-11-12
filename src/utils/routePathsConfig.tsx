@@ -17,6 +17,7 @@ import AboutCse from "../pages/cse/AboutCse";
 import SetupCse from "../pages/cse/SetupCse";
 import SummarizeDocument from "../pages/cse/SummarizeDocument";
 import AboutFindex from "../pages/findex/AboutFindex";
+import EncryptDatabase from "../pages/findex/EncryptDatabase";
 import IndexDatabase from "../pages/findex/IndexDatabase";
 import InstantiateFindex from "../pages/findex/InstantiateFindex";
 import SearchInDatabase from "../pages/findex/SearchInDatabase";
@@ -118,6 +119,11 @@ export const routePathsConfig: RoutePaths = {
       path: "set-up-service",
       label: "Set up service",
       component: <SetupFindex />,
+    },
+    {
+      path: "encrypt-database",
+      label: "encrypt someddd base",
+      component: <EncryptDatabase />,
     },
     {
       path: "instantiate-findex",
