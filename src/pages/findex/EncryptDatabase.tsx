@@ -8,10 +8,10 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
-import { findexDatabaseEmployee } from "../../utils/covercryptConfig";
 import { useState } from "react";
 import { message } from "antd";
 import aes from "js-crypto-aes";
+import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
@@ -32,19 +32,18 @@ const EncryptDatabase = (): JSX.Element => {
       const key = new Uint8Array([
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
       ]);
-      const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+      const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
-      const toField = async (field?: string | number): Promise<string> => {
-        return new TextDecoder().decode(
-          await aes.encrypt(new TextEncoder().encode(field?.toString()), key, {
-            name: "AES-GCM",
-            iv: nonce,
-            tagLength: 16,
-          })
-        );
+      const toField = async (field?: string | number): Promise<Uint8Array> => {
+        // return new TextDecoder().decode(
+        return await aes.encrypt(new TextEncoder().encode(field?.toString() ?? ""), key, {
+          name: "AES-CBC",
+          iv: nonce,
+        });
+        // );
       };
 
-      const encryptedEmployees: findexDatabaseEmployee[] = await Promise.all(
+      const byteTable: findexDatabaseEmployeeBytes[] = await Promise.all(
         clearDatabase.map(async (employee) => ({
           ...employee,
           first: await toField(employee?.first),
@@ -54,9 +53,18 @@ const EncryptDatabase = (): JSX.Element => {
           salary: await toField(employee?.salary),
         }))
       );
+      const encryptedEmployees: findexDatabaseEmployee[] = byteTable.map((employee) => ({
+        uuid: employee.uuid,
+        first: new TextDecoder().decode(employee?.first),
+        last: new TextDecoder().decode(employee?.last),
+        email: new TextDecoder().decode(employee?.email),
+        country: new TextDecoder().decode(employee?.country),
+        salary: new TextDecoder().decode(employee?.salary),
+      }));
       setEncEmp(encryptedEmployees);
       setEncryptedDb({
         table: encryptedEmployees,
+        byteTable: byteTable,
         key,
         nonce,
       });
@@ -84,7 +92,7 @@ const EncryptDatabase = (): JSX.Element => {
         <Button onClick={handleIndexDatabase} style={{ width: "100%", margin: "20px 0" }}>
           encrypt
         </Button>
-        <EmployeeTable data={encEmp} />
+        {encEmp && <EmployeeTable data={encEmp} />}
       </Split.Content>
 
       <Split.Code>

@@ -1,6 +1,6 @@
 import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
-import { Employee, employees, findexDatabaseEmployee } from "../utils/covercryptConfig";
+import { Employee, employees, findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../utils/covercryptConfig";
 import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
 import { EncryptedResult, KeysUid, Language } from "../utils/types";
 
@@ -89,7 +89,7 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 
 // FINDEX
 
-export type encDbInfo = { table: findexDatabaseEmployee[]; key: Uint8Array; nonce: Uint8Array };
+export type encDbInfo = { table: findexDatabaseEmployee[]; byteTable: findexDatabaseEmployeeBytes[]; key: Uint8Array; nonce: Uint8Array };
 interface FindexState {
   clearDatabase: findexDatabaseEmployee[];
   encryptedDatabase: encDbInfo | undefined;
