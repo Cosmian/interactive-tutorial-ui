@@ -18,16 +18,15 @@ const IndexDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("addToIndex", activeLanguageList);
   // states
-  const { findexInstance, indexedEntries, setIndexedEntries } = useFindexStore((state) => state);
-  const { clearEmployees } = useCovercryptStore((state) => state);
+  const { findexInstance, indexedEntries, setIndexedEntries, encryptedDatabase } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
-      if (findexInstance) {
-        const indexedEntries: IndexedEntry[] = clearEmployees.map((employee) => ({
+      if (findexInstance && encryptedDatabase) {
+        const indexedEntries: IndexedEntry[] = encryptedDatabase.table.map((employee) => ({
           indexedValue: Data.fromNumber(employee.uuid),
           keywords: [
             (employee.first as string).toLowerCase(),
@@ -60,8 +59,8 @@ const IndexDatabase = (): JSX.Element => {
           Each value passed as input can then be retrieved using any associated keyword.
         </p>
         <p>This API returns the keywords that have been added to the index (meaning that no value where associated to these before).</p>
-        <p>In this example we will index employees’ database:</p>
-        <EmployeeTable data={clearEmployees} />
+        <p>In this example we will index employees database that has been encrypted during the previous steps :</p>
+        {/* <EmployeeTable data={clearEmployees} /> */}
         <Button
           disabled={findexInstance == null}
           onClick={findexInstance ? () => handleIndexDatabase() : undefined}

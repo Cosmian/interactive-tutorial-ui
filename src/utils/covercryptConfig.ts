@@ -9,6 +9,19 @@ export type Employee = {
   salary?: number | string;
 };
 
+// in the findex workflow we need to have the country as a string because it will be encrypted
+// using this new type to avoid breaking changes (OCP)
+// TODO Omit<Employee, "country"> & { country?: string };
+// convertion to string causes cryptographic bugs. Keep the byteseq in memory, only convert to string when showing in the UI
+export type findexDatabaseEmployee = {
+  uuid: number;
+  first: Uint8Array;
+  last: Uint8Array;
+  country: Uint8Array;
+  email: Uint8Array;
+  salary: Uint8Array;
+};
+
 export const employees: Employee[] = [
   {
     uuid: 1,
