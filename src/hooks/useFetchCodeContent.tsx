@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { getLanguageExtension } from "../utils/languageConfig";
 import { CodeContent, Language } from "../utils/types";
 
+/**
+ * Custom hook to fetch code content for a given filename and active language list.
+ *
+ * @param {string} filename - The name of the file to fetch code content for. Must be placed like following : actions/${language}/${filename}${extension}
+ * @param {Language[]} activeLanguageList - The list of active languages to fetch code content for.
+ */
 export const useFetchCodeContent = (
   filename: string,
   activeLanguageList: Language[]
 ): { loadingCode: boolean; codeContent: CodeContent } => {
-  const [loadingCode, setLoadingcode] = useState(true);
+  const [loadingCode, setLoadingCode] = useState(true);
   const [codeContent, setCodeContent] = useState<CodeContent>({
     java: undefined,
     javascript: undefined,
@@ -27,7 +33,7 @@ export const useFetchCodeContent = (
       tempContent[language] = text;
     }
     setCodeContent(tempContent);
-    setLoadingcode(false);
+    setLoadingCode(false);
   };
   return { loadingCode, codeContent };
 };

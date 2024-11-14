@@ -12,12 +12,13 @@ import { useState } from "react";
 import { message } from "antd";
 import aes from "js-crypto-aes";
 import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
+import { encryptDatabase } from "../../actions/javascript/encryptDatabase";
 
-const activeLanguageList: Language[] = ["java", "javascript", "python"];
+const activeLanguageList: Language[] = ["javascript"];
 
 const EncryptDatabase = (): JSX.Element => {
   // custom hooks
-  const { loadingCode, codeContent } = useFetchCodeContent("addToIndex", activeLanguageList);
+  const { loadingCode, codeContent } = useFetchCodeContent("encryptDatabase", activeLanguageList);
   // states
   const { clearDatabase, setEncryptedDb } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
@@ -31,29 +32,13 @@ const EncryptDatabase = (): JSX.Element => {
       const key = new Uint8Array([
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
       ]);
-      const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+      const iv = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
-      const clearEmployeeToEncByteEmployee = async (field?: string | number): Promise<Uint8Array> => {
-        return await aes.encrypt(new TextEncoder().encode(field?.toString() ?? ""), key, {
-          name: "AES-CBC",
-          iv: nonce,
-        });
-      };
-
-      const byteTable: findexDatabaseEmployeeBytes[] = await Promise.all(
-        clearDatabase.map(async (employee) => ({
-          ...employee,
-          first: await clearEmployeeToEncByteEmployee(employee?.first),
-          last: await clearEmployeeToEncByteEmployee(employee?.last),
-          email: await clearEmployeeToEncByteEmployee(employee?.email),
-          country: await clearEmployeeToEncByteEmployee(employee?.country),
-          salary: await clearEmployeeToEncByteEmployee(employee?.salary),
-        }))
-      );
+      const byteTable: findexDatabaseEmployeeBytes[] = await encryptDatabase(clearDatabase, key, iv);
       setEncryptedDb({
         byteTable: byteTable,
         key,
-        nonce,
+        iv: iv,
       });
       setEncEmp(
         byteTable.map((employee) => ({
@@ -93,15 +78,15 @@ const EncryptDatabase = (): JSX.Element => {
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
           runCode={handleIndexDatabase}
-          //   codeOutputList={
-          //     indexedEntries
-          //       ? {
-          //           java: JSON.stringify(indexedEntries, undefined, 2),
-          //           javascript: JSON.stringify(indexedEntries, undefined, 2),
-          //           python: JSON.stringify(indexedEntries, undefined, 2),
-          //         }
-          //       : undefined
-          //   }
+          codeOutputList={
+            encEmp
+              ? {
+                  java: JSON.stringify(encEmp, undefined, 2),
+                  javascript: JSON.stringify(encEmp, undefined, 2),
+                  python: JSON.stringify(encEmp, undefined, 2),
+                }
+              : undefined
+          }
         />
       </Split.Code>
     </Split>

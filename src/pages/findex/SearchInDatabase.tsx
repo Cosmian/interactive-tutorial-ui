@@ -35,14 +35,11 @@ const SearchInDatabase = (): JSX.Element => {
         setDecyphered(undefined);
         const keywordsList: string[] = keyWords.toLowerCase().replace(/ /g, "").split(",");
         const res = await searchWords(findexInstance, keywordsList);
-        console.log("res is ", res);
-        console.log("encryptedDatabase.byteTable is ", encryptedDatabase.byteTable);
         const resEmployees = res
           .map((result) => encryptedDatabase.byteTable.find((employee) => result === employee.uuid))
           .filter((employee): employee is findexDatabaseEmployeeBytes => employee !== undefined);
         setResultBytes(resEmployees);
         if (!resEmployees) return;
-        console.log("resEmployees is ", resEmployees);
 
         const transformedEmployees = resEmployees.map((employee) => byteEmployeeToString(employee));
         setResultEmployees(transformedEmployees);
@@ -62,7 +59,7 @@ const SearchInDatabase = (): JSX.Element => {
       if (!field) return "";
       const decryptedField = await aes.decrypt(field, encryptedDatabase.key, {
         name: "AES-CBC",
-        iv: encryptedDatabase.nonce,
+        iv: encryptedDatabase.iv,
       });
       return new TextDecoder().decode(decryptedField);
     };

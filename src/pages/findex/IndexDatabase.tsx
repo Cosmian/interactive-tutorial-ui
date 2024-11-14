@@ -6,9 +6,9 @@ import { addToIndex } from "../../actions/javascript/addToIndex";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
-import { EmployeeTable, IndexedTable } from "../../component/Table";
+import { IndexedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
