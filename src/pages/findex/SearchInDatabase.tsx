@@ -58,46 +58,24 @@ const SearchInDatabase = (): JSX.Element => {
   const handleDecypher = async (): Promise<void> => {
     if (!encryptedDatabase || !resultEmployees || !resultBytes) return;
 
-    const toField = async (field: Uint8Array): Promise<string> => {
-      console.log("field is ", field);
+    const decryptByteEmployeeToString = async (field: Uint8Array | undefined): Promise<string> => {
+      if (!field) return "";
       const decryptedField = await aes.decrypt(field, encryptedDatabase.key, {
         name: "AES-CBC",
         iv: encryptedDatabase.nonce,
       });
       return new TextDecoder().decode(decryptedField);
     };
-
-    // console.log(await toField("HelloStranger"));
-
     setDecyphered(
       await Promise.all(
-        resultBytes.map(async (byteEmployee) => {
-          const decypheredEmployee: findexDatabaseEmployee = {
-            uuid: byteEmployee.uuid,
-            country: undefined,
-            email: undefined,
-            first: undefined,
-            last: undefined,
-            salary: undefined,
-          };
-          for (const key of Object.keys(decypheredEmployee)) {
-            if (key !== "uuid" && ["first", "last", "country", "email", "salary"].indexOf(key) > -1) {
-              // @ts-expect-error typescript compiler does not understand that key is a key of decypheredEmployee and at the same time. Making it understand causes very long boilerplate.
-              decypheredEmployee[key as keyof typeof decypheredEmployee] = new TextDecoder().decode(
-                await aes.decrypt(
-                  // @ts-expect-error same as above, the check is done in the if statement at runtime, so no need to worry.
-                  byteEmployee[key as keyof typeof resultBytes],
-                  encryptedDatabase.key,
-                  {
-                    name: "AES-CBC",
-                    iv: encryptedDatabase.nonce,
-                  }
-                )
-              );
-            }
-          }
-          return decypheredEmployee;
-        })
+        resultBytes.map(async (byteEmployee) => ({
+          uuid: byteEmployee.uuid,
+          country: await decryptByteEmployeeToString(byteEmployee.country),
+          email: await decryptByteEmployeeToString(byteEmployee.email),
+          first: await decryptByteEmployeeToString(byteEmployee.first),
+          last: await decryptByteEmployeeToString(byteEmployee.last),
+          salary: await decryptByteEmployeeToString(byteEmployee.salary),
+        }))
       )
     );
   };
@@ -114,11 +92,15 @@ const SearchInDatabase = (): JSX.Element => {
         <Button onClick={handleSearchInDatabase} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%" }}>
           Search in database
         </Button>
-        <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees || []} />
-        <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, width: "100%" }}>
-          Decypher serach result
-        </Button>
-        <EmployeeTable style={{ marginTop: 30 }} data={decyphered || []} />
+        {resultEmployees && (
+          <>
+            <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />
+            <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, width: "100%" }}>
+              Decypher search result{resultEmployees.length > 1 && "s"}
+            </Button>
+            {decyphered && <EmployeeTable style={{ marginTop: 30 }} data={decyphered} />}
+          </>
+        )}
       </Split.Content>
 
       <Split.Code>

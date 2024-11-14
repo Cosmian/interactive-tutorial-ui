@@ -24,7 +24,7 @@ const EncryptDatabase = (): JSX.Element => {
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
-  const [encEmp, setEncEmp] = useState<findexDatabaseEmployee[]>([]);
+  const [encEmp, setEncEmp] = useState<findexDatabaseEmployee[] | undefined>(undefined);
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
@@ -33,7 +33,7 @@ const EncryptDatabase = (): JSX.Element => {
       ]);
       const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
-      const toField = async (field?: string | number): Promise<Uint8Array> => {
+      const clearEmployeeToEncByteEmployee = async (field?: string | number): Promise<Uint8Array> => {
         return await aes.encrypt(new TextEncoder().encode(field?.toString() ?? ""), key, {
           name: "AES-CBC",
           iv: nonce,
@@ -43,11 +43,11 @@ const EncryptDatabase = (): JSX.Element => {
       const byteTable: findexDatabaseEmployeeBytes[] = await Promise.all(
         clearDatabase.map(async (employee) => ({
           ...employee,
-          first: await toField(employee?.first),
-          last: await toField(employee?.last),
-          email: await toField(employee?.email),
-          country: await toField(employee?.country),
-          salary: await toField(employee?.salary),
+          first: await clearEmployeeToEncByteEmployee(employee?.first),
+          last: await clearEmployeeToEncByteEmployee(employee?.last),
+          email: await clearEmployeeToEncByteEmployee(employee?.email),
+          country: await clearEmployeeToEncByteEmployee(employee?.country),
+          salary: await clearEmployeeToEncByteEmployee(employee?.salary),
         }))
       );
       setEncryptedDb({
