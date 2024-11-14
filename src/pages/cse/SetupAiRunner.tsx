@@ -1,12 +1,12 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
-import { Button } from "cosmian_ui";
-import { useNavigate } from "react-router-dom";
-import { CodeBackground, VmCode } from "../../component/Code";
-import Split from "../../component/Split";
-import { useBoundStore, useCseStore } from "../../store/store";
-import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
+import { CheckCircleOutlined } from "@ant-design/icons"
+import { Button } from "cosmian_ui"
+import { useNavigate } from "react-router-dom"
+import { CodeBackground, VmCode } from "../../component/Code"
+import Split from "../../component/Split"
+import { useBoundStore, useCseStore } from "../../store/store"
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
 
-const SetupCse = (): JSX.Element => {
+const SetupAiRunner = (): JSX.Element => {
   const { integrity, setIntegrity } = useCseStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
@@ -43,9 +43,9 @@ const SetupCse = (): JSX.Element => {
   );
 };
 
-export default SetupCse;
+export default SetupAiRunner;
 
-const INTEGRITY = `$ ./cosmian_vm verify --url MSE_APP_URL --snapshot cosmian_vm.snapshot
+const INTEGRITY = `$ ./cosmian_vm verify --url RUNNER_URL --snapshot cosmian_vm.snapshot
 Fetching the collaterals...
 [ OK ] Verifying VM integrity
 [ OK ] Verifying TPM attestation

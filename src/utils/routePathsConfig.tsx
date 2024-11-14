@@ -14,7 +14,9 @@ import GenerateUserDecryptionKey from "../pages/covercrypt/GenerateUserDecryptio
 import RefreshKeys from "../pages/covercrypt/RefreshKeys"
 import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt"
 import AboutCse from "../pages/cse/AboutCse"
-import SetupCse from "../pages/cse/SetupCse"
+import ConfigureCse from "../pages/cse/ConfigureCse"
+import ConfigureDke from "../pages/cse/ConfigureDke"
+import SetupAiRunner from "../pages/cse/SetupAiRunner"
 import SummarizeDocument from "../pages/cse/SummarizeDocument"
 import AboutFindex from "../pages/findex/AboutFindex"
 import IndexDatabase from "../pages/findex/IndexDatabase"
@@ -74,9 +76,19 @@ export const routePathsConfig: RoutePaths = {
       component: <AboutCse />,
     },
     {
-      path: "set-up-service",
-      label: "Set up the service",
-      component: <SetupCse />,
+      path: "configure-cse",
+      label: "Configure Google CSE",
+      component: <ConfigureCse />,
+    },
+    {
+      path: "configure-dke",
+      label: "Configure Microsoft DKE",
+      component: <ConfigureDke />,
+    },
+    {
+      path: "set-up-ai-runner",
+      label: "Set up the AI runner",
+      component: <SetupAiRunner />,
     },
     {
       path: "get-summary",
