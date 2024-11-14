@@ -6,9 +6,9 @@ import { addToIndex } from "../../actions/javascript/addToIndex";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
-import { EmployeeTable, IndexedTable } from "../../component/Table";
+import { IndexedTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
@@ -18,23 +18,22 @@ const IndexDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("addToIndex", activeLanguageList);
   // states
-  const { findexInstance, indexedEntries, setIndexedEntries } = useFindexStore((state) => state);
-  const { clearEmployees } = useCovercryptStore((state) => state);
+  const { findexInstance, indexedEntries, setIndexedEntries, clearDatabase, encryptedDatabase } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
-      if (findexInstance) {
-        const indexedEntries: IndexedEntry[] = clearEmployees.map((employee) => ({
+      if (encryptedDatabase && findexInstance) {
+        const indexedEntries: IndexedEntry[] = clearDatabase.map((employee) => ({
           indexedValue: Data.fromNumber(employee.uuid),
           keywords: [
-            (employee.first as string).toLowerCase(),
-            (employee.last as string).toLowerCase(),
-            (employee.email as string).toLowerCase(),
-            (employee.country as string).toLowerCase(),
-            (employee.salary as string).toString(),
+            employee.first?.toString().toLowerCase() ?? "",
+            employee.last?.toString().toLowerCase() ?? "",
+            employee.email?.toString().toLowerCase() ?? "",
+            employee.country?.toString().toLowerCase() ?? "",
+            employee.salary?.toString().toString() ?? "",
           ],
         }));
         setIndexedEntries(indexedEntries);
@@ -60,8 +59,8 @@ const IndexDatabase = (): JSX.Element => {
           Each value passed as input can then be retrieved using any associated keyword.
         </p>
         <p>This API returns the keywords that have been added to the index (meaning that no value where associated to these before).</p>
-        <p>In this example we will index employees’ database:</p>
-        <EmployeeTable data={clearEmployees} />
+        <p>In this example we will index employees database that has been encrypted during the previous steps :</p>
+        {/* <EmployeeTable data={clearEmployees} /> */}
         <Button
           disabled={findexInstance == null}
           onClick={findexInstance ? () => handleIndexDatabase() : undefined}

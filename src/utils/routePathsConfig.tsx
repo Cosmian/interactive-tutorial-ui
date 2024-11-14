@@ -1,37 +1,36 @@
-import OverView from "../pages/OverView"
-import AuditSnapshot from "../pages/confidentialVm/AuditSnapshot"
-import DeployApplication from "../pages/confidentialVm/DeployApplication"
-import DetectMalware from "../pages/confidentialVm/DetectMalware"
-import SnapshotVm from "../pages/confidentialVm/SnapshotVm"
-import UseConfidentialVm from "../pages/confidentialVm/UseConfidentialVm"
-import VerifyIntegrity from "../pages/confidentialVm/VerifyIntegrity"
-import AboutCovercrypt from "../pages/covercrypt/AboutCovercrypt"
-import CreateEncryptionPolicy from "../pages/covercrypt/CreateEncryptionPolicy"
-import CreateMasterKeyPair from "../pages/covercrypt/CreateMasterKeyPair"
-import DecryptData from "../pages/covercrypt/DecryptData"
-import EncryptData from "../pages/covercrypt/EncryptData"
-import GenerateUserDecryptionKey from "../pages/covercrypt/GenerateUserDecryptionKey"
-import RefreshKeys from "../pages/covercrypt/RefreshKeys"
-import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt"
-import AboutCse from "../pages/cse/AboutCse"
-import ConfigureCse from "../pages/cse/ConfigureCse"
-import ConfigureDke from "../pages/cse/ConfigureDke"
-import SetupAiRunner from "../pages/cse/SetupAiRunner"
-import SummarizeDocument from "../pages/cse/SummarizeDocument"
-import AboutFindex from "../pages/findex/AboutFindex"
-import IndexDatabase from "../pages/findex/IndexDatabase"
-import InstantiateFindex from "../pages/findex/InstantiateFindex"
-import SearchInDatabase from "../pages/findex/SearchInDatabase"
-import SetupFindex from "../pages/findex/SetupFindex"
-import AboutPKI from "../pages/pki/AboutPKI"
-import DecryptDataPKI from "../pages/pki/DecryptDataPKI"
-import EncryptDataPki from "../pages/pki/EncryptDataPki"
-import GetCertificate from "../pages/pki/GetCertificate"
-import GrantAccess from "../pages/pki/GrantAccess"
-import ImportAndUnwrapUDK from "../pages/pki/ImportAndUnwrapUDK"
-import SendWrappedDecryptionKey from "../pages/pki/SendWrappedDecryptionKey"
-import SetupPki from "../pages/pki/SetupPki"
-import UploadCert from "../pages/pki/UploadCert"
+import OverView from "../pages/OverView";
+import AuditSnapshot from "../pages/confidentialVm/AuditSnapshot";
+import DeployApplication from "../pages/confidentialVm/DeployApplication";
+import DetectMalware from "../pages/confidentialVm/DetectMalware";
+import SnapshotVm from "../pages/confidentialVm/SnapshotVm";
+import UseConfidentialVm from "../pages/confidentialVm/UseConfidentialVm";
+import VerifyIntegrity from "../pages/confidentialVm/VerifyIntegrity";
+import AboutCovercrypt from "../pages/covercrypt/AboutCovercrypt";
+import CreateEncryptionPolicy from "../pages/covercrypt/CreateEncryptionPolicy";
+import CreateMasterKeyPair from "../pages/covercrypt/CreateMasterKeyPair";
+import DecryptData from "../pages/covercrypt/DecryptData";
+import EncryptData from "../pages/covercrypt/EncryptData";
+import GenerateUserDecryptionKey from "../pages/covercrypt/GenerateUserDecryptionKey";
+import RefreshKeys from "../pages/covercrypt/RefreshKeys";
+import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt";
+import AboutCse from "../pages/cse/AboutCse";
+import SetupCse from "../pages/cse/SetupCse";
+import SummarizeDocument from "../pages/cse/SummarizeDocument";
+import AboutFindex from "../pages/findex/AboutFindex";
+import EncryptDatabase from "../pages/findex/EncryptDatabase";
+import IndexDatabase from "../pages/findex/IndexDatabase";
+import InstantiateFindex from "../pages/findex/InstantiateFindex";
+import SearchInDatabase from "../pages/findex/SearchInDatabase";
+import SetupFindex from "../pages/findex/SetupFindex";
+import AboutPKI from "../pages/pki/AboutPKI";
+import DecryptDataPKI from "../pages/pki/DecryptDataPKI";
+import EncryptDataPki from "../pages/pki/EncryptDataPki";
+import GetCertificate from "../pages/pki/GetCertificate";
+import GrantAccess from "../pages/pki/GrantAccess";
+import ImportAndUnwrapUDK from "../pages/pki/ImportAndUnwrapUDK";
+import SendWrappedDecryptionKey from "../pages/pki/SendWrappedDecryptionKey";
+import SetupPki from "../pages/pki/SetupPki";
+import UploadCert from "../pages/pki/UploadCert";
 
 export interface RoutePath {
   path: string;
@@ -195,6 +194,38 @@ export const routePathsConfig: RoutePaths = {
       path: "refresh-keys-for-a-policy",
       label: "Refresh keys for a given policy",
       component: <RefreshKeys />,
+    },
+  ],
+  "build-encrypted-indexes": [
+    {
+      path: "about-findex",
+      label: "About Cosmian Findex",
+      component: <AboutFindex />,
+    },
+    {
+      path: "set-up-service",
+      label: "Set up service",
+      component: <SetupFindex />,
+    },
+    {
+      path: "encrypt-database",
+      label: "Encrypt the database",
+      component: <EncryptDatabase />,
+    },
+    {
+      path: "instantiate-findex",
+      label: "Instantiate Findex",
+      component: <InstantiateFindex />,
+    },
+    {
+      path: "index-database",
+      label: "Index the database",
+      component: <IndexDatabase />,
+    },
+    {
+      path: "search-in-database",
+      label: "Search words",
+      component: <SearchInDatabase />,
     },
   ],
   "distibute-keys": [

@@ -1,8 +1,8 @@
-import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js"
-import { StateCreator, create } from "zustand"
-import { Employee, employees } from "../utils/covercryptConfig"
-import { NavigationConfig, navigationConfig } from "../utils/navigationConfig"
-import { EncryptedResult, KeysUid, Language } from "../utils/types"
+import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
+import { StateCreator, create } from "zustand";
+import { Employee, employees, findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../utils/covercryptConfig";
+import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
+import { EncryptedResult, KeysUid, Language } from "../utils/types";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -88,18 +88,31 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 }));
 
 // FINDEX
+
+export type encDbInfo = { byteTable: findexDatabaseEmployeeBytes[]; key: Uint8Array; iv: Uint8Array };
 interface FindexState {
+  clearDatabase: findexDatabaseEmployee[];
+  encryptedDatabase: encDbInfo | undefined;
   findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
-  resultEmployees: Employee[] | undefined;
+  resultEmployees: findexDatabaseEmployee[] | undefined;
+  setEncryptedDb: (encryptedDatabase?: encDbInfo) => void;
   setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
-  setResultEmployees: (resultEmployees?: Employee[]) => void;
+  setResultEmployees: (resultEmployees?: findexDatabaseEmployee[]) => void;
 }
 export const useFindexStore = create<FindexState>()((set) => ({
+  clearDatabase: employees.filter((employee) => employee.uuid <= 3),
+  encryptedDatabase: undefined,
   findexInstance: undefined,
   indexedEntries: undefined,
   resultEmployees: undefined,
+  setEncryptedDb: (encryptedDatabase?: encDbInfo) => {
+    set((state) => {
+      state.setFindexInstance(); // reset next steps
+      return { encryptedDatabase };
+    });
+  },
   setFindexInstance: (findexInstance?: Findex) =>
     set((state) => {
       state.setResultEmployees(); // reset next steps
@@ -111,7 +124,7 @@ export const useFindexStore = create<FindexState>()((set) => ({
       state.setResultEmployees(); // reset next steps
       return { indexedEntries };
     }),
-  setResultEmployees: (resultEmployees?: Employee[]) => set(() => ({ resultEmployees })),
+  setResultEmployees: (resultEmployees?: findexDatabaseEmployee[]) => set(() => ({ resultEmployees })),
 }));
 
 // PKI
