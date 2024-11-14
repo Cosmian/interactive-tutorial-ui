@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import ContentSkeleton from "../../component/ContentSkeleton";
 import Split from "../../component/Split";
-import { EmployeeTable, IndexedTable } from "../../component/Table";
+import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 import { useState } from "react";
@@ -28,19 +28,16 @@ const EncryptDatabase = (): JSX.Element => {
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
-      // Ensure the key length is 32 bytes (256 bits) for AES-256
       const key = new Uint8Array([
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
       ]);
       const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
       const toField = async (field?: string | number): Promise<Uint8Array> => {
-        // return new TextDecoder().decode(
         return await aes.encrypt(new TextEncoder().encode(field?.toString() ?? ""), key, {
           name: "AES-CBC",
           iv: nonce,
         });
-        // );
       };
 
       const byteTable: findexDatabaseEmployeeBytes[] = await Promise.all(
@@ -53,26 +50,22 @@ const EncryptDatabase = (): JSX.Element => {
           salary: await toField(employee?.salary),
         }))
       );
-      const encryptedEmployees: findexDatabaseEmployee[] = byteTable.map((employee) => ({
-        uuid: employee.uuid,
-        first: new TextDecoder().decode(employee?.first),
-        last: new TextDecoder().decode(employee?.last),
-        email: new TextDecoder().decode(employee?.email),
-        country: new TextDecoder().decode(employee?.country),
-        salary: new TextDecoder().decode(employee?.salary),
-      }));
-      setEncEmp(encryptedEmployees);
       setEncryptedDb({
-        table: encryptedEmployees,
         byteTable: byteTable,
         key,
         nonce,
       });
-      // setEncryptedDb();
-      // setIndexedEntries(indexedEntries);
-      // await addToIndex(findexInstance, indexedEntries);
+      setEncEmp(
+        byteTable.map((employee) => ({
+          uuid: employee.uuid,
+          first: new TextDecoder().decode(employee?.first),
+          last: new TextDecoder().decode(employee?.last),
+          email: new TextDecoder().decode(employee?.email),
+          country: new TextDecoder().decode(employee?.country),
+          salary: new TextDecoder().decode(employee?.salary),
+        }))
+      );
       message.success("Employees table has been indexed.");
-
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {

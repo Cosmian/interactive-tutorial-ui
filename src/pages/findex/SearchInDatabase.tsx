@@ -7,38 +7,45 @@ import Code from "../../component/Code";
 import Split from "../../component/Split";
 import { EmployeeTable } from "../../component/Table";
 import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
-import { useBoundStore, useCovercryptStore, useFindexStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 import aes from "js-crypto-aes";
 
 import ContentSkeleton from "../../component/ContentSkeleton";
-import { Employee, findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
+import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
+import { byteEmployeeToString } from "../../utils/utils";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
-  const [keyWords, setKeyWords] = useState("2422");
-  // custom hooks
+  const [keyWords, setKeyWords] = useState("Susan");
+  const [resultBytes, setResultBytes] = useState<findexDatabaseEmployeeBytes[] | undefined>(undefined);
+  const [decyphered, setDecyphered] = useState<findexDatabaseEmployee[] | undefined>(undefined);
+
   const { loadingCode, codeContent } = useFetchCodeContent("searchWords", activeLanguageList);
-  // states
   const { findexInstance, indexedEntries, resultEmployees, setResultEmployees, encryptedDatabase } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
+
   const currentItem = findCurrentNavigationItem(steps);
-  const [decyphered, setDecyphered] = useState<findexDatabaseEmployee[] | undefined>(undefined);
-  const [resultBytes, setResultBytes] = useState<(findexDatabaseEmployeeBytes | undefined)[] | undefined>(undefined);
+
   const handleSearchInDatabase = async (): Promise<void> => {
     try {
       if (findexInstance && keyWords && encryptedDatabase) {
-        const keywordsList: string[] = keyWords.replace(/ /g, "").split(",");
+        setDecyphered(undefined);
+        const keywordsList: string[] = keyWords.toLowerCase().replace(/ /g, "").split(",");
         const res = await searchWords(findexInstance, keywordsList);
-        const resEmployees = res.map((result) => encryptedDatabase.table.find((employee) => result === employee.uuid));
+        console.log("res is ", res);
+        console.log("encryptedDatabase.byteTable is ", encryptedDatabase.byteTable);
+        const resEmployees = res
+          .map((result) => encryptedDatabase.byteTable.find((employee) => result === employee.uuid))
+          .filter((employee): employee is findexDatabaseEmployeeBytes => employee !== undefined);
+        setResultBytes(resEmployees);
+        if (!resEmployees) return;
+        console.log("resEmployees is ", resEmployees);
 
-        setResultEmployees(resEmployees as Employee[]);
-        const resBytes: (findexDatabaseEmployeeBytes | undefined)[] = res.map((result) =>
-          encryptedDatabase.byteTable.find((employee) => result === employee.uuid)
-        );
-        setResultBytes(resBytes);
+        const transformedEmployees = resEmployees.map((employee) => byteEmployeeToString(employee));
+        setResultEmployees(transformedEmployees);
       }
       updateNavigationSteps(steps, setSteps);
       navigate("#");
@@ -64,17 +71,33 @@ const SearchInDatabase = (): JSX.Element => {
 
     setDecyphered(
       await Promise.all(
-        resultBytes.map(
-          async (employee) =>
-            ({
-              uuid: employee?.uuid || -1,
-              first: employee?.first ? await toField(employee.first) : undefined,
-              last: employee?.last ? await toField(employee.last) : undefined,
-              country: employee?.country ? await toField(employee.country) : undefined,
-              email: employee?.email ? await toField(employee.email) : undefined,
-              salary: employee?.salary ? await toField(employee.salary) : undefined,
-            } as findexDatabaseEmployee)
-        )
+        resultBytes.map(async (byteEmployee) => {
+          const decypheredEmployee: findexDatabaseEmployee = {
+            uuid: byteEmployee.uuid,
+            country: undefined,
+            email: undefined,
+            first: undefined,
+            last: undefined,
+            salary: undefined,
+          };
+          for (const key of Object.keys(decypheredEmployee)) {
+            if (key !== "uuid" && ["first", "last", "country", "email", "salary"].indexOf(key) > -1) {
+              // @ts-expect-error typescript compiler does not understand that key is a key of decypheredEmployee and at the same time. Making it understand causes very long boilerplate.
+              decypheredEmployee[key as keyof typeof decypheredEmployee] = new TextDecoder().decode(
+                await aes.decrypt(
+                  // @ts-expect-error same as above, the check is done in the if statement at runtime, so no need to worry.
+                  byteEmployee[key as keyof typeof resultBytes],
+                  encryptedDatabase.key,
+                  {
+                    name: "AES-CBC",
+                    iv: encryptedDatabase.nonce,
+                  }
+                )
+              );
+            }
+          }
+          return decypheredEmployee;
+        })
       )
     );
   };
@@ -91,11 +114,11 @@ const SearchInDatabase = (): JSX.Element => {
         <Button onClick={handleSearchInDatabase} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%" }}>
           Search in database
         </Button>
-        {resultEmployees && <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />}
+        <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees || []} />
         <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, width: "100%" }}>
           Decypher serach result
         </Button>
-        {decyphered && <EmployeeTable style={{ marginTop: 30 }} data={decyphered} />}
+        <EmployeeTable style={{ marginTop: 30 }} data={decyphered || []} />
       </Split.Content>
 
       <Split.Code>

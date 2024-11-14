@@ -122,7 +122,7 @@ export const routePathsConfig: RoutePaths = {
     },
     {
       path: "encrypt-database",
-      label: "encrypt someddd base",
+      label: "Encrypt the database",
       component: <EncryptDatabase />,
     },
     {
