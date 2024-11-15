@@ -10,11 +10,11 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
-import aes from "js-crypto-aes";
 
 import ContentSkeleton from "../../component/ContentSkeleton";
 import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
 import { byteEmployeeToString } from "../../utils/utils";
+import { AesGcm } from "cloudproof_js";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
@@ -54,13 +54,11 @@ const SearchInDatabase = (): JSX.Element => {
 
   const handleDecypher = async (): Promise<void> => {
     if (!encryptedDatabase || !resultEmployees || !resultBytes) return;
+    const { Aes256Gcm } = await AesGcm();
 
     const decryptByteEmployeeToString = async (field: Uint8Array | undefined): Promise<string> => {
       if (!field) return "";
-      const decryptedField = await aes.decrypt(field, encryptedDatabase.key, {
-        name: "AES-CBC",
-        iv: encryptedDatabase.iv,
-      });
+      const decryptedField = Aes256Gcm.decrypt(field, encryptedDatabase.key, encryptedDatabase.nonce, encryptedDatabase.authenticatedData);
       return new TextDecoder().decode(decryptedField);
     };
     setDecyphered(

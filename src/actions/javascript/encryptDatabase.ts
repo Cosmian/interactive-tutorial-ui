@@ -1,27 +1,37 @@
 import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
-import aes from "js-crypto-aes";
+import { AesGcm } from "cloudproof_js";
 
 export const encryptDatabase = async (
   clearDatabase: findexDatabaseEmployee[],
   key: Uint8Array,
-  iv: Uint8Array
+  nonce: Uint8Array,
+  authData: Uint8Array
 ): Promise<findexDatabaseEmployeeBytes[]> => {
-  const encryptField = async (field?: string | number): Promise<Uint8Array> => {
-    if (!field) return new Uint8Array();
-    return await aes.encrypt(new TextEncoder().encode(field.toString()), key, {
-      name: "AES-CBC",
-      iv,
-    });
-  };
+  // const ciphertext = Aes256Gcm.encrypt(plaintext, key, nonce, authenticatedData);
 
-  return await Promise.all(
+  // const encryptField = async (field?: string | number): Promise<Uint8Array> => {
+  //   if (!field) return new Uint8Array();
+  //   return Aes256Gcm.encrypt(field, key, nonce, authData);
+  // };
+
+  const { Aes256Gcm } = await AesGcm();
+  return Promise.all(
     clearDatabase.map(async (employee) => ({
-      ...employee,
-      first: await encryptField(employee.first),
-      last: await encryptField(employee.last),
-      email: await encryptField(employee.email),
-      country: await encryptField(employee.country),
-      salary: await encryptField(employee.salary),
+      uuid: employee.uuid,
+      first: Aes256Gcm.encrypt(employee.first ?? "", key, nonce, authData),
+      last: Aes256Gcm.encrypt(employee.last ?? "", key, nonce, authData),
+      email: Aes256Gcm.encrypt(employee.email ?? "", key, nonce, authData),
+      country: Aes256Gcm.encrypt(employee.country ?? "", key, nonce, authData),
+      salary: Aes256Gcm.encrypt(employee.salary?.toString() ?? "", key, nonce, authData),
     }))
   );
 };
+
+// byteTable.map((employee) => ({
+//   uuid: employee.uuid,
+//   first: new TextDecoder().decode(employee?.first),
+//   last: new TextDecoder().decode(employee?.last),
+//   email: new TextDecoder().decode(employee?.email),
+//   country: new TextDecoder().decode(employee?.country),
+//   salary: new TextDecoder().decode(employee?.salary),
+// }))
