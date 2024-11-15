@@ -1,11 +1,31 @@
-import { Link } from "react-router-dom"
+import { message } from "antd"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import Code from "../../component/Code"
 import Split from "../../component/Split"
 import { useBoundStore } from "../../store/store"
-import { findCurrentNavigationItem } from "../../utils/navigationActions"
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
+import { Language } from "../../utils/types"
+
+const activeLanguageList: Language[] = [];
 
 const ConfigureDke = (): JSX.Element => {
-  const { steps } = useBoundStore((state) => state);
+  const { steps, setSteps } = useBoundStore((state) => state);
+  const [key, setKey] = useState<string | undefined>();
+
+  const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
+
+  const handleSetup = async (): Promise<void> => {
+    try {
+      setKey("dke_key");
+      updateNavigationSteps(steps, setSteps);
+      navigate("#");
+    } catch (error) {
+      message.error(typeof error === "string" ? error : (error as Error).message);
+    }
+  };
+
 
   return (
     <Split>
@@ -29,17 +49,42 @@ const ConfigureDke = (): JSX.Element => {
           <li>Configure Microsoft DKE in Purview and create a sensitivity label for encryption</li>
           <li>Instantiate and configure Cosmian <b>Key Management Server</b> (Cosmian KMS)</li>
           <li>Generate <b>RSA key</b> with tag <i>dke_key</i></li>
-          <div className="code-cmd">
-            <code>
-              {DKE_KEY}
-            </code>
-          </div>
         </ul>
       </Split.Content>
+      <Split.Code>
+      <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={{
+            java: DKE_KEY,
+            javascript: DKE_KEY,
+            python: DKE_KEY,
+          }}
+          codeOutputList={
+            key
+              ? {
+                  java: DKE_KEY_OUTPUT,
+                  javascript: DKE_KEY_OUTPUT,
+                  python: DKE_KEY_OUTPUT,
+              }
+              : undefined
+          }
+          codeLanguage="bash"
+          runCode={handleSetup}
+        />
+      </Split.Code>
     </Split>
   );
 };
 
 export default ConfigureDke;
 
-const DKE_KEY = "> ckms rsa keys create --tag dke_key --size_in_bits 2048";
+const DKE_KEY = `# Generate DKE key
+
+ckms rsa keys create --tag dke_key --size_in_bits 2048`;
+
+const DKE_KEY_OUTPUT = `The RSA key pair has been created.
+	  Public key unique identifier: 978cb116-c498-436a-9b9c-e0ed1ddf4cfa
+	  Private key unique identifier: b18f274c-f9a7-4c3d-902d-733b1aa58a15
+
+  Tags:
+    - dke_key`;

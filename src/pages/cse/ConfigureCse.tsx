@@ -1,18 +1,30 @@
-import { useEffect } from "react"
-import { Link } from "react-router-dom"
+import { message } from "antd"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import Code from "../../component/Code"
 import Split from "../../component/Split"
 import { useBoundStore } from "../../store/store"
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
+import { Language } from "../../utils/types"
+
+const activeLanguageList: Language[] = [];
 
 const ConfigureCse = (): JSX.Element => {
   const { steps, setSteps } = useBoundStore((state) => state);
+  const [key, setKey] = useState<string | undefined>();
+
+  const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
-  useEffect(() => {
-    return () => {
+  const handleSetup = async (): Promise<void> => {
+    try {
+      setKey("google_cse");
       updateNavigationSteps(steps, setSteps);
-    };
-  }, []);
+      navigate("#");
+    } catch (error) {
+      message.error(typeof error === "string" ? error : (error as Error).message);
+    }
+  };
 
   return (
     <Split>
@@ -35,28 +47,31 @@ const ConfigureCse = (): JSX.Element => {
           <li>Choose and configure an <b>Identity Provider</b></li>
           <li>Instantiate and configure a <b>Key Management Server</b> (Cosmian KMS)</li>
           <li>Generate <b><i>google_cse</i> key</b> from the KMS</li>
-          <div className="code-cmd">
-            <code>
-              {GOOGLE_CSE_KEY}
-            </code>
-            <br />
-            <code>
-              {GOOGLE_CSE_GRANT}
-            </code>
-          </div>
           <li>Handle <b>guest Identity Providers</b> for external users <i>(optional)</i></li>
           <li>Generate <b>Gmail S/MIME</b> elements: users key-pairs and identities  <i>(optional)</i></li>
-          <div className="code-cmd">
-            <code>
-              {GOOGLE_CSE_SMIME_KEYPAIR}
-            </code>
-            < br/>
-            <code>
-              {GOOGLE_CSE_SMIME_IDENTITY}
-            </code>
-          </div>
         </ul>
       </Split.Content>
+      <Split.Code>
+      <Code
+          activeLanguageList={activeLanguageList}
+          codeInputList={{
+            java: GOOGLE_CSE_KEY,
+            javascript: GOOGLE_CSE_KEY,
+            python: GOOGLE_CSE_KEY,
+          }}
+          codeOutputList={
+            key
+              ? {
+                  java: GOOGLE_CSE_KEY_OUTPUT,
+                  javascript: GOOGLE_CSE_KEY_OUTPUT,
+                  python: GOOGLE_CSE_KEY_OUTPUT,
+              }
+              : undefined
+          }
+          codeLanguage="bash"
+          runCode={handleSetup}
+        />
+      </Split.Code>
     </Split>
   );
 };
@@ -64,10 +79,23 @@ const ConfigureCse = (): JSX.Element => {
 export default ConfigureCse;
 
 
-const GOOGLE_CSE_KEY = "> ckms sym keys create -t google_cse google_cse";
+const GOOGLE_CSE_KEY = `# Generate google_cse symmetric key
 
-const GOOGLE_CSE_GRANT = "> ckms access-rights grant USER_ID google_cse get encrypt decrypt";
+ckms sym keys create -t google_cse google_cse
 
-const GOOGLE_CSE_SMIME_KEYPAIR = "> ckms google key-pairs create --cse-key-id CSE_KEY_ID --subject-name \"C=FR, ST=IdF, L=Paris, O=YOUR_ORGANIZATION, OU=DEPARTMENT, CN=user@your_organization.com, emailAddress=user@your_organization.com\" -i ISSUER_PRIVATE_KEY_ID user@your_organization.com";
 
-const GOOGLE_CSE_SMIME_IDENTITY = "> ckms google identities insert --user-id user@your_organization.com CREATED_KEYPAIR_ID";
+# Grant access to the generated key
+
+ckms access-rights grant USER_ID google_cse get encrypt decrypt
+`;
+
+const GOOGLE_CSE_KEY_OUTPUT = `The symmetric key was successfully generated.
+	  Unique identifier: google_cse
+
+  Tags:
+    - google_cse`;
+
+// const GOOGLE_CSE_SMIME = `ckms google key-pairs create --cse-key-id CSE_KEY_ID --subject-name \"C=FR, ST=IdF, L=Paris, O=YOUR_ORGANIZATION, OU=DEPARTMENT, CN=user@your_organization.com, emailAddress=user@your_organization.com\" -i ISSUER_PRIVATE_KEY_ID user@your_organization.com
+
+// ckms google identities insert --user-id user@your_organization.com CREATED_KEYPAIR_ID
+// `;
