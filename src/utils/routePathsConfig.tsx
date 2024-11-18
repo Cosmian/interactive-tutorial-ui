@@ -14,7 +14,9 @@ import GenerateUserDecryptionKey from "../pages/covercrypt/GenerateUserDecryptio
 import RefreshKeys from "../pages/covercrypt/RefreshKeys";
 import SetupCovercrypt from "../pages/covercrypt/SetupCovercrypt";
 import AboutCse from "../pages/cse/AboutCse";
-import SetupCse from "../pages/cse/SetupCse";
+import ConfigureCse from "../pages/cse/ConfigureCse";
+import ConfigureDke from "../pages/cse/ConfigureDke";
+import SetupAiRunner from "../pages/cse/SetupAiRunner";
 import SummarizeDocument from "../pages/cse/SummarizeDocument";
 import AboutFindex from "../pages/findex/AboutFindex";
 import EncryptDatabase from "../pages/findex/EncryptDatabase";
@@ -48,7 +50,6 @@ export const topSectionTitles = [
   "Compute using Encrypted Code and Data",
   "Encrypt with Access Policies",
   "Distribute keys",
-
 ];
 
 export const routePathsConfig: RoutePaths = {
@@ -105,6 +106,11 @@ export const routePathsConfig: RoutePaths = {
       path: "set-up-service",
       label: "Set up service",
       component: <SetupFindex />,
+    },
+    {
+      path: "encrypt-database",
+      label: "encrypt someddd base",
+      component: <EncryptDatabase />,
     },
     {
       path: "instantiate-findex",
@@ -194,38 +200,6 @@ export const routePathsConfig: RoutePaths = {
       path: "refresh-keys-for-a-policy",
       label: "Refresh keys for a given policy",
       component: <RefreshKeys />,
-    },
-  ],
-  "build-encrypted-indexes": [
-    {
-      path: "about-findex",
-      label: "About Cosmian Findex",
-      component: <AboutFindex />,
-    },
-    {
-      path: "set-up-service",
-      label: "Set up service",
-      component: <SetupFindex />,
-    },
-    {
-      path: "encrypt-database",
-      label: "Encrypt the database",
-      component: <EncryptDatabase />,
-    },
-    {
-      path: "instantiate-findex",
-      label: "Instantiate Findex",
-      component: <InstantiateFindex />,
-    },
-    {
-      path: "index-database",
-      label: "Index the database",
-      component: <IndexDatabase />,
-    },
-    {
-      path: "search-in-database",
-      label: "Search words",
-      component: <SearchInDatabase />,
     },
   ],
   "distibute-keys": [

@@ -1,27 +1,22 @@
 import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
-import aes from "js-crypto-aes";
+import { AesGcm } from "cloudproof_js";
 
-export const encryptDatabase = async (clearDatabase: findexDatabaseEmployee[]): Promise<findexDatabaseEmployeeBytes[]> => {
-  const key = new Uint8Array([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
-  ]);
-  const nonce = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+export const encryptDatabase = async (
+  clearDatabase: findexDatabaseEmployee[],
+  key: Uint8Array,
+  nonce: Uint8Array,
+  authData: Uint8Array
+): Promise<findexDatabaseEmployeeBytes[]> => {
+  const { Aes256Gcm } = await AesGcm();
 
-  const clearEmployeeToEncByteEmployee = async (field?: string | number): Promise<Uint8Array> => {
-    return await aes.encrypt(new TextEncoder().encode(field?.toString() ?? ""), key, {
-      name: "AES-CBC",
-      iv: nonce,
-    });
-  };
-
-  return await Promise.all(
+  return Promise.all(
     clearDatabase.map(async (employee) => ({
-      ...employee,
-      first: await clearEmployeeToEncByteEmployee(employee?.first),
-      last: await clearEmployeeToEncByteEmployee(employee?.last),
-      email: await clearEmployeeToEncByteEmployee(employee?.email),
-      country: await clearEmployeeToEncByteEmployee(employee?.country),
-      salary: await clearEmployeeToEncByteEmployee(employee?.salary),
+      uuid: employee.uuid,
+      first: Aes256Gcm.encrypt(employee.first ?? "", key, nonce, authData),
+      last: Aes256Gcm.encrypt(employee.last ?? "", key, nonce, authData),
+      email: Aes256Gcm.encrypt(employee.email ?? "", key, nonce, authData),
+      country: Aes256Gcm.encrypt(employee.country ?? "", key, nonce, authData),
+      salary: Aes256Gcm.encrypt(employee.salary?.toString() ?? "", key, nonce, authData),
     }))
   );
 };

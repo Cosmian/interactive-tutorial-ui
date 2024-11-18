@@ -69,13 +69,22 @@ export const EmployeeTable: React.FC<EmployeeTablePros> = ({ data, covercrypt, .
   );
 
   return (
-    <Table dataSource={data} pagination={false} {...rest} rowKey={"uuid"} scroll={{ x: 550 }}>
+    <Table
+      dataSource={data}
+      pagination={false}
+      {...rest}
+      rowKey={"uuid"}
+      scroll={{ x: 550 }}
+      style={{
+        wordBreak: "break-word",
+      }}
+    >
       {covercrypt ? (
         <>
           <ColumnGroup
             key={"marketing"}
             title={
-              <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center" }}>
+              <Tag icon={<LockFilled />} color="cyan" style={{ width: "100%", textAlign: "center", wordBreak: "break-word" }}>
                 Marketing
               </Tag>
             }
