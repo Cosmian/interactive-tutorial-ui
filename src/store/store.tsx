@@ -38,13 +38,15 @@ const createTokenSlice: StateCreator<TokenSlice, [], [], TokenSlice> = (set) => 
 // COVERCRYPT
 interface CovercryptState {
   clearEmployees: Employee[];
+  covercryptService: boolean;
   policy: Policy | undefined;
   keyPairUids: KeysUid | undefined;
   encryptedEmployees: EncryptedResult[] | undefined;
   decryptionKeyUid: string | undefined;
   decryptedEmployees: Employee[] | undefined;
   rekeyPerformed: boolean;
-  setPolicy: (policy: Policy) => void;
+  setCovercryptService: (serviceSetUp: boolean) => void;
+  setPolicy: (policy?: Policy) => void;
   setKeyPairUids: (keyPairUids?: KeysUid) => void;
   setEncryptedEmployees: (encryptedEmployees?: EncryptedResult[]) => void;
   setDecryptionKeyUid: (decryptionKeyUid?: string) => void;
@@ -53,13 +55,19 @@ interface CovercryptState {
 }
 export const useCovercryptStore = create<CovercryptState>()((set) => ({
   clearEmployees: employees,
+  covercryptService: false,
   policy: undefined,
   keyPairUids: undefined,
   encryptedEmployees: undefined,
   decryptionKeyUid: undefined,
   decryptedEmployees: undefined,
   rekeyPerformed: false,
-  setPolicy: (policy: Policy) =>
+  setCovercryptService: (covercryptService: boolean) =>
+    set((state) => {
+      state.setPolicy(undefined); // reset next steps
+      return { covercryptService };
+    }),
+  setPolicy: (policy?: Policy) =>
     set((state) => {
       state.setKeyPairUids(); // reset next steps
       return { policy };

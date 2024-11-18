@@ -17,14 +17,14 @@ const CreateEncryptionPolicy = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("createPolicy", activeLanguageList);
   // states
-  const covercryptState = useCovercryptStore((state) => state);
+  const { clearEmployees, policy, setPolicy } = useCovercryptStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleCreatePolicy = async (): Promise<void> => {
     try {
-      covercryptState.setPolicy(await createPolicy(POLICY_AXIS));
+      setPolicy(await createPolicy(POLICY_AXIS));
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
@@ -54,13 +54,13 @@ const CreateEncryptionPolicy = (): JSX.Element => {
         </p>
         <p>An access policy is defined by a set of partitions. It can be written as a boolean expression of axis attributes:</p>
         <pre>(Department::Marketing || Department::HR) && Country::France</pre>
-        <EmployeeTable data={covercryptState.clearEmployees} covercrypt />
+        <EmployeeTable data={clearEmployees} covercrypt />
         <br />
         <p>
           In the following demo, we will create a policy that combines two axes, a security level, and a department. A user will be able to
           decrypt data only if it possesses a key with a sufficient security level and the correct department.
         </p>
-        {covercryptState.policy && <pre>{POLICY_AXIS_TEXT}</pre>}
+        {policy && <pre>{POLICY_AXIS_TEXT}</pre>}
       </Split.Content>
 
       <Split.Code>
@@ -69,11 +69,11 @@ const CreateEncryptionPolicy = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={handleCreatePolicy}
           codeOutputList={
-            covercryptState.policy
+            policy
               ? {
-                  java: JSON.stringify(covercryptState.policy, undefined, 2),
-                  javascript: JSON.stringify(covercryptState.policy, undefined, 2),
-                  python: JSON.stringify(covercryptState.policy, undefined, 2),
+                  java: JSON.stringify(policy, undefined, 2),
+                  javascript: JSON.stringify(policy, undefined, 2),
+                  python: JSON.stringify(policy, undefined, 2),
                 }
               : undefined
           }
