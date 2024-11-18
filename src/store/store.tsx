@@ -96,7 +96,13 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 }));
 
 // FINDEX
-export type encDbInfo = { byteTable: findexDatabaseEmployeeBytes[]; key: Uint8Array; nonce: Uint8Array; authenticatedData: Uint8Array };
+export type encDbInfo = {
+  // after encryption, dB is saved as bytes to avoid data loss on conversion to string
+  byteTable: findexDatabaseEmployeeBytes[];
+  key: Uint8Array;
+  nonce: Uint8Array;
+  authenticatedData: Uint8Array;
+};
 interface FindexState {
   clearDatabase: findexDatabaseEmployee[];
   findexService: boolean;
