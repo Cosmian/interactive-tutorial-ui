@@ -1,24 +1,26 @@
 import { message } from "antd"
-import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import CseAdmin from "../../assets/admin_cse.png"
 import Code from "../../component/Code"
+import { ImageWrapper } from "../../component/Layout"
 import Split from "../../component/Split"
-import { useBoundStore } from "../../store/store"
+import { useBoundStore, useCseStore } from "../../store/store"
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
 import { Language } from "../../utils/types"
+
 
 const activeLanguageList: Language[] = [];
 
 const ConfigureCse = (): JSX.Element => {
   const { steps, setSteps } = useBoundStore((state) => state);
-  const [key, setKey] = useState<string | undefined>();
+  const { cseConfig, setCseConfig } = useCseStore((state) => state);
 
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetup = async (): Promise<void> => {
     try {
-      setKey("google_cse");
+      setCseConfig(true);
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
@@ -42,6 +44,9 @@ const ConfigureCse = (): JSX.Element => {
         <p>
           Enable CSE from Google Workspace client-side encryption page of the admin console.
         </p>
+        <ImageWrapper>
+          <img src={CseAdmin} alt="Cse Admin interface" style={{ maxWidth: "100%" }} />
+        </ImageWrapper>
         <p>Configuration steps:</p>
         <ul>
           <li>Choose and configure an <b>Identity Provider</b></li>
@@ -60,7 +65,7 @@ const ConfigureCse = (): JSX.Element => {
             python: GOOGLE_CSE_KEY,
           }}
           codeOutputList={
-            key
+            cseConfig
               ? {
                   java: GOOGLE_CSE_KEY_OUTPUT,
                   javascript: GOOGLE_CSE_KEY_OUTPUT,

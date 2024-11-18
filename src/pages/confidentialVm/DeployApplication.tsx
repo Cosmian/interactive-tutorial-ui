@@ -1,17 +1,17 @@
-import { CheckCircleOutlined } from "@ant-design/icons/lib/icons";
-import { Button } from "cosmian_ui";
-import { useNavigate } from "react-router-dom";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import HelloWorldGithub from "../../assets//helloworld_app.png";
-import { CodeBackground, VmCode } from "../../component/Code";
-import { ImageWrapper } from "../../component/Layout";
-import Split from "../../component/Split";
-import { useBoundStore, useConfidentialVmSore } from "../../store/store";
-import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
+import { CheckCircleOutlined } from "@ant-design/icons/lib/icons"
+import { Button } from "cosmian_ui"
+import { useNavigate } from "react-router-dom"
+import SyntaxHighlighter from "react-syntax-highlighter"
+import { atelierSulphurpoolDark } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import HelloWorldGithub from "../../assets//helloworld_app.png"
+import { CodeBackground, VmCode } from "../../component/Code"
+import { ImageWrapper } from "../../component/Layout"
+import Split from "../../component/Split"
+import { useBoundStore, useConfidentialVmStore } from "../../store/store"
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
 
 const DeployApplication = (): JSX.Element => {
-  const { helloWorld, setHelloWorld } = useConfidentialVmSore((state) => state);
+  const { helloWorld, setHelloWorld } = useConfidentialVmStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const currentItem = findCurrentNavigationItem(steps);
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
-import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
-import { StateCreator, create } from "zustand";
-import { Employee, employees } from "../utils/covercryptConfig";
-import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
-import { EncryptedResult, KeysUid, Language } from "../utils/types";
+import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js"
+import { StateCreator, create } from "zustand"
+import { Employee, employees } from "../utils/covercryptConfig"
+import { NavigationConfig, navigationConfig } from "../utils/navigationConfig"
+import { EncryptedResult, KeysUid, Language } from "../utils/types"
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -220,7 +220,7 @@ interface ConfidentialVmState {
   setIntegrity: (integrity?: boolean) => void;
   setMalware: (malware?: boolean) => void;
 }
-export const useConfidentialVmSore = create<ConfidentialVmState>()((set) => ({
+export const useConfidentialVmStore = create<ConfidentialVmState>()((set) => ({
   helloWorld: false,
   snapshot: false,
   integrity: false,
@@ -250,14 +250,30 @@ type SummarizeApiResponse = {
   summary: string | undefined;
 };
 interface CseState {
+  cseConfig: boolean,
+  dkeConfig: boolean,
   integrity: boolean;
   summarizeApiResponse: SummarizeApiResponse | undefined;
+  setCseConfig: (cseConfig?: boolean) => void;
+  setDkeConfig: (dkeConfig?: boolean) => void;
   setIntegrity: (integrity?: boolean) => void;
   setSummarizeApiResponse: (summarizeApiResponse?: SummarizeApiResponse) => void;
 }
 export const useCseStore = create<CseState>()((set) => ({
+  cseConfig: false,
+  dkeConfig: false,
   integrity: false,
   summarizeApiResponse: undefined,
+  setCseConfig: (cseConfig?: boolean) =>
+    set((state) => {
+      state.setDkeConfig(false);
+      return { cseConfig };
+    }),
+  setDkeConfig: (dkeConfig?: boolean) =>
+    set((state) => {
+      state.setIntegrity(false);
+      return { dkeConfig };
+    }),
   setIntegrity: (integrity?: boolean) =>
     set((state) => {
       state.setSummarizeApiResponse(undefined);

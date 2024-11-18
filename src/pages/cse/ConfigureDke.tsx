@@ -1,24 +1,27 @@
 import { message } from "antd"
-import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import DkeAdminScope from "../../assets/label_scope.png"
+import DkeAdminLabel from "../../assets/sensitivity_label.png"
 import Code from "../../component/Code"
+import { ImageWrapper } from "../../component/Layout"
 import Split from "../../component/Split"
-import { useBoundStore } from "../../store/store"
+import { useBoundStore, useCseStore } from "../../store/store"
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
 import { Language } from "../../utils/types"
+
 
 const activeLanguageList: Language[] = [];
 
 const ConfigureDke = (): JSX.Element => {
   const { steps, setSteps } = useBoundStore((state) => state);
-  const [key, setKey] = useState<string | undefined>();
+  const { dkeConfig, setDkeConfig } = useCseStore((state) => state);
 
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetup = async (): Promise<void> => {
     try {
-      setKey("dke_key");
+      setDkeConfig(true);
       updateNavigationSteps(steps, setSteps);
       navigate("#");
     } catch (error) {
@@ -46,7 +49,14 @@ const ConfigureDke = (): JSX.Element => {
         <p>The DKE feature is currently only available for the Office Windows clients.</p>
         <p>Configuration steps:</p>
         <ul>
-          <li>Configure Microsoft DKE in Purview and create a sensitivity label for encryption</li>
+          <li>Configure Microsoft DKE in Purview and create a sensitivity label for encryption
+            <ImageWrapper>
+              <img src={DkeAdminLabel} alt="Cse Admin interface" style={{ maxWidth: "100%" }} />
+            </ImageWrapper>
+            <ImageWrapper>
+              <img src={DkeAdminScope} alt="Cse Admin interface" style={{ maxWidth: "100%" }} />
+            </ImageWrapper>
+          </li>
           <li>Instantiate and configure Cosmian <b>Key Management Server</b> (Cosmian KMS)</li>
           <li>Generate <b>RSA key</b> with tag <i>dke_key</i></li>
         </ul>
@@ -60,7 +70,7 @@ const ConfigureDke = (): JSX.Element => {
             python: DKE_KEY,
           }}
           codeOutputList={
-            key
+            dkeConfig
               ? {
                   java: DKE_KEY_OUTPUT,
                   javascript: DKE_KEY_OUTPUT,
