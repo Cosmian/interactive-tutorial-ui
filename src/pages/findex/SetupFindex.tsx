@@ -1,22 +1,21 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SetupFindex = (): JSX.Element => {
-  const [serviceSetup, setServiceSetup] = useState(false);
+  const { findexService, setFindexService } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
 
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = (): void => {
-    setServiceSetup(true);
+    setFindexService(true);
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };
@@ -73,7 +72,7 @@ const SetupFindex = (): JSX.Element => {
             python: PYTHON_CODE,
           }}
           codeOutputList={
-            serviceSetup
+            findexService
               ? {
                   java: "# successfully installed",
                   javascript: "# successfully installed",

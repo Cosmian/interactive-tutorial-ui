@@ -18,7 +18,7 @@ import { AesGcm } from "cloudproof_js";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
-  const [keyWords, setKeyWords] = useState("Susan");
+  const [keyWords, setKeyWords] = useState("France");
   const [resultBytes, setResultBytes] = useState<findexDatabaseEmployeeBytes[] | undefined>(undefined);
   const [decyphered, setDecyphered] = useState<findexDatabaseEmployee[] | undefined>(undefined);
 
@@ -55,21 +55,17 @@ const SearchInDatabase = (): JSX.Element => {
   const handleDecypher = async (): Promise<void> => {
     if (!encryptedDatabase || !resultEmployees || !resultBytes) return;
     const { Aes256Gcm } = await AesGcm();
+    const { key, nonce, authenticatedData } = encryptedDatabase;
 
-    const decryptByteEmployeeToString = async (field: Uint8Array | undefined): Promise<string> => {
-      if (!field) return "";
-      const decryptedField = Aes256Gcm.decrypt(field, encryptedDatabase.key, encryptedDatabase.nonce, encryptedDatabase.authenticatedData);
-      return new TextDecoder().decode(decryptedField);
-    };
     setDecyphered(
       await Promise.all(
         resultBytes.map(async (byteEmployee) => ({
           uuid: byteEmployee.uuid,
-          country: await decryptByteEmployeeToString(byteEmployee.country),
-          email: await decryptByteEmployeeToString(byteEmployee.email),
-          first: await decryptByteEmployeeToString(byteEmployee.first),
-          last: await decryptByteEmployeeToString(byteEmployee.last),
-          salary: await decryptByteEmployeeToString(byteEmployee.salary),
+          country: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.country ?? "", key, nonce, authenticatedData)),
+          email: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.email ?? "", key, nonce, authenticatedData)),
+          first: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.first ?? "", key, nonce, authenticatedData)),
+          last: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.last ?? "", key, nonce, authenticatedData)),
+          salary: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.salary ?? "", key, nonce, authenticatedData)),
         }))
       )
     );
@@ -84,16 +80,23 @@ const SearchInDatabase = (): JSX.Element => {
         <p>Querying the index is performed using the search function.</p>
         <p>The result of the search is a map of the searched keywords to the set of associated data found during the search.</p>
         <Input defaultValue={keyWords} onChange={(e) => setKeyWords(e.target.value)} />
-        <Button onClick={handleSearchInDatabase} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%" }}>
+        <Button
+          onClick={handleSearchInDatabase}
+          disabled={indexedEntries == null}
+          id="searchResultsButton"
+          itemID="searchResultsButton"
+          className="searchResultsButton"
+          style={{ marginTop: 20, width: "100%", marginBottom: 20 }}
+        >
           Search in database
         </Button>
         {resultEmployees && (
           <>
             <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />
-            <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, width: "100%" }}>
+            <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, marginBottom: 20, width: "100%" }}>
               Decypher search result{resultEmployees.length > 1 && "s"}
             </Button>
-            {decyphered && <EmployeeTable style={{ marginTop: 30 }} data={decyphered} />}
+            {decyphered && <EmployeeTable data={decyphered} />}
           </>
         )}
       </Split.Content>

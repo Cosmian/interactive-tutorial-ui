@@ -99,10 +99,12 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 export type encDbInfo = { byteTable: findexDatabaseEmployeeBytes[]; key: Uint8Array; nonce: Uint8Array; authenticatedData: Uint8Array };
 interface FindexState {
   clearDatabase: findexDatabaseEmployee[];
-  encryptedDatabase: encDbInfo | undefined;
+  findexService: boolean;
+  encryptedDatabase?: encDbInfo | undefined;
   findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: findexDatabaseEmployee[] | undefined;
+  setFindexService: (serviceSetUp: boolean) => void;
   setEncryptedDb: (encryptedDatabase?: encDbInfo) => void;
   setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
@@ -110,10 +112,17 @@ interface FindexState {
 }
 export const useFindexStore = create<FindexState>()((set) => ({
   clearDatabase: employees.filter((employee) => employee.uuid <= 3),
+  findexService: false,
   encryptedDatabase: undefined,
   findexInstance: undefined,
   indexedEntries: undefined,
   resultEmployees: undefined,
+  setFindexService: (findexService: boolean) => {
+    set((state) => {
+      state.setEncryptedDb(undefined); // reset next steps
+      return { findexService };
+    });
+  },
   setEncryptedDb: (encryptedDatabase?: encDbInfo) => {
     set((state) => {
       state.setFindexInstance(); // reset next steps

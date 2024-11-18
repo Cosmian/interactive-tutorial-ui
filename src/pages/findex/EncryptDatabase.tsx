@@ -8,7 +8,6 @@ import { useFetchCodeContent } from "../../hooks/useFetchCodeContent";
 import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
-import { useState } from "react";
 import { message } from "antd";
 import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
 import { encryptDatabase } from "../../actions/javascript/encryptDatabase";
@@ -20,12 +19,10 @@ const EncryptDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("encryptDatabase", activeLanguageList);
   // states
-  const { clearDatabase, setEncryptedDb } = useFindexStore((state) => state);
+  const { clearDatabase, encryptedDatabase, setEncryptedDb } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
-
-  const [encEmp, setEncEmp] = useState<findexDatabaseEmployee[] | undefined>(undefined);
 
   const handleIndexDatabase = async (): Promise<void> => {
     try {
@@ -62,16 +59,6 @@ const EncryptDatabase = (): JSX.Element => {
         nonce,
         authenticatedData,
       });
-      setEncEmp(
-        byteTable.map((employee) => ({
-          uuid: employee.uuid,
-          first: new TextDecoder().decode(employee?.first),
-          last: new TextDecoder().decode(employee?.last),
-          email: new TextDecoder().decode(employee?.email),
-          country: new TextDecoder().decode(employee?.country),
-          salary: new TextDecoder().decode(employee?.salary),
-        }))
-      );
       message.success("Employees table has been encrypted.");
       updateNavigationSteps(steps, setSteps);
       navigate("#");
@@ -82,6 +69,17 @@ const EncryptDatabase = (): JSX.Element => {
   };
 
   if (loadingCode) return <ContentSkeleton />;
+
+  const affichage: findexDatabaseEmployee[] | undefined = encryptedDatabase?.byteTable
+    ? encryptedDatabase.byteTable.map((employee) => ({
+        uuid: employee.uuid,
+        first: new TextDecoder().decode(employee?.first),
+        last: new TextDecoder().decode(employee?.last),
+        email: new TextDecoder().decode(employee?.email),
+        country: new TextDecoder().decode(employee?.country),
+        salary: new TextDecoder().decode(employee?.salary),
+      }))
+    : undefined;
 
   return (
     <Split>
@@ -98,7 +96,7 @@ const EncryptDatabase = (): JSX.Element => {
         <Button onClick={handleIndexDatabase} style={{ width: "100%", margin: "20px 0" }}>
           Encrypt the database
         </Button>
-        {encEmp && <EmployeeTable data={encEmp} />}
+        {encryptedDatabase?.byteTable && affichage && <EmployeeTable data={affichage} />}
       </Split.Content>
 
       <Split.Code>
@@ -107,11 +105,11 @@ const EncryptDatabase = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={handleIndexDatabase}
           codeOutputList={
-            encEmp
+            encryptedDatabase?.byteTable && affichage
               ? {
-                  java: JSON.stringify(encEmp, undefined, 2),
-                  javascript: JSON.stringify(encEmp, undefined, 2),
-                  python: JSON.stringify(encEmp, undefined, 2),
+                  java: JSON.stringify(affichage, undefined, 2),
+                  javascript: JSON.stringify(affichage, undefined, 2),
+                  python: JSON.stringify(affichage, undefined, 2),
                 }
               : undefined
           }
