@@ -96,9 +96,9 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 }));
 
 // FINDEX
-export type encDbInfo = {
+type encryptedDatabaseInfo = {
   // after encryption, dB is saved as bytes to avoid data loss on conversion to string
-  byteTable: findexDatabaseEmployeeBytes[];
+  encryptedBytesDatabase: findexDatabaseEmployeeBytes[];
   key: Uint8Array;
   nonce: Uint8Array;
   authenticatedData: Uint8Array;
@@ -106,18 +106,27 @@ export type encDbInfo = {
 interface FindexState {
   clearDatabase: findexDatabaseEmployee[];
   findexService: boolean;
-  encryptedDatabase?: encDbInfo | undefined;
+  encryptedDatabase?: encryptedDatabaseInfo | undefined;
   findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
   resultEmployees: findexDatabaseEmployee[] | undefined;
   setFindexService: (serviceSetUp: boolean) => void;
-  setEncryptedDb: (encryptedDatabase?: encDbInfo) => void;
+  setEncryptedDb: (encryptedDatabase?: encryptedDatabaseInfo) => void;
   setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
   setResultEmployees: (resultEmployees?: findexDatabaseEmployee[]) => void;
 }
 export const useFindexStore = create<FindexState>()((set) => ({
-  clearDatabase: employees.filter((employee) => employee.uuid <= 3),
+  clearDatabase: employees
+    .filter((employee) => employee.uuid <= 3)
+    .map((employee) => ({
+      uuid: employee.uuid,
+      first: employee.first || "",
+      last: employee.last || "",
+      email: employee.email || "",
+      country: employee.country || "",
+      salary: employee.salary || "",
+    })),
   findexService: false,
   encryptedDatabase: undefined,
   findexInstance: undefined,
@@ -129,7 +138,7 @@ export const useFindexStore = create<FindexState>()((set) => ({
       return { findexService };
     });
   },
-  setEncryptedDb: (encryptedDatabase?: encDbInfo) => {
+  setEncryptedDb: (encryptedDatabase?: encryptedDatabaseInfo) => {
     set((state) => {
       state.setFindexInstance(); // reset next steps
       return { encryptedDatabase };

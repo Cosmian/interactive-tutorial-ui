@@ -29,11 +29,11 @@ const IndexDatabase = (): JSX.Element => {
         const indexedEntries: IndexedEntry[] = clearDatabase.map((employee) => ({
           indexedValue: Data.fromNumber(employee.uuid),
           keywords: [
-            employee.first?.toString().toLowerCase() ?? "",
-            employee.last?.toString().toLowerCase() ?? "",
-            employee.email?.toString().toLowerCase() ?? "",
-            employee.country?.toString().toLowerCase() ?? "",
-            employee.salary?.toString().toString() ?? "",
+            employee.first.toLowerCase(),
+            employee.last.toLowerCase(),
+            employee.email.toLowerCase(),
+            employee.country.toLowerCase(),
+            employee.salary.toString(),
           ],
         }));
         setIndexedEntries(indexedEntries);
@@ -59,8 +59,7 @@ const IndexDatabase = (): JSX.Element => {
           Each value passed as input can then be retrieved using any associated keyword.
         </p>
         <p>This API returns the keywords that have been added to the index (meaning that no value where associated to these before).</p>
-        <p>In this example we will index employees database that has been encrypted during the previous steps :</p>
-        {/* <EmployeeTable data={clearEmployees} /> */}
+        <p>In this example we will index an encrypted employees database :</p>
         <Button
           disabled={findexInstance == null}
           onClick={findexInstance ? () => handleIndexDatabase() : undefined}

@@ -119,7 +119,7 @@ export const routePathsConfig: RoutePaths = {
     },
     {
       path: "index-database",
-      label: "Index the database",
+      label: "Index database",
       component: <IndexDatabase />,
     },
     {

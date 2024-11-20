@@ -19,8 +19,8 @@ const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
   const [keyWords, setKeyWords] = useState("France");
-  const [resultBytes, setResultBytes] = useState<findexDatabaseEmployeeBytes[] | undefined>(undefined);
-  const [decyphered, setDecyphered] = useState<findexDatabaseEmployee[] | undefined>(undefined);
+  const [byteResults, setByteResults] = useState<findexDatabaseEmployeeBytes[] | undefined>(undefined);
+  const [decrypted, setDecrypted] = useState<findexDatabaseEmployee[] | undefined>(undefined);
 
   const { loadingCode, codeContent } = useFetchCodeContent("searchWords", activeLanguageList);
   const { findexInstance, indexedEntries, resultEmployees, setResultEmployees, encryptedDatabase } = useFindexStore((state) => state);
@@ -29,20 +29,17 @@ const SearchInDatabase = (): JSX.Element => {
 
   const currentItem = findCurrentNavigationItem(steps);
 
-  const handleSearchInDatabase = async (): Promise<void> => {
+  const handleSearch = async (): Promise<void> => {
     try {
       if (findexInstance && keyWords && encryptedDatabase) {
-        setDecyphered(undefined);
+        setDecrypted(undefined);
         const keywordsList: string[] = keyWords.toLowerCase().replace(/ /g, "").split(",");
         const res = await searchWords(findexInstance, keywordsList);
         const resEmployees = res
-          .map((result) => encryptedDatabase.byteTable.find((employee) => result === employee.uuid))
+          .map((result) => encryptedDatabase.encryptedBytesDatabase.find((employee) => result === employee.uuid))
           .filter((employee): employee is findexDatabaseEmployeeBytes => employee !== undefined);
-        setResultBytes(resEmployees);
-        if (!resEmployees) return;
-
-        const transformedEmployees = resEmployees.map((employee) => byteEmployeeToString(employee));
-        setResultEmployees(transformedEmployees);
+        setByteResults(resEmployees);
+        if (resEmployees) setResultEmployees(resEmployees.map(byteEmployeeToString));
       }
       updateNavigationSteps(steps, setSteps);
       navigate("#");
@@ -52,21 +49,24 @@ const SearchInDatabase = (): JSX.Element => {
     }
   };
 
-  const handleDecypher = async (): Promise<void> => {
-    if (!encryptedDatabase || !resultEmployees || !resultBytes) return;
+  const handleDecrypt = async (): Promise<void> => {
+    if (!encryptedDatabase || !resultEmployees || !byteResults) return;
     const { Aes256Gcm } = await AesGcm();
     const { key, nonce, authenticatedData } = encryptedDatabase;
 
-    setDecyphered(
+    setDecrypted(
       await Promise.all(
-        resultBytes.map(async (byteEmployee) => ({
-          uuid: byteEmployee.uuid,
-          country: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.country ?? "", key, nonce, authenticatedData)),
-          email: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.email ?? "", key, nonce, authenticatedData)),
-          first: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.first ?? "", key, nonce, authenticatedData)),
-          last: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.last ?? "", key, nonce, authenticatedData)),
-          salary: new TextDecoder().decode(Aes256Gcm.decrypt(byteEmployee?.salary ?? "", key, nonce, authenticatedData)),
-        }))
+        byteResults.map((e) =>
+          Object.keys(e)
+            .filter((k) => k !== "uuid")
+            .reduce((acc, k) => {
+              const index = k as keyof Omit<typeof e, "uuid">;
+              return {
+                ...acc,
+                [index]: new TextDecoder().decode(Aes256Gcm.decrypt(e[index], key, nonce, authenticatedData)),
+              };
+            }, {} as findexDatabaseEmployee)
+        )
       )
     );
   };
@@ -80,23 +80,16 @@ const SearchInDatabase = (): JSX.Element => {
         <p>Querying the index is performed using the search function.</p>
         <p>The result of the search is a map of the searched keywords to the set of associated data found during the search.</p>
         <Input defaultValue={keyWords} onChange={(e) => setKeyWords(e.target.value)} />
-        <Button
-          onClick={handleSearchInDatabase}
-          disabled={indexedEntries == null}
-          id="searchResultsButton"
-          itemID="searchResultsButton"
-          className="searchResultsButton"
-          style={{ marginTop: 20, width: "100%", marginBottom: 20 }}
-        >
+        <Button onClick={() => handleSearch} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%", marginBottom: 20 }}>
           Search in database
         </Button>
         {resultEmployees && (
           <>
             <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />
-            <Button onClick={handleDecypher} disabled={!resultEmployees} style={{ marginTop: 20, marginBottom: 20, width: "100%" }}>
-              Decypher search result{resultEmployees.length > 1 && "s"}
+            <Button onClick={handleDecrypt} disabled={!resultEmployees} style={{ marginTop: 20, marginBottom: 20, width: "100%" }}>
+              Decrypt result{resultEmployees.length > 1 && "s"}
             </Button>
-            {decyphered && <EmployeeTable data={decyphered} />}
+            {decrypted && <EmployeeTable data={decrypted} />}
           </>
         )}
       </Split.Content>
@@ -105,7 +98,7 @@ const SearchInDatabase = (): JSX.Element => {
         <Code
           activeLanguageList={activeLanguageList}
           codeInputList={codeContent}
-          runCode={indexedEntries ? () => handleSearchInDatabase() : undefined}
+          runCode={indexedEntries ? () => handleSearch() : undefined}
           codeOutputList={
             resultEmployees
               ? {
