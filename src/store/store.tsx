@@ -1,8 +1,9 @@
 import { Findex, IndexedEntry, KmsObject, Policy } from "cloudproof_js";
 import { StateCreator, create } from "zustand";
-import { Employee, employees, findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../utils/covercryptConfig";
+import { Employee, employees } from "../utils/covercryptConfig";
 import { NavigationConfig, navigationConfig } from "../utils/navigationConfig";
 import { EncryptedResult, KeysUid, Language } from "../utils/types";
+import { encryptedEmployeesDatabase, findexClearEmployeesDatabase } from "../utils/findexConfig";
 
 export const CLIENT_2_TOKEN = import.meta.env.VITE_CLIENT_2_TOKEN as string;
 
@@ -96,49 +97,50 @@ export const useCovercryptStore = create<CovercryptState>()((set) => ({
 }));
 
 // FINDEX
+
 type encryptedDatabaseInfo = {
   // after encryption, dB is saved as bytes to avoid data loss on conversion to string
-  encryptedBytesDatabase: findexDatabaseEmployeeBytes[];
+  encryptedBytesDatabase: encryptedEmployeesDatabase[];
   key: Uint8Array;
   nonce: Uint8Array;
   authenticatedData: Uint8Array;
 };
 interface FindexState {
-  clearDatabase: findexDatabaseEmployee[];
+  clearDatabase: findexClearEmployeesDatabase[];
   findexService: boolean;
   encryptedDatabase?: encryptedDatabaseInfo | undefined;
   findexInstance: Findex | undefined;
   indexedEntries: IndexedEntry[] | undefined;
-  resultEmployees: findexDatabaseEmployee[] | undefined;
+  decryptedSearchResults: findexClearEmployeesDatabase[] | undefined;
   setFindexService: (serviceSetUp: boolean) => void;
-  setEncryptedDb: (encryptedDatabase?: encryptedDatabaseInfo) => void;
+  setEncryptedDatabase: (encryptedDatabase?: encryptedDatabaseInfo) => void;
   setFindexInstance: (findexInstance?: Findex) => void;
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) => void;
-  setResultEmployees: (resultEmployees?: findexDatabaseEmployee[]) => void;
+  setDecryptedSearchResults: (resultEmployees?: findexClearEmployeesDatabase[]) => void;
 }
 export const useFindexStore = create<FindexState>()((set) => ({
   clearDatabase: employees
     .filter((employee) => employee.uuid <= 3)
     .map((employee) => ({
       uuid: employee.uuid,
-      first: employee.first || "",
-      last: employee.last || "",
-      email: employee.email || "",
-      country: employee.country || "",
-      salary: employee.salary || "",
+      first: employee.first ?? "",
+      last: employee.last ?? "",
+      email: employee.email ?? "",
+      country: employee.country ?? "",
+      salary: employee.salary ?? "",
     })),
   findexService: false,
   encryptedDatabase: undefined,
   findexInstance: undefined,
   indexedEntries: undefined,
-  resultEmployees: undefined,
+  decryptedSearchResults: undefined,
   setFindexService: (findexService: boolean) => {
     set((state) => {
-      state.setEncryptedDb(undefined); // reset next steps
+      state.setEncryptedDatabase(undefined); // reset next steps
       return { findexService };
     });
   },
-  setEncryptedDb: (encryptedDatabase?: encryptedDatabaseInfo) => {
+  setEncryptedDatabase: (encryptedDatabase?: encryptedDatabaseInfo) => {
     set((state) => {
       state.setFindexInstance(); // reset next steps
       return { encryptedDatabase };
@@ -146,16 +148,15 @@ export const useFindexStore = create<FindexState>()((set) => ({
   },
   setFindexInstance: (findexInstance?: Findex) =>
     set((state) => {
-      state.setResultEmployees(); // reset next steps
-      state.setIndexedEntries();
+      state.setIndexedEntries(); // reset next steps
       return { findexInstance };
     }),
   setIndexedEntries: (indexedEntries?: IndexedEntry[]) =>
     set((state) => {
-      state.setResultEmployees(); // reset next steps
+      state.setDecryptedSearchResults(); // reset next steps
       return { indexedEntries };
     }),
-  setResultEmployees: (resultEmployees?: findexDatabaseEmployee[]) => set(() => ({ resultEmployees })),
+  setDecryptedSearchResults: (resultEmployees?: findexClearEmployeesDatabase[]) => set(() => ({ decryptedSearchResults: resultEmployees })),
 }));
 
 // PKI
@@ -294,8 +295,8 @@ type SummarizeApiResponse = {
   summary: string | undefined;
 };
 interface CseState {
-  cseConfig: boolean,
-  dkeConfig: boolean,
+  cseConfig: boolean;
+  dkeConfig: boolean;
   integrity: boolean;
   summarizeApiResponse: SummarizeApiResponse | undefined;
   setCseConfig: (cseConfig?: boolean) => void;

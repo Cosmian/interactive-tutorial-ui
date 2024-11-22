@@ -1,4 +1,4 @@
-import { findexDatabaseEmployeeBytes, findexDatabaseEmployee } from "./covercryptConfig";
+import { encryptedEmployeesDatabase, findexClearEmployeesDatabase } from "./findexConfig";
 
 export const convertString = (data: string): Uint8Array => {
   const bianryString = atob(data);
@@ -9,14 +9,14 @@ export const convertString = (data: string): Uint8Array => {
   return uint8Array;
 };
 
-export const byteEmployeeToString = (employee: findexDatabaseEmployeeBytes): findexDatabaseEmployee => {
+export const byteEmployeeToString = (employee: encryptedEmployeesDatabase): findexClearEmployeesDatabase => {
   const textDecoder = new TextDecoder();
   return {
     ...employee,
-    first: employee.first ? textDecoder.decode(employee.first) : undefined,
-    last: employee.last ? textDecoder.decode(employee.last) : undefined,
-    country: employee.country ? textDecoder.decode(employee.country) : undefined,
-    email: employee.email ? textDecoder.decode(employee.email) : undefined,
-    salary: employee.salary ? textDecoder.decode(employee.salary) : undefined,
+    first: textDecoder.decode(employee.first),
+    last: textDecoder.decode(employee.last),
+    country: textDecoder.decode(employee.country),
+    email: textDecoder.decode(employee.email),
+    salary: textDecoder.decode(employee.salary),
   };
 };

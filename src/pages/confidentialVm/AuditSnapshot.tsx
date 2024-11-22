@@ -1,9 +1,9 @@
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { CodeBackground, VmCode } from "../../component/Code"
-import Split from "../../component/Split"
-import { useBoundStore, useConfidentialVmStore } from "../../store/store"
-import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { CodeBackground, VmCode } from "../../component/Code";
+import Split from "../../component/Split";
+import { useBoundStore, useConfidentialVmStore } from "../../store/store";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 
 const AuditSnapshot = (): JSX.Element => {
   const { snapshot } = useConfidentialVmStore((state) => state);

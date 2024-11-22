@@ -2,13 +2,14 @@ import { LockFilled } from "@ant-design/icons";
 import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { IndexedEntry } from "cloudproof_js";
-import { Employee, findexDatabaseEmployee } from "../utils/covercryptConfig";
+import { Employee } from "../utils/covercryptConfig";
 import { EncryptedResult } from "../utils/types";
+import { findexClearEmployeesDatabase } from "../utils/findexConfig";
 
 const { Column, ColumnGroup } = Table;
 
 type EmployeeTablePros = {
-  data: Employee[] | findexDatabaseEmployee[];
+  data: (Employee | findexClearEmployeesDatabase)[];
   covercrypt?: boolean;
   className?: string;
   style?: React.CSSProperties;

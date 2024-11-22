@@ -1,10 +1,10 @@
-import { CheckCircleOutlined } from "@ant-design/icons/lib/icons"
-import { Button } from "cosmian_ui"
-import { useNavigate } from "react-router-dom"
-import { CodeBackground, VmCode } from "../../component/Code"
-import Split from "../../component/Split"
-import { useBoundStore, useConfidentialVmStore } from "../../store/store"
-import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
+import { CheckCircleOutlined } from "@ant-design/icons/lib/icons";
+import { Button } from "cosmian_ui";
+import { useNavigate } from "react-router-dom";
+import { CodeBackground, VmCode } from "../../component/Code";
+import Split from "../../component/Split";
+import { useBoundStore, useConfidentialVmStore } from "../../store/store";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 
 const SnapshotVm = (): JSX.Element => {
   const { snapshot, setSnapshot } = useConfidentialVmStore((state) => state);

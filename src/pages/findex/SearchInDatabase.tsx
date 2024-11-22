@@ -12,18 +12,20 @@ import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/na
 import { Language } from "../../utils/types";
 
 import ContentSkeleton from "../../component/ContentSkeleton";
-import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
 import { byteEmployeeToString } from "../../utils/utils";
 import { AesGcm } from "cloudproof_js";
+import { encryptedEmployeesDatabase, findexClearEmployeesDatabase } from "../../utils/findexConfig";
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SearchInDatabase = (): JSX.Element => {
   const [keyWords, setKeyWords] = useState("France");
-  const [byteResults, setByteResults] = useState<findexDatabaseEmployeeBytes[] | undefined>(undefined);
-  const [decrypted, setDecrypted] = useState<findexDatabaseEmployee[] | undefined>(undefined);
+  const [byteResults, setByteResults] = useState<encryptedEmployeesDatabase[] | undefined>(undefined);
+  const [decrypted, setDecrypted] = useState<findexClearEmployeesDatabase[] | undefined>(undefined);
 
   const { loadingCode, codeContent } = useFetchCodeContent("searchWords", activeLanguageList);
-  const { findexInstance, indexedEntries, resultEmployees, setResultEmployees, encryptedDatabase } = useFindexStore((state) => state);
+  const { findexInstance, indexedEntries, decryptedSearchResults, setDecryptedSearchResults, encryptedDatabase } = useFindexStore(
+    (state) => state
+  );
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
 
@@ -37,9 +39,9 @@ const SearchInDatabase = (): JSX.Element => {
         const res = await searchWords(findexInstance, keywordsList);
         const resEmployees = res
           .map((result) => encryptedDatabase.encryptedBytesDatabase.find((employee) => result === employee.uuid))
-          .filter((employee): employee is findexDatabaseEmployeeBytes => employee !== undefined);
+          .filter((employee): employee is encryptedEmployeesDatabase => employee !== undefined);
         setByteResults(resEmployees);
-        if (resEmployees) setResultEmployees(resEmployees.map(byteEmployeeToString));
+        if (resEmployees) setDecryptedSearchResults(resEmployees.map(byteEmployeeToString));
       }
       updateNavigationSteps(steps, setSteps);
       navigate("#");
@@ -50,7 +52,7 @@ const SearchInDatabase = (): JSX.Element => {
   };
 
   const handleDecrypt = async (): Promise<void> => {
-    if (!encryptedDatabase || !resultEmployees || !byteResults) return;
+    if (!encryptedDatabase || !decryptedSearchResults || !byteResults) return;
     const { Aes256Gcm } = await AesGcm();
     const { key, nonce, authenticatedData } = encryptedDatabase;
 
@@ -65,7 +67,7 @@ const SearchInDatabase = (): JSX.Element => {
                 ...acc,
                 [index]: new TextDecoder().decode(Aes256Gcm.decrypt(e[index], key, nonce, authenticatedData)),
               };
-            }, {} as findexDatabaseEmployee)
+            }, {} as findexClearEmployeesDatabase)
         )
       )
     );
@@ -80,14 +82,14 @@ const SearchInDatabase = (): JSX.Element => {
         <p>Querying the index is performed using the search function.</p>
         <p>The result of the search is a map of the searched keywords to the set of associated data found during the search.</p>
         <Input defaultValue={keyWords} onChange={(e) => setKeyWords(e.target.value)} />
-        <Button onClick={() => handleSearch} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%", marginBottom: 20 }}>
+        <Button onClick={handleSearch} disabled={indexedEntries == null} style={{ marginTop: 20, width: "100%", marginBottom: 20 }}>
           Search in database
         </Button>
-        {resultEmployees && (
+        {decryptedSearchResults && (
           <>
-            <EmployeeTable style={{ marginTop: 30 }} data={resultEmployees} />
-            <Button onClick={handleDecrypt} disabled={!resultEmployees} style={{ marginTop: 20, marginBottom: 20, width: "100%" }}>
-              Decrypt result{resultEmployees.length > 1 && "s"}
+            <EmployeeTable style={{ marginTop: 30 }} data={decryptedSearchResults} />
+            <Button onClick={handleDecrypt} disabled={!decryptedSearchResults} style={{ marginTop: 20, marginBottom: 20, width: "100%" }}>
+              Decrypt result{decryptedSearchResults.length > 1 && "s"}
             </Button>
             {decrypted && <EmployeeTable data={decrypted} />}
           </>
@@ -100,11 +102,11 @@ const SearchInDatabase = (): JSX.Element => {
           codeInputList={codeContent}
           runCode={indexedEntries ? () => handleSearch() : undefined}
           codeOutputList={
-            resultEmployees
+            decryptedSearchResults
               ? {
-                  java: JSON.stringify(resultEmployees, undefined, 2),
-                  javascript: JSON.stringify(resultEmployees, undefined, 2),
-                  python: JSON.stringify(resultEmployees, undefined, 2),
+                  java: JSON.stringify(decryptedSearchResults, undefined, 2),
+                  javascript: JSON.stringify(decryptedSearchResults, undefined, 2),
+                  python: JSON.stringify(decryptedSearchResults, undefined, 2),
                 }
               : undefined
           }

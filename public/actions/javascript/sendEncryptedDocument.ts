@@ -1,5 +1,5 @@
-import aes from "js-crypto-aes"
-import { RUNNER_URL } from "./backendConfig"
+import aes from "js-crypto-aes";
+import { RUNNER_URL } from "./backendConfig";
 
 export const sendEncryptedDocument = async (
   textInput: Uint8Array,

@@ -9,8 +9,9 @@ import { useBoundStore, useFindexStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 import { message } from "antd";
-import { findexDatabaseEmployee, findexDatabaseEmployeeBytes } from "../../utils/covercryptConfig";
 import { encryptDatabase } from "../../actions/javascript/encryptDatabase";
+import { byteEmployeeToString } from "../../utils/utils";
+import { encryptedEmployeesDatabase, findexClearEmployeesDatabase } from "../../utils/findexConfig";
 
 const activeLanguageList: Language[] = ["javascript"];
 
@@ -18,7 +19,7 @@ const EncryptDatabase = (): JSX.Element => {
   // custom hooks
   const { loadingCode, codeContent } = useFetchCodeContent("encryptDatabase", activeLanguageList);
   // states
-  const { clearDatabase, encryptedDatabase, setEncryptedDb } = useFindexStore((state) => state);
+  const { clearDatabase, encryptedDatabase, setEncryptedDatabase } = useFindexStore((state) => state);
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
@@ -34,8 +35,8 @@ const EncryptDatabase = (): JSX.Element => {
       const nonce = getRandomBytes(12);
       const authenticatedData = getRandomBytes(20);
 
-      const encryptedBytesDatabase: findexDatabaseEmployeeBytes[] = await encryptDatabase(clearDatabase, key, nonce, authenticatedData);
-      setEncryptedDb({
+      const encryptedBytesDatabase: encryptedEmployeesDatabase[] = await encryptDatabase(clearDatabase, key, nonce, authenticatedData);
+      setEncryptedDatabase({
         encryptedBytesDatabase,
         key,
         nonce,
@@ -52,22 +53,8 @@ const EncryptDatabase = (): JSX.Element => {
 
   if (loadingCode) return <ContentSkeleton />;
 
-  const decodedEmployeeDatabase: findexDatabaseEmployee[] | undefined = encryptedDatabase?.encryptedBytesDatabase
-    ? encryptedDatabase.encryptedBytesDatabase.map((e) =>
-        Object.keys(e)
-          .filter((k) => k !== "uuid")
-          .reduce(
-            (acc, k) => {
-              const index = k as keyof Omit<typeof e, "uuid">;
-              return {
-                ...acc,
-                [index]: new TextDecoder().decode(e[index]),
-              };
-            },
-            { uuid: e.uuid } as findexDatabaseEmployee
-          )
-      )
-    : undefined;
+  const decodedEmployeeDatabase: findexClearEmployeesDatabase[] | undefined =
+    encryptedDatabase?.encryptedBytesDatabase.map(byteEmployeeToString);
   return (
     <Split>
       <Split.Content>

@@ -1,12 +1,12 @@
-import { message } from "antd"
-import { Link, useNavigate } from "react-router-dom"
-import CseAdmin from "../../assets/admin_cse.png"
-import Code from "../../component/Code"
-import { ImageWrapper } from "../../component/Layout"
-import Split from "../../component/Split"
-import { useBoundStore, useCseStore } from "../../store/store"
-import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions"
-import { Language } from "../../utils/types"
+import { message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import CseAdmin from "../../assets/admin_cse.png";
+import Code from "../../component/Code";
+import { ImageWrapper } from "../../component/Layout";
+import Split from "../../component/Split";
+import { useBoundStore, useCseStore } from "../../store/store";
+import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
+import { Language } from "../../utils/types";
 
 
 const activeLanguageList: Language[] = [];

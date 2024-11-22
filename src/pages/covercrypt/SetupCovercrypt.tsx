@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
