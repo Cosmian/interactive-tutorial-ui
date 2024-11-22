@@ -1,4 +1,4 @@
-import { RUNNER_URL } from "./backendConfig"
+import { RUNNER_URL } from "./backendConfig";
 
 export const summarizeDocumentContent = async (textInput: string): Promise<{ summary: string } | Error> => {
   const formData = new FormData();

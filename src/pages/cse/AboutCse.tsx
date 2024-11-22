@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom"
-import CseSchema from "../../assets/cse_schema.drawio.svg"
-import { ImageWrapper, SingleContent } from "../../component/Layout"
-import { useBoundStore } from "../../store/store"
-import { findCurrentNavigationItem } from "../../utils/navigationActions"
+import { Link } from "react-router-dom";
+import CseSchema from "../../assets/cse_schema.drawio.svg";
+import { ImageWrapper, SingleContent } from "../../component/Layout";
+import { useBoundStore } from "../../store/store";
+import { findCurrentNavigationItem } from "../../utils/navigationActions";
 
 const AboutCse = (): JSX.Element => {
   const steps = useBoundStore((state) => state.steps);

@@ -1,21 +1,21 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Code from "../../component/Code";
 import Split from "../../component/Split";
-import { useBoundStore } from "../../store/store";
+import { useBoundStore, useCovercryptStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
 const activeLanguageList: Language[] = ["java", "javascript", "python"];
 
 const SetupCovercrypt = (): JSX.Element => {
-  const [serviceSetup, setServiceSetup] = useState(false);
+  const { covercryptService, setCovercryptService } = useCovercryptStore((state) => state);
+
   const { steps, setSteps } = useBoundStore((state) => state);
   const navigate = useNavigate();
   const currentItem = findCurrentNavigationItem(steps);
 
   const handleSetupService = (): void => {
-    setServiceSetup(true);
+    setCovercryptService(true);
     updateNavigationSteps(steps, setSteps);
     navigate("#");
   };
@@ -78,7 +78,7 @@ const SetupCovercrypt = (): JSX.Element => {
             python: PYTHON_CODE,
           }}
           codeOutputList={
-            serviceSetup
+            covercryptService
               ? {
                   java: "# successfully installed",
                   javascript: "# successfully installed",
