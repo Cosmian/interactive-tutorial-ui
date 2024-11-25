@@ -26,7 +26,6 @@ const generateNavigationConfig = (routePathsConfig: RoutePaths): NavigationConfi
       // length > 1 means that the page has at least one child
       menuWithCategories[keyString].children = {};
       for (const [arrIndex, page] of valueArr.entries()) {
-        // @ts-expect-error at this point of the code we are sure that children is defined, but the TS compiler is not able to understand it
         menuWithCategories[keyString].children[page.path] = {
           key: arrIndex,
           label: page.label,
