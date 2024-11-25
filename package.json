@@ -14,7 +14,7 @@
     "@ant-design/icons": "^5.2.6",
     "@auth0/auth0-react": "^2.2.1",
     "antd": "^5.10.1",
-    "cloudproof_js": "^10.0.0",
+    "cloudproof_js": "^10.0.1",
     "cloudproof_kms_js": "^4.0.0",
     "cosmian_ui": "^0.0.50",
     "js-crypto-aes": "^1.0.6",
