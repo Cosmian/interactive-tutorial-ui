@@ -9,7 +9,6 @@ import { useBoundStore, useCseStore } from "../../store/store";
 import { findCurrentNavigationItem, updateNavigationSteps } from "../../utils/navigationActions";
 import { Language } from "../../utils/types";
 
-
 const activeLanguageList: Language[] = [];
 
 const ConfigureDke = (): JSX.Element => {
@@ -90,7 +89,7 @@ export default ConfigureDke;
 
 const DKE_KEY = `# Generate DKE key
 
-ckms rsa keys create --tag dke_key --size_in_bits 2048`;
+cosmian kms rsa keys create --tag dke_key --size_in_bits 2048`;
 
 const DKE_KEY_OUTPUT = `The RSA key pair has been created.
 	  Public key unique identifier: 978cb116-c498-436a-9b9c-e0ed1ddf4cfa

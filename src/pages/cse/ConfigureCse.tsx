@@ -86,12 +86,12 @@ export default ConfigureCse;
 
 const GOOGLE_CSE_KEY = `# Generate google_cse symmetric key
 
-ckms sym keys create -t google_cse google_cse
+cosmian kms sym keys create -t google_cse google_cse
 
 
 # Grant access to the generated key
 
-ckms access-rights grant USER_ID google_cse get encrypt decrypt
+cosmian kms access-rights grant USER_ID google_cse get encrypt decrypt
 `;
 
 const GOOGLE_CSE_KEY_OUTPUT = `The symmetric key was successfully generated.
@@ -100,7 +100,7 @@ const GOOGLE_CSE_KEY_OUTPUT = `The symmetric key was successfully generated.
   Tags:
     - google_cse`;
 
-// const GOOGLE_CSE_SMIME = `ckms google key-pairs create --cse-key-id CSE_KEY_ID --subject-name \"C=FR, ST=IdF, L=Paris, O=YOUR_ORGANIZATION, OU=DEPARTMENT, CN=user@your_organization.com, emailAddress=user@your_organization.com\" -i ISSUER_PRIVATE_KEY_ID user@your_organization.com
+// const GOOGLE_CSE_SMIME = `cosmian kms google key-pairs create --cse-key-id CSE_KEY_ID --subject-name \"C=FR, ST=IdF, L=Paris, O=YOUR_ORGANIZATION, OU=DEPARTMENT, CN=user@your_organization.com, emailAddress=user@your_organization.com\" -i ISSUER_PRIVATE_KEY_ID user@your_organization.com
 
-// ckms google identities insert --user-id user@your_organization.com CREATED_KEYPAIR_ID
+// cosmian kms google identities insert --user-id user@your_organization.com CREATED_KEYPAIR_ID
 // `;
