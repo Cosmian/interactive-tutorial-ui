@@ -30,121 +30,81 @@ ul {
 .login-page {
   width: 100%;
   height: 100vh;
-  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   background-image: url("../assets/login_page_background_image.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  header {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: sans-serif;
+
+  .login-background {
+    position: absolute;
+    inset: 0;
+    background-image: url("/ui/login_page_background_image.png");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .login-container {
+    position: relative;
+    width: 66%;
+    margin: auto;
+    padding: 80px;
+    background-color: rgba(240, 104, 46, 0.343);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2.5vh 0px;
-    width: 100%;
-    height: 10vh;
-    background: #ffffff10;
-    -webkit-backdrop-filter: blur(50px);
-    backdrop-filter: blur(50px);
-    position: unset; // Bypass the default header style
-    border-bottom: 0.1px solid #ffffff40;
-    a {
-      height: 66%;
-      img {
-        height: 100%;
-      }
-    }
+    z-index: 1;
   }
-  .text-content {
+
+  .logo {
+    width: 120px;
+    margin-bottom: 40px;
+    z-index: 10;
+  }
+
+  .login-title {
+    text-align: center;
+    font-size: 3.6rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 40px;
+    z-index: 10;
+  }
+
+  .login-content {
+    text-align: center;
+    width: 50%;
+  }
+
+  .login-subtitle {
+    color: white;
+    margin-bottom: 30px;
+  }
+
+  .login-button {
+    display: block;
     width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5%;
-    p {
-      text-align: center;
-      color: white;
-      line-height: 1.25;
-    }
-    p.title {
-      font-family: @Poppins;
-      font-weight: 700;
-      font-size: 70px;
-      text-align: center;
-      margin-bottom: unset; // bypass default margin
-      @media only screen and (max-width: @sm) {
-        font-size: 6vh;
-      }
-    }
-    p.subtitle {
-      font-family: @Poppins;
-      font-weight: 600;
-      font-size: 50px;
-      margin: 0 5%;
-      opacity: 80%;
-      @media only screen and (max-width: @sm) {
-        font-size: 1.5rem;
-      }
-    }
-    .buttons {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 3%;
-      button {
-        cursor: pointer;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        --border-radius: 44px;
-        border-radius: var(--border-radius);
-        width: 170px;
-        height: 66px;
-        min-width: fit-content;
-        padding: 22px 0px;
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        background-color: #ffffff4a;
-        border: unset;
-        font-family: @Poppins;
-        font-weight: 600;
-        font-size: 21px;
-        @media only screen and (max-width: @sm) {
-          font-size: 0.9rem;
-          width: 120px;
-          height: 46.8px;
-        }
-        color: white;
-        &::before {
-          //  adapted from https://benfrain.com/how-to-create-rounded-gradient-borders-with-any-background-in-css/
-          content: "";
-          position: absolute;
-          inset: 0;
-          border: 2px solid transparent;
-          border-radius: var(--border-radius);
-          background: linear-gradient(to left, white, rgba(0, 0, 0, 0)) border-box;
-          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-          mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-        }
-        .arrow {
-          margin-left: 10px;
-          width: 19px;
-          height: 17.94px;
-          @media only screen and (max-width: @sm) {
-            width: 15px;
-            height: 13px;
-          }
-        }
-      }
-    }
+    border-radius: 6px;
+    padding: 5px 15px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+  }
+
+  .login-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 

@@ -7,20 +7,22 @@ type LoginPageProps = {
 const LoginPage: React.FC<LoginPageProps> = ({ loginWithRedirect, signUpWithRedirect }) => {
   return (
     <main className="login-page">
-      <header>
+      <div className="login-background" />
+      <div className="login-container">
         <a href="https://cosmian.com" target="_blank">
-          <img loading="lazy" decoding="async" src={logo} alt="Cosmian logo white" title="Cosmian Logo" />
+          <img loading="lazy" decoding="async" src={logo} alt="Cosmian logo white" title="Cosmian Logo" className="logo" />
         </a>
-      </header>
-      <div className="text-content">
-        <p className="title">Interactive tutorial and developer code examples</p>
-        <div className="buttons">
-          <button onClick={signUpWithRedirect}>
-            SIGN UP <ButtonsIcon className="arrow" />
-          </button>
 
-          <button onClick={loginWithRedirect}>
-            LOG IN <ButtonsIcon className="arrow" />
+        <div className="login-title">
+          Interactive tutorial <br />& developer code examples
+        </div>
+
+        <div className="login-content">
+          <button className="login-button" onClick={signUpWithRedirect}>
+            SIGN UP
+          </button>
+          <button className="login-button" onClick={loginWithRedirect}>
+            LOG IN
           </button>
         </div>
       </div>
